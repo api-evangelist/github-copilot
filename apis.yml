@@ -1,0 +1,80 @@
+name: GitHub Copilot APIs
+description: APIs and resources for GitHub Copilot, an AI pair programmer that helps you write code faster
+image: https://github.githubassets.com/images/modules/site/copilot/copilot-logo.png
+created: '2024'
+modified: '2024'
+specificationVersion: '0.18'
+url: https://api.github.com/apis.yaml
+apis:
+- name: GitHub Copilot API
+  description: REST API for managing GitHub Copilot seats, usage, and organization settings
+  image: https://github.githubassets.com/images/modules/site/copilot/copilot-logo.png
+  humanUrl: https://docs.github.com/en/copilot
+  baseUrl: https://api.github.com
+  tags:
+  - AI
+  - Code Completion
+  - Developer Tools
+  - Machine Learning
+  properties:
+  - type: Documentation
+    url: https://docs.github.com/en/rest/copilot
+  - type: OpenAPI
+    url: https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json
+  - type: Authentication
+    url: https://docs.github.com/en/rest/authentication
+  contact:
+  - FN: GitHub Support
+    email: support@github.com
+    url: https://support.github.com
+- name: GitHub Copilot for Business API
+  description: Manage Copilot for Business subscriptions, seat assignments, and usage metrics
+  humanUrl: https://docs.github.com/en/copilot/managing-copilot-for-business
+  baseUrl: https://api.github.com
+  tags:
+  - Enterprise
+  - Seat Management
+  - Usage Analytics
+  properties:
+  - type: Documentation
+    url: https://docs.github.com/en/rest/copilot/copilot-for-business
+  - type: Pricing
+    url: https://github.com/features/copilot#pricing
+- name: GitHub Copilot Chat API
+  description: API for GitHub Copilot Chat interactions and conversations
+  humanUrl: https://docs.github.com/en/copilot/github-copilot-chat
+  baseUrl: https://api.github.com
+  tags:
+  - Chat
+  - Conversational AI
+  - IDE Integration
+  properties:
+  - type: Documentation
+    url: https://docs.github.com/en/copilot/github-copilot-chat
+maintainers:
+- FN: GitHub
+  email: support@github.com
+  url: https://github.com
+tags:
+- AI
+- Artificial Intelligence
+- Code Generation
+- Developer Tools
+- IDE
+- Machine Learning
+- Productivity
+common:
+- type: Portal
+  url: https://github.com/features/copilot
+- type: Status
+  url: https://www.githubstatus.com/
+- type: Terms of Service
+  url: https://docs.github.com/en/site-policy/github-terms/github-terms-of-service
+- type: Privacy Policy
+  url: https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement
+- type: Getting Started
+  url: https://docs.github.com/en/copilot/quickstart
+- type: Blog
+  url: https://github.blog/tag/github-copilot/
+- type: Sign Up
+  url: https://github.com/github-copilot/signup
