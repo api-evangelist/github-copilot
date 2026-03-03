@@ -1,4 +1,6 @@
 name: GitHub Copilot APIs
+segments:
+  - SDKs
 description: APIs and resources for GitHub Copilot, an AI pair programmer that helps you write code faster
 image: https://github.githubassets.com/images/modules/site/copilot/copilot-logo.png
 created: '2024'
