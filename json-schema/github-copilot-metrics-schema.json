@@ -1,0 +1,454 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/apis-json/artisanal/blob/main/github-copilot/json-schema/github-copilot-metrics-schema.json",
+  "title": "GitHub Copilot Metrics Schema",
+  "description": "JSON Schema for GitHub Copilot usage metrics, aggregated metrics reports, and usage report download objects returned by the Copilot REST API.",
+  "type": "object",
+  "$defs": {
+    "CopilotMetricsDay": {
+      "type": "object",
+      "title": "Copilot Metrics Day",
+      "description": "Aggregated Copilot usage metrics for a single day, broken down by feature area, editor, programming language, and AI model.",
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "The date these metrics apply to in YYYY-MM-DD format."
+        },
+        "total_active_users": {
+          "type": "integer",
+          "description": "Total number of users with any Copilot activity on this date.",
+          "minimum": 0
+        },
+        "total_engaged_users": {
+          "type": "integer",
+          "description": "Total number of users who actively engaged with Copilot features on this date.",
+          "minimum": 0
+        },
+        "copilot_ide_code_completions": {
+          "oneOf": [
+            { "$ref": "#/$defs/CopilotIdeCodeCompletions" },
+            { "type": "null" }
+          ],
+          "description": "Metrics for Copilot code completions in IDEs. Null if no data available."
+        },
+        "copilot_ide_chat": {
+          "oneOf": [
+            { "$ref": "#/$defs/CopilotIdeChat" },
+            { "type": "null" }
+          ],
+          "description": "Metrics for Copilot Chat in IDEs. Null if no data available."
+        },
+        "copilot_dotcom_chat": {
+          "oneOf": [
+            { "$ref": "#/$defs/CopilotDotcomChat" },
+            { "type": "null" }
+          ],
+          "description": "Metrics for Copilot Chat on github.com. Null if no data available."
+        },
+        "copilot_dotcom_pull_requests": {
+          "oneOf": [
+            { "$ref": "#/$defs/CopilotDotcomPullRequests" },
+            { "type": "null" }
+          ],
+          "description": "Metrics for Copilot pull request summaries on github.com. Null if no data available."
+        }
+      },
+      "required": ["date"]
+    },
+
+    "CopilotIdeCodeCompletions": {
+      "type": "object",
+      "title": "IDE Code Completions",
+      "description": "Aggregated metrics for Copilot code completions across IDEs, including breakdowns by language, editor, and model.",
+      "properties": {
+        "total_engaged_users": {
+          "type": "integer",
+          "description": "Total users who accepted at least one code completion suggestion.",
+          "minimum": 0
+        },
+        "languages": {
+          "type": "array",
+          "description": "Engagement summary by programming language.",
+          "items": {
+            "$ref": "#/$defs/MetricsLanguageSummary"
+          }
+        },
+        "editors": {
+          "type": "array",
+          "description": "Detailed metrics by editor.",
+          "items": {
+            "$ref": "#/$defs/CodeCompletionsEditor"
+          }
+        }
+      }
+    },
+
+    "CodeCompletionsEditor": {
+      "type": "object",
+      "title": "Code Completions Editor",
+      "description": "Code completion metrics for a specific IDE or editor.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the editor (e.g., vscode, jetbrains, neovim, vim, xcode)."
+        },
+        "total_engaged_users": {
+          "type": "integer",
+          "description": "Number of users who engaged with code completions in this editor.",
+          "minimum": 0
+        },
+        "models": {
+          "type": "array",
+          "description": "Metrics broken down by AI model used.",
+          "items": {
+            "$ref": "#/$defs/CodeCompletionsModel"
+          }
+        }
+      }
+    },
+
+    "CodeCompletionsModel": {
+      "type": "object",
+      "title": "Code Completions Model",
+      "description": "Code completion metrics for a specific AI model, with per-language detail.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the AI model (e.g., 'default' or a specific model identifier)."
+        },
+        "is_custom_model": {
+          "type": "boolean",
+          "description": "Whether this is a custom fine-tuned model."
+        },
+        "custom_model_training_date": {
+          "type": ["string", "null"],
+          "description": "Training date of the custom model. Null for non-custom models."
+        },
+        "total_engaged_users": {
+          "type": "integer",
+          "description": "Number of users who engaged with this model.",
+          "minimum": 0
+        },
+        "languages": {
+          "type": "array",
+          "description": "Detailed code completion metrics per programming language.",
+          "items": {
+            "$ref": "#/$defs/CodeCompletionsLanguageMetrics"
+          }
+        }
+      }
+    },
+
+    "CodeCompletionsLanguageMetrics": {
+      "type": "object",
+      "title": "Code Completions Language Metrics",
+      "description": "Detailed code completion metrics for a specific programming language, including suggestion and acceptance counts.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the programming language."
+        },
+        "total_engaged_users": {
+          "type": "integer",
+          "description": "Number of users who engaged with completions in this language.",
+          "minimum": 0
+        },
+        "total_code_suggestions": {
+          "type": "integer",
+          "description": "Total number of code completion suggestions shown to users.",
+          "minimum": 0
+        },
+        "total_code_acceptances": {
+          "type": "integer",
+          "description": "Total number of code completion suggestions accepted by users.",
+          "minimum": 0
+        },
+        "total_code_lines_suggested": {
+          "type": "integer",
+          "description": "Total lines of code suggested across all completions.",
+          "minimum": 0
+        },
+        "total_code_lines_accepted": {
+          "type": "integer",
+          "description": "Total lines of code accepted by users from completions.",
+          "minimum": 0
+        }
+      }
+    },
+
+    "CopilotIdeChat": {
+      "type": "object",
+      "title": "IDE Chat",
+      "description": "Aggregated metrics for Copilot Chat interactions in IDEs.",
+      "properties": {
+        "total_engaged_users": {
+          "type": "integer",
+          "description": "Total users who prompted Copilot Chat in an IDE.",
+          "minimum": 0
+        },
+        "editors": {
+          "type": "array",
+          "description": "Chat metrics by editor.",
+          "items": {
+            "$ref": "#/$defs/IdeChatEditor"
+          }
+        }
+      }
+    },
+
+    "IdeChatEditor": {
+      "type": "object",
+      "title": "IDE Chat Editor",
+      "description": "IDE Chat metrics for a specific editor.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the editor."
+        },
+        "total_engaged_users": {
+          "type": "integer",
+          "description": "Number of users who engaged with Chat in this editor.",
+          "minimum": 0
+        },
+        "models": {
+          "type": "array",
+          "description": "Chat metrics by AI model.",
+          "items": {
+            "$ref": "#/$defs/IdeChatModel"
+          }
+        }
+      }
+    },
+
+    "IdeChatModel": {
+      "type": "object",
+      "title": "IDE Chat Model",
+      "description": "IDE Chat metrics for a specific AI model, including conversation and interaction counts.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the AI model."
+        },
+        "is_custom_model": {
+          "type": "boolean",
+          "description": "Whether this is a custom fine-tuned model."
+        },
+        "custom_model_training_date": {
+          "type": ["string", "null"],
+          "description": "Training date of the custom model. Null for non-custom models."
+        },
+        "total_engaged_users": {
+          "type": "integer",
+          "description": "Number of users who engaged with this model in Chat.",
+          "minimum": 0
+        },
+        "total_chats": {
+          "type": "integer",
+          "description": "Total number of chat conversations initiated.",
+          "minimum": 0
+        },
+        "total_chat_insertion_events": {
+          "type": "integer",
+          "description": "Number of times chat suggestions were inserted into code.",
+          "minimum": 0
+        },
+        "total_chat_copy_events": {
+          "type": "integer",
+          "description": "Number of times chat responses were copied by users.",
+          "minimum": 0
+        }
+      }
+    },
+
+    "CopilotDotcomChat": {
+      "type": "object",
+      "title": "Dotcom Chat",
+      "description": "Aggregated metrics for Copilot Chat on github.com.",
+      "properties": {
+        "total_engaged_users": {
+          "type": "integer",
+          "description": "Total users who engaged with Copilot Chat on github.com.",
+          "minimum": 0
+        },
+        "models": {
+          "type": "array",
+          "description": "Chat metrics by AI model.",
+          "items": {
+            "$ref": "#/$defs/DotcomChatModel"
+          }
+        }
+      }
+    },
+
+    "DotcomChatModel": {
+      "type": "object",
+      "title": "Dotcom Chat Model",
+      "description": "Chat metrics for a specific AI model on github.com.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the AI model."
+        },
+        "is_custom_model": {
+          "type": "boolean",
+          "description": "Whether this is a custom fine-tuned model."
+        },
+        "custom_model_training_date": {
+          "type": ["string", "null"],
+          "description": "Training date of the custom model. Null for non-custom models."
+        },
+        "total_engaged_users": {
+          "type": "integer",
+          "description": "Number of users who engaged with this model.",
+          "minimum": 0
+        },
+        "total_chats": {
+          "type": "integer",
+          "description": "Total number of chat conversations.",
+          "minimum": 0
+        }
+      }
+    },
+
+    "CopilotDotcomPullRequests": {
+      "type": "object",
+      "title": "Dotcom Pull Requests",
+      "description": "Aggregated metrics for Copilot pull request summaries on github.com.",
+      "properties": {
+        "total_engaged_users": {
+          "type": "integer",
+          "description": "Total users who generated pull request summaries.",
+          "minimum": 0
+        },
+        "repositories": {
+          "type": "array",
+          "description": "Pull request summary metrics by repository.",
+          "items": {
+            "$ref": "#/$defs/PullRequestRepository"
+          }
+        }
+      }
+    },
+
+    "PullRequestRepository": {
+      "type": "object",
+      "title": "Pull Request Repository",
+      "description": "Pull request summary metrics for a specific repository.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the repository."
+        },
+        "total_engaged_users": {
+          "type": "integer",
+          "description": "Number of users who generated PR summaries in this repository.",
+          "minimum": 0
+        },
+        "models": {
+          "type": "array",
+          "description": "PR summary metrics by AI model.",
+          "items": {
+            "$ref": "#/$defs/PullRequestModel"
+          }
+        }
+      }
+    },
+
+    "PullRequestModel": {
+      "type": "object",
+      "title": "Pull Request Model",
+      "description": "Pull request summary metrics for a specific AI model.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the AI model."
+        },
+        "is_custom_model": {
+          "type": "boolean",
+          "description": "Whether this is a custom fine-tuned model."
+        },
+        "custom_model_training_date": {
+          "type": ["string", "null"],
+          "description": "Training date of the custom model. Null for non-custom models."
+        },
+        "total_pr_summaries_created": {
+          "type": "integer",
+          "description": "Total number of pull request summaries generated.",
+          "minimum": 0
+        },
+        "total_engaged_users": {
+          "type": "integer",
+          "description": "Number of users who generated PR summaries with this model.",
+          "minimum": 0
+        }
+      }
+    },
+
+    "MetricsLanguageSummary": {
+      "type": "object",
+      "title": "Language Summary",
+      "description": "Summary engagement count for a single programming language.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the programming language."
+        },
+        "total_engaged_users": {
+          "type": "integer",
+          "description": "Number of users who engaged with Copilot for this language.",
+          "minimum": 0
+        }
+      }
+    },
+
+    "UsageReportDaily": {
+      "type": "object",
+      "title": "Usage Report Daily",
+      "description": "Download links for a daily Copilot usage metrics report. Links are signed URLs with limited expiration.",
+      "properties": {
+        "download_links": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "description": "Signed URLs to download the report files."
+        },
+        "report_day": {
+          "type": "string",
+          "format": "date",
+          "description": "The date the report covers in YYYY-MM-DD format."
+        }
+      },
+      "required": ["download_links", "report_day"]
+    },
+
+    "UsageReport28Day": {
+      "type": "object",
+      "title": "Usage Report 28-Day",
+      "description": "Download links for a 28-day aggregated Copilot usage metrics report. Links are signed URLs with limited expiration.",
+      "properties": {
+        "download_links": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "description": "Signed URLs to download the report files."
+        },
+        "report_start_day": {
+          "type": "string",
+          "format": "date",
+          "description": "Start date of the 28-day reporting period."
+        },
+        "report_end_day": {
+          "type": "string",
+          "format": "date",
+          "description": "End date of the 28-day reporting period."
+        }
+      },
+      "required": ["download_links", "report_start_day", "report_end_day"]
+    }
+  }
+}

@@ -1,0 +1,1487 @@
+openapi: 3.1.0
+info:
+  title: GitHub Copilot REST API
+  description: >-
+    REST API for managing GitHub Copilot seat assignments, billing, usage
+    metrics, content exclusion rules, and organizational settings. Covers
+    user management, aggregated metrics, usage reports, and content
+    governance across organizations and enterprises.
+  version: 1.0.0
+  contact:
+    name: GitHub Support
+    url: https://support.github.com
+    email: support@github.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  x-logo:
+    url: https://github.githubassets.com/images/modules/site/copilot/copilot-logo.png
+
+externalDocs:
+  description: GitHub Copilot REST API Documentation
+  url: https://docs.github.com/en/rest/copilot
+
+servers:
+  - url: https://api.github.com
+    description: GitHub REST API
+
+security:
+  - BearerToken: []
+  - OAuthToken: []
+
+tags:
+  - name: Copilot Billing
+    description: Organization-level Copilot billing and subscription information
+  - name: Copilot Seats
+    description: Seat assignment management for organizations
+  - name: Copilot User Management
+    description: Add and remove individual users and teams from Copilot subscriptions
+  - name: Copilot Metrics
+    description: Aggregated Copilot usage metrics by organization and team
+  - name: Copilot Usage Reports
+    description: Downloadable usage metrics reports for enterprises and organizations
+  - name: Copilot Content Exclusion
+    description: Manage content exclusion path rules for organizations
+
+paths:
+
+  # ── Billing ────────────────────────────────────────────────────────────
+
+  /orgs/{org}/copilot/billing:
+    get:
+      operationId: getCopilotBillingForOrganization
+      summary: Get Copilot billing information for an organization
+      description: >-
+        Retrieves subscription details including seat breakdown and feature
+        policies for an organization's Copilot subscription. Only organization
+        owners can access this endpoint.
+      tags:
+        - Copilot Billing
+      parameters:
+        - $ref: '#/components/parameters/Org'
+      responses:
+        '200':
+          description: Copilot billing information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopilotBillingInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ── Seat Listing ───────────────────────────────────────────────────────
+
+  /orgs/{org}/copilot/billing/seats:
+    get:
+      operationId: listCopilotSeats
+      summary: List all Copilot seat assignments for an organization
+      description: >-
+        Enumerates all active Copilot seats for which an organization is
+        currently billed, including user activity metrics such as last
+        activity date, editor, and authentication timestamp.
+      tags:
+        - Copilot Seats
+      parameters:
+        - $ref: '#/components/parameters/Org'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: List of Copilot seat assignments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopilotSeatsResponse'
+          headers:
+            Link:
+              $ref: '#/components/headers/LinkPagination'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ── Team Subscription Management ───────────────────────────────────────
+
+  /orgs/{org}/copilot/billing/selected_teams:
+    post:
+      operationId: addTeamsToCopilotSubscription
+      summary: Add teams to Copilot subscription
+      description: >-
+        Purchases Copilot seats for all members within designated teams.
+        Billing is based on the organization's Copilot plan. Only
+        organization owners can call this endpoint.
+      tags:
+        - Copilot User Management
+      parameters:
+        - $ref: '#/components/parameters/Org'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectedTeamsRequest'
+      responses:
+        '201':
+          description: Teams added to Copilot subscription
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeatsCreatedResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    delete:
+      operationId: removeTeamsFromCopilotSubscription
+      summary: Remove teams from Copilot subscription
+      description: >-
+        Marks seats for all members of specified teams as pending
+        cancellation. Access ends at the conclusion of the current billing
+        cycle.
+      tags:
+        - Copilot User Management
+      parameters:
+        - $ref: '#/components/parameters/Org'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectedTeamsRequest'
+      responses:
+        '200':
+          description: Teams removed from Copilot subscription
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeatsCancelledResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ── User Subscription Management ───────────────────────────────────────
+
+  /orgs/{org}/copilot/billing/selected_users:
+    post:
+      operationId: addUsersToCopilotSubscription
+      summary: Add users to Copilot subscription
+      description: >-
+        Provisions Copilot seats for specified individual organization
+        members. Charges are applied per the organization's plan structure.
+      tags:
+        - Copilot User Management
+      parameters:
+        - $ref: '#/components/parameters/Org'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectedUsersRequest'
+      responses:
+        '201':
+          description: Users added to Copilot subscription
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeatsCreatedResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    delete:
+      operationId: removeUsersFromCopilotSubscription
+      summary: Remove users from Copilot subscription
+      description: >-
+        Sets user seats to pending cancellation, revoking access at the end
+        of the billing cycle unless the user is retained through a team
+        assignment.
+      tags:
+        - Copilot User Management
+      parameters:
+        - $ref: '#/components/parameters/Org'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectedUsersRequest'
+      responses:
+        '200':
+          description: Users removed from Copilot subscription
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeatsCancelledResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ── Individual User Seat Details ───────────────────────────────────────
+
+  /orgs/{org}/members/{username}/copilot:
+    get:
+      operationId: getCopilotSeatForUser
+      summary: Get Copilot seat assignment details for a user
+      description: >-
+        Retrieves comprehensive seat assignment information for a specific
+        organization member, including usage patterns, last activity, and
+        assignment origin.
+      tags:
+        - Copilot Seats
+      parameters:
+        - $ref: '#/components/parameters/Org'
+        - $ref: '#/components/parameters/Username'
+      responses:
+        '200':
+          description: Copilot seat details for the user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopilotSeatDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ── Organization Metrics ───────────────────────────────────────────────
+
+  /orgs/{org}/copilot/metrics:
+    get:
+      operationId: getCopilotMetricsForOrganization
+      summary: Get Copilot metrics for an organization
+      description: >-
+        Retrieves aggregated metrics for various GitHub Copilot features
+        broken down by language and IDE editor. Requires at least five
+        organization members with active Copilot licenses. Data reflects
+        previous day metrics only.
+      tags:
+        - Copilot Metrics
+      parameters:
+        - $ref: '#/components/parameters/Org'
+        - $ref: '#/components/parameters/Since'
+        - $ref: '#/components/parameters/Until'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPageMetrics'
+      responses:
+        '200':
+          description: Aggregated Copilot metrics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CopilotMetricsDay'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ── Team Metrics ───────────────────────────────────────────────────────
+
+  /orgs/{org}/team/{team_slug}/copilot/metrics:
+    get:
+      operationId: getCopilotMetricsForTeam
+      summary: Get Copilot metrics for a team
+      description: >-
+        Retrieves aggregated Copilot metrics for a specific team within an
+        organization, broken down by language and IDE editor. Requires at
+        least five team members with active Copilot licenses.
+      tags:
+        - Copilot Metrics
+      parameters:
+        - $ref: '#/components/parameters/Org'
+        - $ref: '#/components/parameters/TeamSlug'
+        - $ref: '#/components/parameters/Since'
+        - $ref: '#/components/parameters/Until'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPageMetrics'
+      responses:
+        '200':
+          description: Aggregated Copilot metrics for the team
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CopilotMetricsDay'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ── Enterprise Usage Reports ───────────────────────────────────────────
+
+  /enterprises/{enterprise}/copilot/metrics/reports/enterprise-1-day:
+    get:
+      operationId: getEnterpriseCopilotUsageDaily
+      summary: Get enterprise Copilot usage metrics for a specific day
+      description: >-
+        Retrieves download links for daily enterprise-level Copilot usage
+        metrics reports. Reports are generated daily and data is available
+        from October 10, 2025, extending back up to one year historically.
+      tags:
+        - Copilot Usage Reports
+      parameters:
+        - $ref: '#/components/parameters/Enterprise'
+        - $ref: '#/components/parameters/Day'
+      responses:
+        '200':
+          description: Daily enterprise usage report download links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageReportDaily'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /enterprises/{enterprise}/copilot/metrics/reports/enterprise-28-day/latest:
+    get:
+      operationId: getEnterpriseCopilotUsage28Day
+      summary: Get latest 28-day enterprise Copilot usage metrics
+      description: >-
+        Retrieves download links for the latest 28-day enterprise-level
+        Copilot usage metrics report.
+      tags:
+        - Copilot Usage Reports
+      parameters:
+        - $ref: '#/components/parameters/Enterprise'
+      responses:
+        '200':
+          description: 28-day enterprise usage report download links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageReport28Day'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /enterprises/{enterprise}/copilot/metrics/reports/users-1-day:
+    get:
+      operationId: getEnterpriseUsersCopilotUsageDaily
+      summary: Get enterprise user-level Copilot usage metrics for a specific day
+      description: >-
+        Retrieves download links for daily user-level Copilot usage metrics
+        reports at the enterprise level, providing individual user
+        engagement statistics, feature usage patterns, and adoption metrics.
+      tags:
+        - Copilot Usage Reports
+      parameters:
+        - $ref: '#/components/parameters/Enterprise'
+        - $ref: '#/components/parameters/Day'
+      responses:
+        '200':
+          description: Daily user-level usage report download links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageReportDaily'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /enterprises/{enterprise}/copilot/metrics/reports/users-28-day/latest:
+    get:
+      operationId: getEnterpriseUsersCopilotUsage28Day
+      summary: Get latest 28-day enterprise user-level Copilot usage metrics
+      description: >-
+        Retrieves download links for the latest 28-day user-level Copilot
+        usage metrics report at the enterprise level.
+      tags:
+        - Copilot Usage Reports
+      parameters:
+        - $ref: '#/components/parameters/Enterprise'
+      responses:
+        '200':
+          description: 28-day user-level usage report download links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageReport28Day'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ── Organization Usage Reports ─────────────────────────────────────────
+
+  /orgs/{org}/copilot/metrics/reports/organization-1-day:
+    get:
+      operationId: getOrganizationCopilotUsageDaily
+      summary: Get organization Copilot usage metrics for a specific day
+      description: >-
+        Retrieves download links for daily organization-level Copilot usage
+        metrics reports.
+      tags:
+        - Copilot Usage Reports
+      parameters:
+        - $ref: '#/components/parameters/Org'
+        - $ref: '#/components/parameters/Day'
+      responses:
+        '200':
+          description: Daily organization usage report download links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageReportDaily'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /orgs/{org}/copilot/metrics/reports/organization-28-day/latest:
+    get:
+      operationId: getOrganizationCopilotUsage28Day
+      summary: Get latest 28-day organization Copilot usage metrics
+      description: >-
+        Retrieves download links for the latest 28-day organization-level
+        Copilot usage metrics report.
+      tags:
+        - Copilot Usage Reports
+      parameters:
+        - $ref: '#/components/parameters/Org'
+      responses:
+        '200':
+          description: 28-day organization usage report download links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageReport28Day'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /orgs/{org}/copilot/metrics/reports/users-1-day:
+    get:
+      operationId: getOrganizationUsersCopilotUsageDaily
+      summary: Get organization user-level Copilot usage metrics for a specific day
+      description: >-
+        Retrieves download links for daily user-level Copilot usage metrics
+        reports at the organization level.
+      tags:
+        - Copilot Usage Reports
+      parameters:
+        - $ref: '#/components/parameters/Org'
+        - $ref: '#/components/parameters/Day'
+      responses:
+        '200':
+          description: Daily user-level usage report download links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageReportDaily'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /orgs/{org}/copilot/metrics/reports/users-28-day/latest:
+    get:
+      operationId: getOrganizationUsersCopilotUsage28Day
+      summary: Get latest 28-day organization user-level Copilot usage metrics
+      description: >-
+        Retrieves download links for the latest 28-day user-level Copilot
+        usage metrics report at the organization level.
+      tags:
+        - Copilot Usage Reports
+      parameters:
+        - $ref: '#/components/parameters/Org'
+      responses:
+        '200':
+          description: 28-day user-level usage report download links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageReport28Day'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  # ── Content Exclusion ──────────────────────────────────────────────────
+
+  /orgs/{org}/copilot/content_exclusion:
+    get:
+      operationId: getCopilotContentExclusionRules
+      summary: Get Copilot content exclusion rules for an organization
+      description: >-
+        Gets information about an organization's Copilot content exclusion
+        path rules. These rules define which files and directories Copilot
+        is prevented from accessing.
+      tags:
+        - Copilot Content Exclusion
+      parameters:
+        - $ref: '#/components/parameters/Org'
+      responses:
+        '200':
+          description: Content exclusion rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentExclusionRules'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    put:
+      operationId: setCopilotContentExclusionRules
+      summary: Set Copilot content exclusion rules for an organization
+      description: >-
+        Sets Copilot content exclusion path rules for an organization.
+        Replaces existing rules with the provided set.
+      tags:
+        - Copilot Content Exclusion
+      parameters:
+        - $ref: '#/components/parameters/Org'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContentExclusionRules'
+      responses:
+        '200':
+          description: Content exclusion rules updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Content exclusion rules updated successfully.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '413':
+          description: Payload too large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+components:
+
+  # ── Security Schemes ───────────────────────────────────────────────────
+
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+      description: >-
+        Personal access token (classic) with manage_billing:copilot,
+        read:org, or read:enterprise scopes; or fine-grained token with
+        GitHub Copilot Business (read) or Administration (read) permissions.
+    OAuthToken:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://github.com/login/oauth/authorize
+          tokenUrl: https://github.com/login/oauth/access_token
+          scopes:
+            manage_billing:copilot: Manage Copilot billing settings
+            read:org: Read organization membership and settings
+            read:enterprise: Read enterprise data
+            copilot: Manage Copilot content exclusion settings
+
+  # ── Parameters ─────────────────────────────────────────────────────────
+
+  parameters:
+    Org:
+      name: org
+      in: path
+      required: true
+      description: The organization name. Case-insensitive.
+      schema:
+        type: string
+      example: octo-org
+
+    Username:
+      name: username
+      in: path
+      required: true
+      description: The handle for the GitHub user account.
+      schema:
+        type: string
+      example: octocat
+
+    Enterprise:
+      name: enterprise
+      in: path
+      required: true
+      description: The slug version of the enterprise name.
+      schema:
+        type: string
+      example: octo-enterprise
+
+    TeamSlug:
+      name: team_slug
+      in: path
+      required: true
+      description: The slug of the team name.
+      schema:
+        type: string
+      example: engineering
+
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number of results to fetch.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+
+    PerPage:
+      name: per_page
+      in: query
+      required: false
+      description: The number of results per page (max 100).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 50
+
+    PerPageMetrics:
+      name: per_page
+      in: query
+      required: false
+      description: Number of days of metrics per page (max 100).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+
+    Since:
+      name: since
+      in: query
+      required: false
+      description: >-
+        Show usage metrics since this date (ISO 8601 format YYYY-MM-DD).
+        Maximum 100 days in the past.
+      schema:
+        type: string
+        format: date
+
+    Until:
+      name: until
+      in: query
+      required: false
+      description: >-
+        Show usage metrics until this date (ISO 8601 format YYYY-MM-DD).
+      schema:
+        type: string
+        format: date
+
+    Day:
+      name: day
+      in: query
+      required: true
+      description: The date for the report in YYYY-MM-DD format.
+      schema:
+        type: string
+        format: date
+
+  # ── Headers ────────────────────────────────────────────────────────────
+
+  headers:
+    LinkPagination:
+      description: Pagination links in RFC 5988 format.
+      schema:
+        type: string
+      example: '<https://api.github.com/orgs/octo-org/copilot/billing/seats?page=2>; rel="next"'
+
+  # ── Responses ──────────────────────────────────────────────────────────
+
+  responses:
+    Unauthorized:
+      description: Requires authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ValidationFailed:
+      description: Validation failed or endpoint has been spammed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  # ── Schemas ────────────────────────────────────────────────────────────
+
+  schemas:
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+        documentation_url:
+          type: string
+          format: uri
+          description: Link to relevant API documentation
+      required:
+        - message
+
+    # ── Billing ──────────────────────────────────────────────────────────
+
+    CopilotBillingInfo:
+      type: object
+      description: >-
+        Copilot billing and subscription information for an organization,
+        including seat breakdown and feature policy settings.
+      properties:
+        seat_breakdown:
+          $ref: '#/components/schemas/SeatBreakdown'
+        seat_management_setting:
+          type: string
+          description: How Copilot seats are managed for the organization.
+          enum:
+            - assign_all
+            - assign_selected
+            - disabled
+            - unconfigured
+        ide_chat:
+          type: string
+          description: Policy for Copilot Chat in IDEs.
+          enum:
+            - enabled
+            - disabled
+            - unconfigured
+        platform_chat:
+          type: string
+          description: Policy for Copilot Chat on github.com.
+          enum:
+            - enabled
+            - disabled
+            - unconfigured
+        cli:
+          type: string
+          description: Policy for Copilot in the CLI.
+          enum:
+            - enabled
+            - disabled
+            - unconfigured
+        public_code_suggestions:
+          type: string
+          description: Policy for suggestions matching public code.
+          enum:
+            - allow
+            - block
+            - unconfigured
+        plan_type:
+          type: string
+          description: The Copilot plan type for the organization.
+          enum:
+            - business
+            - enterprise
+      required:
+        - seat_breakdown
+        - seat_management_setting
+        - plan_type
+
+    SeatBreakdown:
+      type: object
+      description: Breakdown of Copilot seat counts by status.
+      properties:
+        total:
+          type: integer
+          description: Total number of Copilot seats.
+        added_this_cycle:
+          type: integer
+          description: Seats added in the current billing cycle.
+        pending_invitation:
+          type: integer
+          description: Seats with pending invitations.
+        pending_cancellation:
+          type: integer
+          description: Seats pending cancellation at end of cycle.
+        active_this_cycle:
+          type: integer
+          description: Seats active in the current billing cycle.
+        inactive_this_cycle:
+          type: integer
+          description: Seats inactive in the current billing cycle.
+
+    # ── Seats ────────────────────────────────────────────────────────────
+
+    CopilotSeatsResponse:
+      type: object
+      description: Paginated list of Copilot seat assignments.
+      properties:
+        total_seats:
+          type: integer
+          description: Total number of Copilot seats for the organization.
+        seats:
+          type: array
+          items:
+            $ref: '#/components/schemas/CopilotSeatDetail'
+      required:
+        - total_seats
+        - seats
+
+    CopilotSeatDetail:
+      type: object
+      description: >-
+        Details of a Copilot seat assignment for a user, including activity
+        information and plan type.
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the seat was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the seat was last updated.
+          deprecated: true
+        pending_cancellation_date:
+          type:
+            - string
+            - 'null'
+          format: date
+          description: >-
+            Date when seat cancellation takes effect. Null if not pending
+            cancellation.
+        last_activity_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+          description: >-
+            Timestamp of the user's last Copilot activity. Null if no
+            activity recorded.
+        last_activity_editor:
+          type:
+            - string
+            - 'null'
+          description: >-
+            The IDE or editor used during the user's last Copilot activity.
+            Null if no activity recorded.
+        last_authenticated_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+          description: >-
+            Timestamp of the user's last authentication with Copilot. Null
+            if never authenticated.
+        plan_type:
+          type: string
+          description: The Copilot plan type for this seat.
+          enum:
+            - business
+            - enterprise
+            - unknown
+        assignee:
+          oneOf:
+            - $ref: '#/components/schemas/SimpleUser'
+            - type: 'null'
+          description: The GitHub user assigned to this seat.
+        assigning_team:
+          oneOf:
+            - $ref: '#/components/schemas/Team'
+            - type: 'null'
+          description: >-
+            The team through which this seat was assigned, if applicable.
+      required:
+        - created_at
+        - plan_type
+
+    SimpleUser:
+      type: object
+      description: A GitHub user account.
+      properties:
+        login:
+          type: string
+          description: The username of the user.
+        id:
+          type: integer
+          description: The unique identifier of the user.
+        node_id:
+          type: string
+          description: The GraphQL node ID of the user.
+        avatar_url:
+          type: string
+          format: uri
+          description: URL to the user's avatar image.
+        gravatar_id:
+          type:
+            - string
+            - 'null'
+        url:
+          type: string
+          format: uri
+          description: API URL for this user.
+        html_url:
+          type: string
+          format: uri
+          description: URL to the user's GitHub profile.
+        followers_url:
+          type: string
+          format: uri
+        following_url:
+          type: string
+        gists_url:
+          type: string
+        starred_url:
+          type: string
+        subscriptions_url:
+          type: string
+          format: uri
+        organizations_url:
+          type: string
+          format: uri
+        repos_url:
+          type: string
+          format: uri
+        events_url:
+          type: string
+        received_events_url:
+          type: string
+          format: uri
+        type:
+          type: string
+          description: The type of account (User, Organization, Bot, etc.).
+        site_admin:
+          type: boolean
+          description: Whether the user is a GitHub site administrator.
+      required:
+        - login
+        - id
+        - node_id
+        - avatar_url
+        - url
+        - html_url
+        - type
+        - site_admin
+
+    Team:
+      type: object
+      description: A GitHub team.
+      properties:
+        id:
+          type: integer
+          description: Unique identifier of the team.
+        node_id:
+          type: string
+        name:
+          type: string
+          description: Name of the team.
+        slug:
+          type: string
+          description: URL-friendly slug of the team name.
+        description:
+          type:
+            - string
+            - 'null'
+          description: Description of the team.
+        privacy:
+          type: string
+          enum:
+            - closed
+            - secret
+        notification_setting:
+          type: string
+          enum:
+            - notifications_enabled
+            - notifications_disabled
+        permission:
+          type: string
+          description: The default permission level for the team.
+        url:
+          type: string
+          format: uri
+        html_url:
+          type: string
+          format: uri
+        members_url:
+          type: string
+        repositories_url:
+          type: string
+          format: uri
+      required:
+        - id
+        - name
+        - slug
+
+    # ── Request Bodies ───────────────────────────────────────────────────
+
+    SelectedTeamsRequest:
+      type: object
+      description: A list of team slugs to add or remove from the Copilot subscription.
+      properties:
+        selected_teams:
+          type: array
+          items:
+            type: string
+          description: List of team slugs within the organization.
+          minItems: 1
+      required:
+        - selected_teams
+
+    SelectedUsersRequest:
+      type: object
+      description: A list of usernames to add or remove from the Copilot subscription.
+      properties:
+        selected_usernames:
+          type: array
+          items:
+            type: string
+          description: List of GitHub usernames who are organization members.
+          minItems: 1
+      required:
+        - selected_usernames
+
+    SeatsCreatedResponse:
+      type: object
+      description: Response after adding users or teams to the Copilot subscription.
+      properties:
+        seats_created:
+          type: integer
+          description: The number of new Copilot seats created.
+      required:
+        - seats_created
+
+    SeatsCancelledResponse:
+      type: object
+      description: Response after removing users or teams from the Copilot subscription.
+      properties:
+        seats_cancelled:
+          type: integer
+          description: The number of Copilot seats set to pending cancellation.
+      required:
+        - seats_cancelled
+
+    # ── Metrics ──────────────────────────────────────────────────────────
+
+    CopilotMetricsDay:
+      type: object
+      description: >-
+        Aggregated Copilot usage metrics for a single day, broken down by
+        feature, editor, language, and model.
+      properties:
+        date:
+          type: string
+          format: date
+          description: The date these metrics apply to (YYYY-MM-DD).
+        total_active_users:
+          type: integer
+          description: Total users with any Copilot activity on this date.
+        total_engaged_users:
+          type: integer
+          description: >-
+            Total users who actively engaged with Copilot features on this
+            date.
+        copilot_ide_code_completions:
+          oneOf:
+            - $ref: '#/components/schemas/CopilotIdeCodeCompletions'
+            - type: 'null'
+        copilot_ide_chat:
+          oneOf:
+            - $ref: '#/components/schemas/CopilotIdeChat'
+            - type: 'null'
+        copilot_dotcom_chat:
+          oneOf:
+            - $ref: '#/components/schemas/CopilotDotcomChat'
+            - type: 'null'
+        copilot_dotcom_pull_requests:
+          oneOf:
+            - $ref: '#/components/schemas/CopilotDotcomPullRequests'
+            - type: 'null'
+      required:
+        - date
+
+    CopilotIdeCodeCompletions:
+      type: object
+      description: Metrics for Copilot code completions in IDEs.
+      properties:
+        total_engaged_users:
+          type: integer
+          description: Users who accepted at least one code suggestion.
+        languages:
+          type: array
+          items:
+            $ref: '#/components/schemas/MetricsLanguageSummary'
+        editors:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodeCompletionsEditor'
+
+    CodeCompletionsEditor:
+      type: object
+      description: Code completion metrics for a specific editor.
+      properties:
+        name:
+          type: string
+          description: Name of the editor (e.g., vscode, jetbrains, neovim).
+        total_engaged_users:
+          type: integer
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodeCompletionsModel'
+
+    CodeCompletionsModel:
+      type: object
+      description: Code completion metrics for a specific AI model.
+      properties:
+        name:
+          type: string
+          description: Name of the model or "default".
+        is_custom_model:
+          type: boolean
+          description: Whether this is a custom fine-tuned model.
+        custom_model_training_date:
+          type:
+            - string
+            - 'null'
+          description: Training date of the custom model, if applicable.
+        total_engaged_users:
+          type: integer
+        languages:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodeCompletionsLanguageMetrics'
+
+    CodeCompletionsLanguageMetrics:
+      type: object
+      description: Detailed code completion metrics for a specific language.
+      properties:
+        name:
+          type: string
+          description: Programming language name.
+        total_engaged_users:
+          type: integer
+        total_code_suggestions:
+          type: integer
+          description: Total number of code suggestions shown.
+        total_code_acceptances:
+          type: integer
+          description: Total number of code suggestions accepted.
+        total_code_lines_suggested:
+          type: integer
+          description: Total lines of code suggested.
+        total_code_lines_accepted:
+          type: integer
+          description: Total lines of code accepted.
+
+    CopilotIdeChat:
+      type: object
+      description: Metrics for Copilot Chat in IDEs.
+      properties:
+        total_engaged_users:
+          type: integer
+          description: Users who prompted Copilot Chat in an IDE.
+        editors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdeChatEditor'
+
+    IdeChatEditor:
+      type: object
+      description: IDE Chat metrics for a specific editor.
+      properties:
+        name:
+          type: string
+          description: Name of the editor.
+        total_engaged_users:
+          type: integer
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdeChatModel'
+
+    IdeChatModel:
+      type: object
+      description: IDE Chat metrics for a specific AI model.
+      properties:
+        name:
+          type: string
+        is_custom_model:
+          type: boolean
+        custom_model_training_date:
+          type:
+            - string
+            - 'null'
+        total_engaged_users:
+          type: integer
+        total_chats:
+          type: integer
+          description: Total number of chat conversations.
+        total_chat_insertion_events:
+          type: integer
+          description: Number of times chat suggestions were inserted into code.
+        total_chat_copy_events:
+          type: integer
+          description: Number of times chat responses were copied.
+
+    CopilotDotcomChat:
+      type: object
+      description: Metrics for Copilot Chat on github.com.
+      properties:
+        total_engaged_users:
+          type: integer
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/DotcomChatModel'
+
+    DotcomChatModel:
+      type: object
+      description: Dotcom Chat metrics for a specific AI model.
+      properties:
+        name:
+          type: string
+        is_custom_model:
+          type: boolean
+        custom_model_training_date:
+          type:
+            - string
+            - 'null'
+        total_engaged_users:
+          type: integer
+        total_chats:
+          type: integer
+
+    CopilotDotcomPullRequests:
+      type: object
+      description: Metrics for Copilot pull request summaries on github.com.
+      properties:
+        total_engaged_users:
+          type: integer
+          description: Users who generated pull request summaries.
+        repositories:
+          type: array
+          items:
+            $ref: '#/components/schemas/PullRequestRepository'
+
+    PullRequestRepository:
+      type: object
+      description: Pull request summary metrics for a specific repository.
+      properties:
+        name:
+          type: string
+          description: Repository name.
+        total_engaged_users:
+          type: integer
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/PullRequestModel'
+
+    PullRequestModel:
+      type: object
+      description: Pull request summary metrics for a specific AI model.
+      properties:
+        name:
+          type: string
+        is_custom_model:
+          type: boolean
+        custom_model_training_date:
+          type:
+            - string
+            - 'null'
+        total_pr_summaries_created:
+          type: integer
+          description: Total number of pull request summaries generated.
+        total_engaged_users:
+          type: integer
+
+    MetricsLanguageSummary:
+      type: object
+      description: Summary of engagement for a programming language.
+      properties:
+        name:
+          type: string
+          description: Programming language name.
+        total_engaged_users:
+          type: integer
+
+    # ── Usage Reports ────────────────────────────────────────────────────
+
+    UsageReportDaily:
+      type: object
+      description: Download links for a daily Copilot usage metrics report.
+      properties:
+        download_links:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Signed URLs to download the report files.
+        report_day:
+          type: string
+          format: date
+          description: The date the report covers.
+      required:
+        - download_links
+        - report_day
+
+    UsageReport28Day:
+      type: object
+      description: Download links for a 28-day Copilot usage metrics report.
+      properties:
+        download_links:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Signed URLs to download the report files.
+        report_start_day:
+          type: string
+          format: date
+          description: Start date of the 28-day reporting period.
+        report_end_day:
+          type: string
+          format: date
+          description: End date of the 28-day reporting period.
+      required:
+        - download_links
+        - report_start_day
+        - report_end_day
+
+    # ── Content Exclusion ────────────────────────────────────────────────
+
+    ContentExclusionRules:
+      type: object
+      description: >-
+        Content exclusion rules mapping repository names to arrays of file
+        path patterns that Copilot is prevented from accessing.
+      additionalProperties:
+        type: array
+        items:
+          type: string
+        description: List of file path patterns to exclude for this repository.
+      example:
+        octo-repo:
+          - /src/some-dir/kernel.rs
+          - /secrets/**

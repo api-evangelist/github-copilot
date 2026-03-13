@@ -1,0 +1,402 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/apis-json/artisanal/blob/main/github-copilot/json-schema/github-copilot-seat-schema.json",
+  "title": "GitHub Copilot Seat Management Schema",
+  "description": "JSON Schema for GitHub Copilot seat assignment, billing, and user management objects returned by the Copilot REST API.",
+  "type": "object",
+  "$defs": {
+    "SimpleUser": {
+      "type": "object",
+      "title": "Simple User",
+      "description": "A GitHub user account assigned to a Copilot seat.",
+      "properties": {
+        "login": {
+          "type": "string",
+          "description": "The username of the GitHub user."
+        },
+        "id": {
+          "type": "integer",
+          "description": "The unique numeric identifier of the user."
+        },
+        "node_id": {
+          "type": "string",
+          "description": "The GraphQL global node ID for this user."
+        },
+        "avatar_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the user's avatar image."
+        },
+        "gravatar_id": {
+          "type": ["string", "null"],
+          "description": "Gravatar identifier for the user, if set."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "API URL for this user resource."
+        },
+        "html_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the user's GitHub profile page."
+        },
+        "followers_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "API URL listing the user's followers."
+        },
+        "following_url": {
+          "type": "string",
+          "description": "API URL template for users this user follows."
+        },
+        "gists_url": {
+          "type": "string",
+          "description": "API URL template for the user's gists."
+        },
+        "starred_url": {
+          "type": "string",
+          "description": "API URL template for the user's starred repos."
+        },
+        "subscriptions_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "API URL listing the user's subscriptions."
+        },
+        "organizations_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "API URL listing the user's organizations."
+        },
+        "repos_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "API URL listing the user's repositories."
+        },
+        "events_url": {
+          "type": "string",
+          "description": "API URL template for the user's events."
+        },
+        "received_events_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "API URL listing events received by the user."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of account (User, Organization, Bot, etc.)."
+        },
+        "site_admin": {
+          "type": "boolean",
+          "description": "Whether the user is a GitHub site administrator."
+        }
+      },
+      "required": ["login", "id", "node_id", "avatar_url", "url", "html_url", "type", "site_admin"]
+    },
+
+    "Team": {
+      "type": "object",
+      "title": "Team",
+      "description": "A GitHub team through which a Copilot seat was assigned.",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Unique identifier of the team."
+        },
+        "node_id": {
+          "type": "string",
+          "description": "The GraphQL global node ID for this team."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the team."
+        },
+        "slug": {
+          "type": "string",
+          "description": "URL-friendly slug of the team name."
+        },
+        "description": {
+          "type": ["string", "null"],
+          "description": "A short description of the team."
+        },
+        "privacy": {
+          "type": "string",
+          "enum": ["closed", "secret"],
+          "description": "The visibility level of the team."
+        },
+        "notification_setting": {
+          "type": "string",
+          "enum": ["notifications_enabled", "notifications_disabled"],
+          "description": "Whether team members receive notifications."
+        },
+        "permission": {
+          "type": "string",
+          "description": "The default permission level for the team."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "API URL for this team resource."
+        },
+        "html_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the team's GitHub page."
+        },
+        "members_url": {
+          "type": "string",
+          "description": "API URL template for team members."
+        },
+        "repositories_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "API URL listing the team's repositories."
+        }
+      },
+      "required": ["id", "name", "slug"]
+    },
+
+    "SeatBreakdown": {
+      "type": "object",
+      "title": "Seat Breakdown",
+      "description": "Breakdown of Copilot seat counts by status within an organization.",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "description": "Total number of Copilot seats in the organization.",
+          "minimum": 0
+        },
+        "added_this_cycle": {
+          "type": "integer",
+          "description": "Number of seats added during the current billing cycle.",
+          "minimum": 0
+        },
+        "pending_invitation": {
+          "type": "integer",
+          "description": "Number of seats with pending invitations that have not been accepted.",
+          "minimum": 0
+        },
+        "pending_cancellation": {
+          "type": "integer",
+          "description": "Number of seats pending cancellation at the end of the billing cycle.",
+          "minimum": 0
+        },
+        "active_this_cycle": {
+          "type": "integer",
+          "description": "Number of seats that have been active during the current billing cycle.",
+          "minimum": 0
+        },
+        "inactive_this_cycle": {
+          "type": "integer",
+          "description": "Number of seats that have been inactive during the current billing cycle.",
+          "minimum": 0
+        }
+      }
+    },
+
+    "CopilotSeatDetail": {
+      "type": "object",
+      "title": "Copilot Seat Detail",
+      "description": "Detailed information about a Copilot seat assignment for a specific user, including activity tracking and plan type.",
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the Copilot seat was initially created."
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the seat was last updated.",
+          "deprecated": true
+        },
+        "pending_cancellation_date": {
+          "type": ["string", "null"],
+          "format": "date",
+          "description": "Date when seat cancellation takes effect. Null if the seat is not pending cancellation."
+        },
+        "last_activity_at": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "Timestamp of the user's most recent Copilot activity. Null if no activity has been recorded."
+        },
+        "last_activity_editor": {
+          "type": ["string", "null"],
+          "description": "The IDE or editor used during the user's most recent Copilot activity (e.g., vscode, jetbrains). Null if no activity recorded."
+        },
+        "last_authenticated_at": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "Timestamp when the user last authenticated with Copilot. Null if the user has never authenticated."
+        },
+        "plan_type": {
+          "type": "string",
+          "enum": ["business", "enterprise", "unknown"],
+          "description": "The Copilot plan type for this seat assignment."
+        },
+        "assignee": {
+          "oneOf": [
+            { "$ref": "#/$defs/SimpleUser" },
+            { "type": "null" }
+          ],
+          "description": "The GitHub user assigned to this Copilot seat."
+        },
+        "assigning_team": {
+          "oneOf": [
+            { "$ref": "#/$defs/Team" },
+            { "type": "null" }
+          ],
+          "description": "The team through which this seat was assigned, if applicable."
+        }
+      },
+      "required": ["created_at", "plan_type"]
+    },
+
+    "CopilotBillingInfo": {
+      "type": "object",
+      "title": "Copilot Billing Info",
+      "description": "Copilot billing and subscription information for an organization, including seat breakdown and feature policy settings.",
+      "properties": {
+        "seat_breakdown": {
+          "$ref": "#/$defs/SeatBreakdown",
+          "description": "Breakdown of seat counts by status."
+        },
+        "seat_management_setting": {
+          "type": "string",
+          "enum": ["assign_all", "assign_selected", "disabled", "unconfigured"],
+          "description": "How Copilot seats are managed for the organization."
+        },
+        "ide_chat": {
+          "type": "string",
+          "enum": ["enabled", "disabled", "unconfigured"],
+          "description": "Organization policy for Copilot Chat in IDEs."
+        },
+        "platform_chat": {
+          "type": "string",
+          "enum": ["enabled", "disabled", "unconfigured"],
+          "description": "Organization policy for Copilot Chat on github.com."
+        },
+        "cli": {
+          "type": "string",
+          "enum": ["enabled", "disabled", "unconfigured"],
+          "description": "Organization policy for Copilot in the CLI."
+        },
+        "public_code_suggestions": {
+          "type": "string",
+          "enum": ["allow", "block", "unconfigured"],
+          "description": "Policy for whether Copilot may suggest code matching public code."
+        },
+        "plan_type": {
+          "type": "string",
+          "enum": ["business", "enterprise"],
+          "description": "The Copilot plan type for the organization."
+        }
+      },
+      "required": ["seat_breakdown", "seat_management_setting", "plan_type"]
+    },
+
+    "CopilotSeatsResponse": {
+      "type": "object",
+      "title": "Copilot Seats Response",
+      "description": "Paginated response listing all Copilot seat assignments for an organization.",
+      "properties": {
+        "total_seats": {
+          "type": "integer",
+          "description": "Total number of Copilot seats for the organization.",
+          "minimum": 0
+        },
+        "seats": {
+          "type": "array",
+          "description": "Array of individual seat assignment details.",
+          "items": {
+            "$ref": "#/$defs/CopilotSeatDetail"
+          }
+        }
+      },
+      "required": ["total_seats", "seats"]
+    },
+
+    "SelectedTeamsRequest": {
+      "type": "object",
+      "title": "Selected Teams Request",
+      "description": "Request body for adding or removing teams from a Copilot subscription.",
+      "properties": {
+        "selected_teams": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "description": "List of team slugs within the organization."
+        }
+      },
+      "required": ["selected_teams"]
+    },
+
+    "SelectedUsersRequest": {
+      "type": "object",
+      "title": "Selected Users Request",
+      "description": "Request body for adding or removing individual users from a Copilot subscription.",
+      "properties": {
+        "selected_usernames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "description": "List of GitHub usernames who are members of the organization."
+        }
+      },
+      "required": ["selected_usernames"]
+    },
+
+    "SeatsCreatedResponse": {
+      "type": "object",
+      "title": "Seats Created Response",
+      "description": "Response returned after adding users or teams to a Copilot subscription.",
+      "properties": {
+        "seats_created": {
+          "type": "integer",
+          "description": "The number of new Copilot seats that were created.",
+          "minimum": 0
+        }
+      },
+      "required": ["seats_created"]
+    },
+
+    "SeatsCancelledResponse": {
+      "type": "object",
+      "title": "Seats Cancelled Response",
+      "description": "Response returned after removing users or teams from a Copilot subscription.",
+      "properties": {
+        "seats_cancelled": {
+          "type": "integer",
+          "description": "The number of Copilot seats set to pending cancellation.",
+          "minimum": 0
+        }
+      },
+      "required": ["seats_cancelled"]
+    },
+
+    "ContentExclusionRules": {
+      "type": "object",
+      "title": "Content Exclusion Rules",
+      "description": "Content exclusion rules mapping repository names to arrays of file path patterns that Copilot is prevented from accessing.",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "List of file path patterns to exclude for this repository."
+      },
+      "examples": [
+        {
+          "octo-repo": [
+            "/src/some-dir/kernel.rs",
+            "/secrets/**"
+          ]
+        }
+      ]
+    }
+  }
+}
