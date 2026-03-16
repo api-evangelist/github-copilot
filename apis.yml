@@ -1,4 +1,4 @@
-name: GitHub Copilot APIs
+name: GitHub Copilot
 segments:
   - SDKs
 description: APIs and resources for GitHub Copilot, an AI pair programmer that helps you write code faster
