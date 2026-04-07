@@ -32,17 +32,17 @@ security:
 tags:
   - name: Copilot Billing
     description: Organization-level Copilot billing and subscription information
-  - name: Copilot Seats
-    description: Seat assignment management for organizations
-  - name: Copilot User Management
-    description: Add and remove individual users and teams from Copilot subscriptions
-  - name: Copilot Metrics
-    description: Aggregated Copilot usage metrics by organization and team
-  - name: Copilot Usage Reports
-    description: Downloadable usage metrics reports for enterprises and organizations
   - name: Copilot Content Exclusion
     description: Manage content exclusion path rules for organizations
 
+  - name: Copilot Metrics
+    description: Aggregated Copilot usage metrics by organization and team
+  - name: Copilot Seats
+    description: Seat assignment management for organizations
+  - name: Copilot Usage Reports
+    description: Downloadable usage metrics reports for enterprises and organizations
+  - name: Copilot User Management
+    description: Add and remove individual users and teams from Copilot subscriptions
 paths:
 
   # ── Billing ────────────────────────────────────────────────────────────

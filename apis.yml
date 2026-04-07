@@ -4,8 +4,7 @@ segments:
 description: >-
   APIs and resources for GitHub Copilot, an AI pair programmer that helps you write
   code faster.
-image: 
-  https://github.githubassets.com/images/modules/site/copilot/copilot-logo.png
+image: https://github.githubassets.com/images/modules/site/copilot/copilot-logo.png
 created: '2024'
 modified: '2026-03-03'
 specificationVersion: '0.18'
@@ -14,8 +13,7 @@ apis:
   - name: GitHub Copilot API
     description: >-
       REST API for managing GitHub Copilot seats, usage, and organization settings.
-    image: 
-      https://github.githubassets.com/images/modules/site/copilot/copilot-logo.png
+    image: https://github.githubassets.com/images/modules/site/copilot/copilot-logo.png
     humanUrl: https://docs.github.com/en/copilot
     baseUrl: https://api.github.com
     tags:
@@ -27,8 +25,7 @@ apis:
       - type: Documentation
         url: https://docs.github.com/en/rest/copilot
       - type: OpenAPI
-        url: 
-          https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json
+        url: https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json
       - type: Authentication
         url: https://docs.github.com/en/rest/authentication
       - type: Getting Started
@@ -66,11 +63,9 @@ apis:
       - type: Authentication
         url: https://docs.github.com/en/rest/authentication
       - type: OpenAPI
-        url: 
-          https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json
+        url: https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json
       - type: Seat Assignment
-        url: 
-          https://docs.github.com/en/copilot/reference/copilot-billing/seat-assignment
+        url: https://docs.github.com/en/copilot/reference/copilot-billing/seat-assignment
       - type: OpenAPI
         url: openapi/github-copilot-openapi.yml
       - type: JSON Schema
@@ -99,24 +94,21 @@ apis:
     humanUrl: https://docs.github.com/en/rest/copilot/copilot-user-management
     baseUrl: https://api.github.com
     tags:
-      - Seat Management
       - Billing
-      - User Management
       - Organizations
+      - Seat Management
+      - User Management
     properties:
       - type: Documentation
         url: https://docs.github.com/en/rest/copilot/copilot-user-management
       - type: OpenAPI
-        url: 
-          https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json
+        url: https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json
       - type: Authentication
         url: https://docs.github.com/en/rest/authentication
       - type: Enterprise Cloud Documentation
-        url: 
-          https://docs.github.com/en/enterprise-cloud@latest/rest/copilot/copilot-user-management
+        url: https://docs.github.com/en/enterprise-cloud@latest/rest/copilot/copilot-user-management
       - type: Seat Assignment
-        url: 
-          https://docs.github.com/en/copilot/reference/copilot-billing/seat-assignment
+        url: https://docs.github.com/en/copilot/reference/copilot-billing/seat-assignment
       - type: OpenAPI
         url: openapi/github-copilot-openapi.yml
       - type: JSON Schema
@@ -131,21 +123,19 @@ apis:
     humanUrl: https://docs.github.com/en/rest/copilot/copilot-metrics
     baseUrl: https://api.github.com
     tags:
-      - Metrics
       - Analytics
-      - Usage
+      - Metrics
       - Organizations
+      - Usage
     properties:
       - type: Documentation
         url: https://docs.github.com/en/rest/copilot/copilot-metrics
       - type: OpenAPI
-        url: 
-          https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json
+        url: https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json
       - type: Authentication
         url: https://docs.github.com/en/rest/authentication
       - type: Enterprise Cloud Documentation
-        url: 
-          https://docs.github.com/en/enterprise-cloud@latest/rest/copilot/copilot-metrics
+        url: https://docs.github.com/en/enterprise-cloud@latest/rest/copilot/copilot-metrics
       - type: OpenAPI
         url: openapi/github-copilot-openapi.yml
       - type: JSON Schema
@@ -160,16 +150,15 @@ apis:
     humanUrl: https://docs.github.com/en/rest/copilot/copilot-usage-metrics
     baseUrl: https://api.github.com
     tags:
-      - Usage Metrics
+      - Analytics
       - Enterprise
       - Reporting
-      - Analytics
+      - Usage Metrics
     properties:
       - type: Documentation
         url: https://docs.github.com/en/rest/copilot/copilot-usage-metrics
       - type: OpenAPI
-        url: 
-          https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json
+        url: https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json
       - type: Authentication
         url: https://docs.github.com/en/rest/authentication
       - type: Enterprise Cloud Documentation
@@ -185,29 +174,24 @@ apis:
       REST API for programmatically managing Copilot content exclusion path rules
       at both the organization and enterprise level, enabling automation and governance
       of which content Copilot can access.
-    humanUrl: 
-      https://docs.github.com/en/rest/copilot/copilot-content-exclusion-management
+    humanUrl: https://docs.github.com/en/rest/copilot/copilot-content-exclusion-management
     baseUrl: https://api.github.com
     tags:
       - Content Exclusion
       - Governance
-      - Security
       - Policy
+      - Security
     properties:
       - type: Documentation
-        url: 
-          https://docs.github.com/en/rest/copilot/copilot-content-exclusion-management
+        url: https://docs.github.com/en/rest/copilot/copilot-content-exclusion-management
       - type: OpenAPI
-        url: 
-          https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json
+        url: https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json
       - type: Authentication
         url: https://docs.github.com/en/rest/authentication
       - type: Content Exclusion Concepts
-        url: 
-          https://docs.github.com/en/copilot/concepts/context/content-exclusion
+        url: https://docs.github.com/en/copilot/concepts/context/content-exclusion
       - type: Configuration Guide
-        url: 
-          https://docs.github.com/en/copilot/how-tos/configure-content-exclusion
+        url: https://docs.github.com/en/copilot/how-tos/configure-content-exclusion
       - type: OpenAPI
         url: openapi/github-copilot-openapi.yml
       - type: JSON-LD Context
@@ -220,17 +204,15 @@ apis:
     humanUrl: https://docs.github.com/en/copilot/building-copilot-extensions
     baseUrl: https://api.github.com
     tags:
-      - Extensions
       - Agents
-      - Skillsets
+      - Extensions
       - Integrations
+      - Skillsets
     properties:
       - type: Documentation
-        url: 
-          https://docs.github.com/en/copilot/building-copilot-extensions/about-building-copilot-extensions
+        url: https://docs.github.com/en/copilot/building-copilot-extensions/about-building-copilot-extensions
       - type: Getting Started
-        url: 
-          https://docs.github.com/en/copilot/building-copilot-extensions/creating-a-copilot-extension
+        url: https://docs.github.com/en/copilot/building-copilot-extensions/creating-a-copilot-extension
       - type: SDKs
         url: https://github.com/github/copilot-sdk
       - type: GitHub Org
@@ -244,34 +226,27 @@ apis:
       Autonomous coding agent that works in the background to complete tasks, spinning
       up secure development environments powered by GitHub Actions to explore code,
       make changes, run tests, and open pull requests.
-    humanUrl: 
-      https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent
+    humanUrl: https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent
     baseUrl: https://api.github.com
     tags:
       - Agents
       - Automation
-      - Pull Requests
       - Code Generation
       - GitHub Actions
+      - Pull Requests
     properties:
       - type: Documentation
-        url: 
-          https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent
+        url: https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent
       - type: About
-        url: 
-          https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-coding-agent
+        url: https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-coding-agent
       - type: Access Management
-        url: 
-          https://docs.github.com/en/copilot/concepts/agents/coding-agent/access-management
+        url: https://docs.github.com/en/copilot/concepts/agents/coding-agent/access-management
       - type: Piloting Guide
-        url: 
-          https://docs.github.com/en/copilot/tutorials/coding-agent/pilot-coding-agent
+        url: https://docs.github.com/en/copilot/tutorials/coding-agent/pilot-coding-agent
       - type: Reviewing Pull Requests
-        url: 
-          https://docs.github.com/copilot/how-tos/agents/copilot-coding-agent/reviewing-a-pull-request-created-by-copilot
+        url: https://docs.github.com/copilot/how-tos/agents/copilot-coding-agent/reviewing-a-pull-request-created-by-copilot
       - type: MCP Integration
-        url: 
-          https://docs.github.com/copilot/how-tos/agents/copilot-coding-agent/extending-copilot-coding-agent-with-mcp
+        url: https://docs.github.com/copilot/how-tos/agents/copilot-coding-agent/extending-copilot-coding-agent-with-mcp
       - type: Landing Page
         url: https://github.com/features/copilot/agents
     contact:
@@ -286,22 +261,19 @@ apis:
     humanUrl: https://docs.github.com/en/copilot/concepts/agents/code-review
     baseUrl: https://api.github.com
     tags:
+      - Agents
+      - Code Quality
       - Code Review
       - Pull Requests
-      - Code Quality
-      - Agents
     properties:
       - type: Documentation
         url: https://docs.github.com/en/copilot/concepts/agents/code-review
       - type: Usage Guide
-        url: 
-          https://docs.github.com/copilot/using-github-copilot/code-review/using-copilot-code-review
+        url: https://docs.github.com/copilot/using-github-copilot/code-review/using-copilot-code-review
       - type: Custom Instructions
-        url: 
-          https://docs.github.com/en/copilot/tutorials/use-custom-instructions
+        url: https://docs.github.com/en/copilot/tutorials/use-custom-instructions
       - type: Pull Request Summaries
-        url: 
-          https://docs.github.com/en/copilot/responsible-use/pull-request-summaries
+        url: https://docs.github.com/en/copilot/responsible-use/pull-request-summaries
     contact:
       - FN: GitHub Support
         email: support@github.com
@@ -314,28 +286,24 @@ apis:
     humanUrl: https://docs.github.com/en/copilot/concepts/context/mcp
     baseUrl: https://api.github.com
     tags:
+      - Agents
+      - Context
+      - Integrations
       - MCP
       - Model Context Protocol
-      - Integrations
-      - Context
-      - Agents
     properties:
       - type: Documentation
         url: https://docs.github.com/en/copilot/concepts/context/mcp
       - type: GitHub Repository
         url: https://github.com/github/github-mcp-server
       - type: Setup Guide
-        url: 
-          https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp/set-up-the-github-mcp-server
+        url: https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp/set-up-the-github-mcp-server
       - type: Usage Guide
-        url: 
-          https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp/use-the-github-mcp-server
+        url: https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp/use-the-github-mcp-server
       - type: Extending Copilot Chat with MCP
-        url: 
-          https://docs.github.com/copilot/customizing-copilot/using-model-context-protocol/extending-copilot-chat-with-mcp
+        url: https://docs.github.com/copilot/customizing-copilot/using-model-context-protocol/extending-copilot-chat-with-mcp
       - type: MCP and Coding Agent
-        url: 
-          https://docs.github.com/en/copilot/concepts/agents/coding-agent/mcp-and-coding-agent
+        url: https://docs.github.com/en/copilot/concepts/agents/coding-agent/mcp-and-coding-agent
     contact:
       - FN: GitHub Support
         email: support@github.com
@@ -344,30 +312,24 @@ apis:
     description: >-
       Configuration system for providing repository-level, path-specific, and organization-level
       custom instructions to guide Copilot behavior, code style, and response formatting.
-    humanUrl: 
-      https://docs.github.com/en/copilot/how-tos/configure-custom-instructions
+    humanUrl: https://docs.github.com/en/copilot/how-tos/configure-custom-instructions
     baseUrl: https://api.github.com
     tags:
+      - Configuration
       - Customization
       - Instructions
-      - Configuration
       - Organizations
     properties:
       - type: Documentation
-        url: 
-          https://docs.github.com/en/copilot/how-tos/configure-custom-instructions
+        url: https://docs.github.com/en/copilot/how-tos/configure-custom-instructions
       - type: Repository Instructions
-        url: 
-          https://docs.github.com/copilot/customizing-copilot/adding-custom-instructions-for-github-copilot
+        url: https://docs.github.com/copilot/customizing-copilot/adding-custom-instructions-for-github-copilot
       - type: Organization Instructions
-        url: 
-          https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-organization-instructions
+        url: https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-organization-instructions
       - type: CLI Instructions
-        url: 
-          https://docs.github.com/en/copilot/how-tos/copilot-cli/add-repository-instructions
+        url: https://docs.github.com/en/copilot/how-tos/copilot-cli/add-repository-instructions
       - type: Support Reference
-        url: 
-          https://docs.github.com/en/copilot/reference/custom-instructions-support
+        url: https://docs.github.com/en/copilot/reference/custom-instructions-support
     contact:
       - FN: GitHub Support
         email: support@github.com
@@ -377,32 +339,30 @@ maintainers:
     email: kin@apievangelist.com
     url: http://apievangelist.com
 tags:
+  - Agents
   - AI
   - Artificial Intelligence
   - Code Generation
-  - Developer Tools
-  - IDE
-  - Machine Learning
-  - Productivity
-  - Extensions
-  - Agents
-  - Metrics
   - Code Review
-  - MCP
-  - Model Context Protocol
   - Coding Agent
   - Custom Instructions
+  - Developer Tools
+  - Extensions
+  - IDE
+  - Machine Learning
+  - MCP
+  - Metrics
+  - Model Context Protocol
+  - Productivity
 common:
   - type: Portal
     url: https://github.com/features/copilot
   - type: Status
     url: https://www.githubstatus.com/
   - type: Terms of Service
-    url: 
-      https://docs.github.com/en/site-policy/github-terms/github-terms-of-service
+    url: https://docs.github.com/en/site-policy/github-terms/github-terms-of-service
   - type: Privacy Policy
-    url: 
-      https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement
+    url: https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement
   - type: Getting Started
     url: https://docs.github.com/en/copilot/quickstart
   - type: Blog
@@ -414,8 +374,7 @@ common:
   - type: Changelog
     url: https://github.blog/changelog/label/copilot/
   - type: Community
-    url: 
-      https://github.com/orgs/community/discussions/categories/copilot-conversations
+    url: https://github.com/orgs/community/discussions/categories/copilot-conversations
   - type: SDKs
     url: https://github.com/github/copilot-sdk
   - type: Trust Center
@@ -443,8 +402,7 @@ common:
   - type: Plans
     url: https://docs.github.com/en/copilot/get-started/plans
   - type: Billing
-    url: 
-      https://docs.github.com/en/copilot/concepts/billing/billing-for-individuals
+    url: https://docs.github.com/en/copilot/concepts/billing/billing-for-individuals
   - type: Enterprise Cloud Documentation
     url: https://docs.github.com/en/enterprise-cloud@latest/rest/copilot
   - type: MCP Server
@@ -452,5 +410,4 @@ common:
   - type: Customization
     url: https://docs.github.com/en/copilot/customizing-copilot
   - type: Responsible Use
-    url: 
-      https://docs.github.com/en/copilot/responsible-use/pull-request-summaries
+    url: https://docs.github.com/en/copilot/responsible-use/pull-request-summaries
