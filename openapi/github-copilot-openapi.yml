@@ -50,7 +50,7 @@ paths:
   /orgs/{org}/copilot/billing:
     get:
       operationId: getCopilotBillingForOrganization
-      summary: Get Copilot billing information for an organization
+      summary: GitHub Copilot Get Copilot billing information for an organization
       description: >-
         Retrieves subscription details including seat breakdown and feature
         policies for an organization's Copilot subscription. Only organization
@@ -80,7 +80,7 @@ paths:
   /orgs/{org}/copilot/billing/seats:
     get:
       operationId: listCopilotSeats
-      summary: List all Copilot seat assignments for an organization
+      summary: GitHub Copilot List all Copilot seat assignments for an organization
       description: >-
         Enumerates all active Copilot seats for which an organization is
         currently billed, including user activity metrics such as last
@@ -115,7 +115,7 @@ paths:
   /orgs/{org}/copilot/billing/selected_teams:
     post:
       operationId: addTeamsToCopilotSubscription
-      summary: Add teams to Copilot subscription
+      summary: GitHub Copilot Add teams to Copilot subscription
       description: >-
         Purchases Copilot seats for all members within designated teams.
         Billing is based on the organization's Copilot plan. Only
@@ -150,7 +150,7 @@ paths:
 
     delete:
       operationId: removeTeamsFromCopilotSubscription
-      summary: Remove teams from Copilot subscription
+      summary: GitHub Copilot Remove teams from Copilot subscription
       description: >-
         Marks seats for all members of specified teams as pending
         cancellation. Access ends at the conclusion of the current billing
@@ -188,7 +188,7 @@ paths:
   /orgs/{org}/copilot/billing/selected_users:
     post:
       operationId: addUsersToCopilotSubscription
-      summary: Add users to Copilot subscription
+      summary: GitHub Copilot Add users to Copilot subscription
       description: >-
         Provisions Copilot seats for specified individual organization
         members. Charges are applied per the organization's plan structure.
@@ -222,7 +222,7 @@ paths:
 
     delete:
       operationId: removeUsersFromCopilotSubscription
-      summary: Remove users from Copilot subscription
+      summary: GitHub Copilot Remove users from Copilot subscription
       description: >-
         Sets user seats to pending cancellation, revoking access at the end
         of the billing cycle unless the user is retained through a team
@@ -260,7 +260,7 @@ paths:
   /orgs/{org}/members/{username}/copilot:
     get:
       operationId: getCopilotSeatForUser
-      summary: Get Copilot seat assignment details for a user
+      summary: GitHub Copilot Get Copilot seat assignment details for a user
       description: >-
         Retrieves comprehensive seat assignment information for a specific
         organization member, including usage patterns, last activity, and
@@ -293,7 +293,7 @@ paths:
   /orgs/{org}/copilot/metrics:
     get:
       operationId: getCopilotMetricsForOrganization
-      summary: Get Copilot metrics for an organization
+      summary: GitHub Copilot Get Copilot metrics for an organization
       description: >-
         Retrieves aggregated metrics for various GitHub Copilot features
         broken down by language and IDE editor. Requires at least five
@@ -330,7 +330,7 @@ paths:
   /orgs/{org}/team/{team_slug}/copilot/metrics:
     get:
       operationId: getCopilotMetricsForTeam
-      summary: Get Copilot metrics for a team
+      summary: GitHub Copilot Get Copilot metrics for a team
       description: >-
         Retrieves aggregated Copilot metrics for a specific team within an
         organization, broken down by language and IDE editor. Requires at
@@ -367,7 +367,7 @@ paths:
   /enterprises/{enterprise}/copilot/metrics/reports/enterprise-1-day:
     get:
       operationId: getEnterpriseCopilotUsageDaily
-      summary: Get enterprise Copilot usage metrics for a specific day
+      summary: GitHub Copilot Get enterprise Copilot usage metrics for a specific day
       description: >-
         Retrieves download links for daily enterprise-level Copilot usage
         metrics reports. Reports are generated daily and data is available
@@ -396,7 +396,7 @@ paths:
   /enterprises/{enterprise}/copilot/metrics/reports/enterprise-28-day/latest:
     get:
       operationId: getEnterpriseCopilotUsage28Day
-      summary: Get latest 28-day enterprise Copilot usage metrics
+      summary: GitHub Copilot Get latest 28-day enterprise Copilot usage metrics
       description: >-
         Retrieves download links for the latest 28-day enterprise-level
         Copilot usage metrics report.
@@ -423,7 +423,7 @@ paths:
   /enterprises/{enterprise}/copilot/metrics/reports/users-1-day:
     get:
       operationId: getEnterpriseUsersCopilotUsageDaily
-      summary: Get enterprise user-level Copilot usage metrics for a specific day
+      summary: GitHub Copilot Get enterprise user-level Copilot usage metrics for a specific day
       description: >-
         Retrieves download links for daily user-level Copilot usage metrics
         reports at the enterprise level, providing individual user
@@ -452,7 +452,7 @@ paths:
   /enterprises/{enterprise}/copilot/metrics/reports/users-28-day/latest:
     get:
       operationId: getEnterpriseUsersCopilotUsage28Day
-      summary: Get latest 28-day enterprise user-level Copilot usage metrics
+      summary: GitHub Copilot Get latest 28-day enterprise user-level Copilot usage metrics
       description: >-
         Retrieves download links for the latest 28-day user-level Copilot
         usage metrics report at the enterprise level.
@@ -481,7 +481,7 @@ paths:
   /orgs/{org}/copilot/metrics/reports/organization-1-day:
     get:
       operationId: getOrganizationCopilotUsageDaily
-      summary: Get organization Copilot usage metrics for a specific day
+      summary: GitHub Copilot Get organization Copilot usage metrics for a specific day
       description: >-
         Retrieves download links for daily organization-level Copilot usage
         metrics reports.
@@ -509,7 +509,7 @@ paths:
   /orgs/{org}/copilot/metrics/reports/organization-28-day/latest:
     get:
       operationId: getOrganizationCopilotUsage28Day
-      summary: Get latest 28-day organization Copilot usage metrics
+      summary: GitHub Copilot Get latest 28-day organization Copilot usage metrics
       description: >-
         Retrieves download links for the latest 28-day organization-level
         Copilot usage metrics report.
@@ -536,7 +536,7 @@ paths:
   /orgs/{org}/copilot/metrics/reports/users-1-day:
     get:
       operationId: getOrganizationUsersCopilotUsageDaily
-      summary: Get organization user-level Copilot usage metrics for a specific day
+      summary: GitHub Copilot Get organization user-level Copilot usage metrics for a specific day
       description: >-
         Retrieves download links for daily user-level Copilot usage metrics
         reports at the organization level.
@@ -564,7 +564,7 @@ paths:
   /orgs/{org}/copilot/metrics/reports/users-28-day/latest:
     get:
       operationId: getOrganizationUsersCopilotUsage28Day
-      summary: Get latest 28-day organization user-level Copilot usage metrics
+      summary: GitHub Copilot Get latest 28-day organization user-level Copilot usage metrics
       description: >-
         Retrieves download links for the latest 28-day user-level Copilot
         usage metrics report at the organization level.
@@ -593,7 +593,7 @@ paths:
   /orgs/{org}/copilot/content_exclusion:
     get:
       operationId: getCopilotContentExclusionRules
-      summary: Get Copilot content exclusion rules for an organization
+      summary: GitHub Copilot Get Copilot content exclusion rules for an organization
       description: >-
         Gets information about an organization's Copilot content exclusion
         path rules. These rules define which files and directories Copilot
@@ -620,7 +620,7 @@ paths:
 
     put:
       operationId: setCopilotContentExclusionRules
-      summary: Set Copilot content exclusion rules for an organization
+      summary: GitHub Copilot Set Copilot content exclusion rules for an organization
       description: >-
         Sets Copilot content exclusion path rules for an organization.
         Replaces existing rules with the provided set.
