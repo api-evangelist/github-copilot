@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ContentExclusionRules",
+  "type": "object",
+  "description": "Content exclusion rules mapping repository names to arrays of file path patterns that Copilot is prevented from accessing."
+}

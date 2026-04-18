@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Team",
+  "type": "object",
+  "description": "A GitHub team.",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier of the team."
+    },
+    "node_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the team."
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL-friendly slug of the team name."
+    },
+    "description": {
+      "type": "['string', 'null']",
+      "description": "Description of the team."
+    },
+    "privacy": {
+      "type": "string"
+    },
+    "notification_setting": {
+      "type": "string"
+    },
+    "permission": {
+      "type": "string",
+      "description": "The default permission level for the team."
+    },
+    "url": {
+      "type": "string"
+    },
+    "html_url": {
+      "type": "string"
+    },
+    "members_url": {
+      "type": "string"
+    },
+    "repositories_url": {
+      "type": "string"
+    }
+  }
+}

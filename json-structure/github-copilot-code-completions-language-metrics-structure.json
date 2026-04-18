@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "CodeCompletionsLanguageMetrics",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "total_engaged_users": {
+      "type": "integer"
+    },
+    "total_code_suggestions": {
+      "type": "integer"
+    },
+    "total_code_acceptances": {
+      "type": "integer"
+    },
+    "total_code_lines_suggested": {
+      "type": "integer"
+    },
+    "total_code_lines_accepted": {
+      "type": "integer"
+    }
+  }
+}

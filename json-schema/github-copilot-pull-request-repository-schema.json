@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PullRequestRepository",
+  "type": "object",
+  "description": "Pull request summary metrics for a specific repository.",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Repository name."
+    },
+    "total_engaged_users": {
+      "type": "integer"
+    },
+    "models": {
+      "type": "array"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "abc123",
+  "node_id": "500123",
+  "name": "Example Title",
+  "slug": "example_value",
+  "description": "A sample description.",
+  "privacy": "example_value",
+  "notification_setting": "example_value",
+  "permission": "example_value",
+  "url": "https://www.example.com",
+  "html_url": "https://www.example.com",
+  "members_url": "https://www.example.com",
+  "repositories_url": "https://www.example.com"
+}

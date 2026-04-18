@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SeatsCancelledResponse",
+  "type": "object",
+  "description": "Response after removing users or teams from the Copilot subscription.",
+  "properties": {
+    "seats_cancelled": {
+      "type": "integer",
+      "description": "The number of Copilot seats set to pending cancellation."
+    }
+  }
+}

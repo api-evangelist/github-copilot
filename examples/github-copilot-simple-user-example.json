@@ -1,0 +1,20 @@
+{
+  "login": "example_value",
+  "id": "abc123",
+  "node_id": "500123",
+  "avatar_url": "https://www.example.com",
+  "gravatar_id": "500123",
+  "url": "https://www.example.com",
+  "html_url": "https://www.example.com",
+  "followers_url": "https://www.example.com",
+  "following_url": "https://www.example.com",
+  "gists_url": "https://www.example.com",
+  "starred_url": "https://www.example.com",
+  "subscriptions_url": "https://www.example.com",
+  "organizations_url": "https://www.example.com",
+  "repos_url": "https://www.example.com",
+  "events_url": "https://www.example.com",
+  "received_events_url": "https://www.example.com",
+  "type": "example_value",
+  "site_admin": true
+}

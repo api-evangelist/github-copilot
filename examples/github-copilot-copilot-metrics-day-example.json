@@ -1,0 +1,9 @@
+{
+  "date": "example_value",
+  "total_active_users": 10,
+  "total_engaged_users": 10,
+  "copilot_ide_code_completions": "example_value",
+  "copilot_ide_chat": "example_value",
+  "copilot_dotcom_chat": "example_value",
+  "copilot_dotcom_pull_requests": "example_value"
+}

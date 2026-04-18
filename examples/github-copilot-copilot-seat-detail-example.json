@@ -1,0 +1,11 @@
+{
+  "created_at": "2026-01-15T10:30:00Z",
+  "updated_at": "2026-01-15T10:30:00Z",
+  "pending_cancellation_date": "example_value",
+  "last_activity_at": "2026-01-15T10:30:00Z",
+  "last_activity_editor": "example_value",
+  "last_authenticated_at": "2026-01-15T10:30:00Z",
+  "plan_type": "example_value",
+  "assignee": "example_value",
+  "assigning_team": "example_value"
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "CopilotMetricsDay",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string"
+    },
+    "total_active_users": {
+      "type": "integer"
+    },
+    "total_engaged_users": {
+      "type": "integer"
+    },
+    "copilot_ide_code_completions": {
+      "type": "string"
+    },
+    "copilot_ide_chat": {
+      "type": "string"
+    },
+    "copilot_dotcom_chat": {
+      "type": "string"
+    },
+    "copilot_dotcom_pull_requests": {
+      "type": "string"
+    }
+  }
+}

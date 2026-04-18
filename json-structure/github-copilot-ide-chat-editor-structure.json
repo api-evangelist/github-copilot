@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "IdeChatEditor",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "total_engaged_users": {
+      "type": "integer"
+    },
+    "models": {
+      "type": "array"
+    }
+  }
+}

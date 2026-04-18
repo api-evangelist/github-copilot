@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "CodeCompletionsModel",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "is_custom_model": {
+      "type": "boolean"
+    },
+    "custom_model_training_date": {
+      "type": "['string', 'null']"
+    },
+    "total_engaged_users": {
+      "type": "integer"
+    },
+    "languages": {
+      "type": "array"
+    }
+  }
+}

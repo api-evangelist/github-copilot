@@ -1,0 +1,8 @@
+{
+  "seat_management_setting": "example_value",
+  "ide_chat": "example_value",
+  "platform_chat": "example_value",
+  "cli": "example_value",
+  "public_code_suggestions": "example_value",
+  "plan_type": "example_value"
+}

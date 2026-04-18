@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SimpleUser",
+  "type": "object",
+  "description": "A GitHub user account.",
+  "properties": {
+    "login": {
+      "type": "string",
+      "description": "The username of the user."
+    },
+    "id": {
+      "type": "integer",
+      "description": "The unique identifier of the user."
+    },
+    "node_id": {
+      "type": "string",
+      "description": "The GraphQL node ID of the user."
+    },
+    "avatar_url": {
+      "type": "string",
+      "description": "URL to the user's avatar image."
+    },
+    "gravatar_id": {
+      "type": "['string', 'null']"
+    },
+    "url": {
+      "type": "string",
+      "description": "API URL for this user."
+    },
+    "html_url": {
+      "type": "string",
+      "description": "URL to the user's GitHub profile."
+    },
+    "followers_url": {
+      "type": "string"
+    },
+    "following_url": {
+      "type": "string"
+    },
+    "gists_url": {
+      "type": "string"
+    },
+    "starred_url": {
+      "type": "string"
+    },
+    "subscriptions_url": {
+      "type": "string"
+    },
+    "organizations_url": {
+      "type": "string"
+    },
+    "repos_url": {
+      "type": "string"
+    },
+    "events_url": {
+      "type": "string"
+    },
+    "received_events_url": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of account (User, Organization, Bot, etc.)."
+    },
+    "site_admin": {
+      "type": "boolean",
+      "description": "Whether the user is a GitHub site administrator."
+    }
+  }
+}

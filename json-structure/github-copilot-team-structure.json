@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "Team",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "node_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "description": {
+      "type": "['string', 'null']"
+    },
+    "privacy": {
+      "type": "string"
+    },
+    "notification_setting": {
+      "type": "string"
+    },
+    "permission": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "html_url": {
+      "type": "string"
+    },
+    "members_url": {
+      "type": "string"
+    },
+    "repositories_url": {
+      "type": "string"
+    }
+  }
+}

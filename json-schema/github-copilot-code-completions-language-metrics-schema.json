@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CodeCompletionsLanguageMetrics",
+  "type": "object",
+  "description": "Detailed code completion metrics for a specific language.",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Programming language name."
+    },
+    "total_engaged_users": {
+      "type": "integer"
+    },
+    "total_code_suggestions": {
+      "type": "integer",
+      "description": "Total number of code suggestions shown."
+    },
+    "total_code_acceptances": {
+      "type": "integer",
+      "description": "Total number of code suggestions accepted."
+    },
+    "total_code_lines_suggested": {
+      "type": "integer",
+      "description": "Total lines of code suggested."
+    },
+    "total_code_lines_accepted": {
+      "type": "integer",
+      "description": "Total lines of code accepted."
+    }
+  }
+}

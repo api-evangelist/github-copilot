@@ -22,27 +22,27 @@ externalDocs:
   url: https://docs.github.com/en/rest/copilot
 
 servers:
-  - url: https://api.github.com
-    description: GitHub REST API
+- url: https://api.github.com
+  description: GitHub REST API
 
 security:
-  - BearerToken: []
-  - OAuthToken: []
+- BearerToken: []
+- OAuthToken: []
 
 tags:
-  - name: Copilot Billing
-    description: Organization-level Copilot billing and subscription information
-  - name: Copilot Content Exclusion
-    description: Manage content exclusion path rules for organizations
+- name: Copilot Billing
+  description: Organization-level Copilot billing and subscription information
+- name: Copilot Content Exclusion
+  description: Manage content exclusion path rules for organizations
 
-  - name: Copilot Metrics
-    description: Aggregated Copilot usage metrics by organization and team
-  - name: Copilot Seats
-    description: Seat assignment management for organizations
-  - name: Copilot Usage Reports
-    description: Downloadable usage metrics reports for enterprises and organizations
-  - name: Copilot User Management
-    description: Add and remove individual users and teams from Copilot subscriptions
+- name: Copilot Metrics
+  description: Aggregated Copilot usage metrics by organization and team
+- name: Copilot Seats
+  description: Seat assignment management for organizations
+- name: Copilot Usage Reports
+  description: Downloadable usage metrics reports for enterprises and organizations
+- name: Copilot User Management
+  description: Add and remove individual users and teams from Copilot subscriptions
 paths:
 
   # ── Billing ────────────────────────────────────────────────────────────
@@ -50,15 +50,15 @@ paths:
   /orgs/{org}/copilot/billing:
     get:
       operationId: getCopilotBillingForOrganization
-      summary: GitHub Copilot Get Copilot billing information for an organization
+      summary: Github Copilot Get Copilot Billing Information for an Organization
       description: >-
         Retrieves subscription details including seat breakdown and feature
         policies for an organization's Copilot subscription. Only organization
         owners can access this endpoint.
       tags:
-        - Copilot Billing
+      - Copilot Billing
       parameters:
-        - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Org'
       responses:
         '200':
           description: Copilot billing information
@@ -66,6 +66,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CopilotBillingInfo'
+              examples:
+                Getcopilotbillingfororganization200Example:
+                  summary: Default getCopilotBillingForOrganization 200 response
+                  x-microcks-default: true
+                  value:
+                    seat_breakdown:
+                      total: 10
+                      added_this_cycle: 10
+                      pending_invitation: 10
+                      pending_cancellation: 10
+                      active_this_cycle: 10
+                      inactive_this_cycle: 10
+                    seat_management_setting: assign_all
+                    ide_chat: enabled
+                    platform_chat: enabled
+                    cli: enabled
+                    public_code_suggestions: allow
+                    plan_type: business
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -77,20 +95,23 @@ paths:
 
   # ── Seat Listing ───────────────────────────────────────────────────────
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /orgs/{org}/copilot/billing/seats:
     get:
       operationId: listCopilotSeats
-      summary: GitHub Copilot List all Copilot seat assignments for an organization
+      summary: Github Copilot List All Copilot Seat Assignments for an Organization
       description: >-
         Enumerates all active Copilot seats for which an organization is
         currently billed, including user activity metrics such as last
         activity date, editor, and authentication timestamp.
       tags:
-        - Copilot Seats
+      - Copilot Seats
       parameters:
-        - $ref: '#/components/parameters/Org'
-        - $ref: '#/components/parameters/Page'
-        - $ref: '#/components/parameters/PerPage'
+      - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PerPage'
       responses:
         '200':
           description: List of Copilot seat assignments
@@ -98,6 +119,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CopilotSeatsResponse'
+              examples:
+                Listcopilotseats200Example:
+                  summary: Default listCopilotSeats 200 response
+                  x-microcks-default: true
+                  value:
+                    total_seats: 10
+                    seats:
+                    - created_at: '2026-01-15T10:30:00Z'
+                      updated_at: '2026-01-15T10:30:00Z'
+                      pending_cancellation_date: '2026-01-15'
+                      last_activity_at: '2026-01-15T10:30:00Z'
+                      last_activity_editor: example_value
+                      last_authenticated_at: '2026-01-15T10:30:00Z'
+                      plan_type: business
+                      assignee: example_value
+                      assigning_team: example_value
           headers:
             Link:
               $ref: '#/components/headers/LinkPagination'
@@ -112,24 +149,34 @@ paths:
 
   # ── Team Subscription Management ───────────────────────────────────────
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /orgs/{org}/copilot/billing/selected_teams:
     post:
       operationId: addTeamsToCopilotSubscription
-      summary: GitHub Copilot Add teams to Copilot subscription
+      summary: Github Copilot Add Teams to Copilot Subscription
       description: >-
         Purchases Copilot seats for all members within designated teams.
         Billing is based on the organization's Copilot plan. Only
         organization owners can call this endpoint.
       tags:
-        - Copilot User Management
+      - Copilot User Management
       parameters:
-        - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Org'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/SelectedTeamsRequest'
+            examples:
+              AddteamstocopilotsubscriptionRequestExample:
+                summary: Default addTeamsToCopilotSubscription request
+                x-microcks-default: true
+                value:
+                  selected_teams:
+                  - example_value
       responses:
         '201':
           description: Teams added to Copilot subscription
@@ -137,6 +184,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SeatsCreatedResponse'
+              examples:
+                Addteamstocopilotsubscription201Example:
+                  summary: Default addTeamsToCopilotSubscription 201 response
+                  x-microcks-default: true
+                  value:
+                    seats_created: 10
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -148,23 +201,33 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     delete:
       operationId: removeTeamsFromCopilotSubscription
-      summary: GitHub Copilot Remove teams from Copilot subscription
+      summary: Github Copilot Remove Teams From Copilot Subscription
       description: >-
         Marks seats for all members of specified teams as pending
         cancellation. Access ends at the conclusion of the current billing
         cycle.
       tags:
-        - Copilot User Management
+      - Copilot User Management
       parameters:
-        - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Org'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/SelectedTeamsRequest'
+            examples:
+              RemoveteamsfromcopilotsubscriptionRequestExample:
+                summary: Default removeTeamsFromCopilotSubscription request
+                x-microcks-default: true
+                value:
+                  selected_teams:
+                  - example_value
       responses:
         '200':
           description: Teams removed from Copilot subscription
@@ -172,6 +235,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SeatsCancelledResponse'
+              examples:
+                Removeteamsfromcopilotsubscription200Example:
+                  summary: Default removeTeamsFromCopilotSubscription 200 response
+                  x-microcks-default: true
+                  value:
+                    seats_cancelled: 10
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -185,23 +254,33 @@ paths:
 
   # ── User Subscription Management ───────────────────────────────────────
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /orgs/{org}/copilot/billing/selected_users:
     post:
       operationId: addUsersToCopilotSubscription
-      summary: GitHub Copilot Add users to Copilot subscription
+      summary: Github Copilot Add Users to Copilot Subscription
       description: >-
         Provisions Copilot seats for specified individual organization
         members. Charges are applied per the organization's plan structure.
       tags:
-        - Copilot User Management
+      - Copilot User Management
       parameters:
-        - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Org'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/SelectedUsersRequest'
+            examples:
+              AdduserstocopilotsubscriptionRequestExample:
+                summary: Default addUsersToCopilotSubscription request
+                x-microcks-default: true
+                value:
+                  selected_usernames:
+                  - example_value
       responses:
         '201':
           description: Users added to Copilot subscription
@@ -209,6 +288,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SeatsCreatedResponse'
+              examples:
+                Adduserstocopilotsubscription201Example:
+                  summary: Default addUsersToCopilotSubscription 201 response
+                  x-microcks-default: true
+                  value:
+                    seats_created: 10
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -220,23 +305,33 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     delete:
       operationId: removeUsersFromCopilotSubscription
-      summary: GitHub Copilot Remove users from Copilot subscription
+      summary: Github Copilot Remove Users From Copilot Subscription
       description: >-
         Sets user seats to pending cancellation, revoking access at the end
         of the billing cycle unless the user is retained through a team
         assignment.
       tags:
-        - Copilot User Management
+      - Copilot User Management
       parameters:
-        - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Org'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/SelectedUsersRequest'
+            examples:
+              RemoveusersfromcopilotsubscriptionRequestExample:
+                summary: Default removeUsersFromCopilotSubscription request
+                x-microcks-default: true
+                value:
+                  selected_usernames:
+                  - example_value
       responses:
         '200':
           description: Users removed from Copilot subscription
@@ -244,6 +339,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SeatsCancelledResponse'
+              examples:
+                Removeusersfromcopilotsubscription200Example:
+                  summary: Default removeUsersFromCopilotSubscription 200 response
+                  x-microcks-default: true
+                  value:
+                    seats_cancelled: 10
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -257,19 +358,22 @@ paths:
 
   # ── Individual User Seat Details ───────────────────────────────────────
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /orgs/{org}/members/{username}/copilot:
     get:
       operationId: getCopilotSeatForUser
-      summary: GitHub Copilot Get Copilot seat assignment details for a user
+      summary: Github Copilot Get Copilot Seat Assignment Details for a User
       description: >-
         Retrieves comprehensive seat assignment information for a specific
         organization member, including usage patterns, last activity, and
         assignment origin.
       tags:
-        - Copilot Seats
+      - Copilot Seats
       parameters:
-        - $ref: '#/components/parameters/Org'
-        - $ref: '#/components/parameters/Username'
+      - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Username'
       responses:
         '200':
           description: Copilot seat details for the user
@@ -277,6 +381,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CopilotSeatDetail'
+              examples:
+                Getcopilotseatforuser200Example:
+                  summary: Default getCopilotSeatForUser 200 response
+                  x-microcks-default: true
+                  value:
+                    created_at: '2026-01-15T10:30:00Z'
+                    updated_at: '2026-01-15T10:30:00Z'
+                    pending_cancellation_date: '2026-01-15'
+                    last_activity_at: '2026-01-15T10:30:00Z'
+                    last_activity_editor: example_value
+                    last_authenticated_at: '2026-01-15T10:30:00Z'
+                    plan_type: business
+                    assignee: example_value
+                    assigning_team: example_value
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -290,23 +408,26 @@ paths:
 
   # ── Organization Metrics ───────────────────────────────────────────────
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /orgs/{org}/copilot/metrics:
     get:
       operationId: getCopilotMetricsForOrganization
-      summary: GitHub Copilot Get Copilot metrics for an organization
+      summary: Github Copilot Get Copilot Metrics for an Organization
       description: >-
         Retrieves aggregated metrics for various GitHub Copilot features
         broken down by language and IDE editor. Requires at least five
         organization members with active Copilot licenses. Data reflects
         previous day metrics only.
       tags:
-        - Copilot Metrics
+      - Copilot Metrics
       parameters:
-        - $ref: '#/components/parameters/Org'
-        - $ref: '#/components/parameters/Since'
-        - $ref: '#/components/parameters/Until'
-        - $ref: '#/components/parameters/Page'
-        - $ref: '#/components/parameters/PerPageMetrics'
+      - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Since'
+      - $ref: '#/components/parameters/Until'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PerPageMetrics'
       responses:
         '200':
           description: Aggregated Copilot metrics
@@ -316,6 +437,18 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CopilotMetricsDay'
+              examples:
+                Getcopilotmetricsfororganization200Example:
+                  summary: Default getCopilotMetricsForOrganization 200 response
+                  x-microcks-default: true
+                  value:
+                  - date: '2026-01-15'
+                    total_active_users: 10
+                    total_engaged_users: 10
+                    copilot_ide_code_completions: example_value
+                    copilot_ide_chat: example_value
+                    copilot_dotcom_chat: example_value
+                    copilot_dotcom_pull_requests: example_value
         '403':
           $ref: '#/components/responses/Forbidden'
         '404':
@@ -327,23 +460,26 @@ paths:
 
   # ── Team Metrics ───────────────────────────────────────────────────────
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /orgs/{org}/team/{team_slug}/copilot/metrics:
     get:
       operationId: getCopilotMetricsForTeam
-      summary: GitHub Copilot Get Copilot metrics for a team
+      summary: Github Copilot Get Copilot Metrics for a Team
       description: >-
         Retrieves aggregated Copilot metrics for a specific team within an
         organization, broken down by language and IDE editor. Requires at
         least five team members with active Copilot licenses.
       tags:
-        - Copilot Metrics
+      - Copilot Metrics
       parameters:
-        - $ref: '#/components/parameters/Org'
-        - $ref: '#/components/parameters/TeamSlug'
-        - $ref: '#/components/parameters/Since'
-        - $ref: '#/components/parameters/Until'
-        - $ref: '#/components/parameters/Page'
-        - $ref: '#/components/parameters/PerPageMetrics'
+      - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/TeamSlug'
+      - $ref: '#/components/parameters/Since'
+      - $ref: '#/components/parameters/Until'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PerPageMetrics'
       responses:
         '200':
           description: Aggregated Copilot metrics for the team
@@ -353,6 +489,18 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CopilotMetricsDay'
+              examples:
+                Getcopilotmetricsforteam200Example:
+                  summary: Default getCopilotMetricsForTeam 200 response
+                  x-microcks-default: true
+                  value:
+                  - date: '2026-01-15'
+                    total_active_users: 10
+                    total_engaged_users: 10
+                    copilot_ide_code_completions: example_value
+                    copilot_ide_chat: example_value
+                    copilot_dotcom_chat: example_value
+                    copilot_dotcom_pull_requests: example_value
         '403':
           $ref: '#/components/responses/Forbidden'
         '404':
@@ -364,19 +512,22 @@ paths:
 
   # ── Enterprise Usage Reports ───────────────────────────────────────────
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /enterprises/{enterprise}/copilot/metrics/reports/enterprise-1-day:
     get:
       operationId: getEnterpriseCopilotUsageDaily
-      summary: GitHub Copilot Get enterprise Copilot usage metrics for a specific day
+      summary: Github Copilot Get Enterprise Copilot Usage Metrics for a Specific Day
       description: >-
         Retrieves download links for daily enterprise-level Copilot usage
         metrics reports. Reports are generated daily and data is available
         from October 10, 2025, extending back up to one year historically.
       tags:
-        - Copilot Usage Reports
+      - Copilot Usage Reports
       parameters:
-        - $ref: '#/components/parameters/Enterprise'
-        - $ref: '#/components/parameters/Day'
+      - $ref: '#/components/parameters/Enterprise'
+      - $ref: '#/components/parameters/Day'
       responses:
         '200':
           description: Daily enterprise usage report download links
@@ -384,6 +535,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UsageReportDaily'
+              examples:
+                Getenterprisecopilotusagedaily200Example:
+                  summary: Default getEnterpriseCopilotUsageDaily 200 response
+                  x-microcks-default: true
+                  value:
+                    download_links:
+                    - https://www.example.com
+                    report_day: '2026-01-15'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -393,17 +552,20 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /enterprises/{enterprise}/copilot/metrics/reports/enterprise-28-day/latest:
     get:
       operationId: getEnterpriseCopilotUsage28Day
-      summary: GitHub Copilot Get latest 28-day enterprise Copilot usage metrics
+      summary: Github Copilot Get Latest 28-day Enterprise Copilot Usage Metrics
       description: >-
         Retrieves download links for the latest 28-day enterprise-level
         Copilot usage metrics report.
       tags:
-        - Copilot Usage Reports
+      - Copilot Usage Reports
       parameters:
-        - $ref: '#/components/parameters/Enterprise'
+      - $ref: '#/components/parameters/Enterprise'
       responses:
         '200':
           description: 28-day enterprise usage report download links
@@ -411,6 +573,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UsageReport28Day'
+              examples:
+                Getenterprisecopilotusage28day200Example:
+                  summary: Default getEnterpriseCopilotUsage28Day 200 response
+                  x-microcks-default: true
+                  value:
+                    download_links:
+                    - https://www.example.com
+                    report_start_day: '2026-01-15'
+                    report_end_day: '2026-01-15'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -420,19 +591,22 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /enterprises/{enterprise}/copilot/metrics/reports/users-1-day:
     get:
       operationId: getEnterpriseUsersCopilotUsageDaily
-      summary: GitHub Copilot Get enterprise user-level Copilot usage metrics for a specific day
+      summary: Github Copilot Get Enterprise User-level Copilot Usage Metrics for a Specific Day
       description: >-
         Retrieves download links for daily user-level Copilot usage metrics
         reports at the enterprise level, providing individual user
         engagement statistics, feature usage patterns, and adoption metrics.
       tags:
-        - Copilot Usage Reports
+      - Copilot Usage Reports
       parameters:
-        - $ref: '#/components/parameters/Enterprise'
-        - $ref: '#/components/parameters/Day'
+      - $ref: '#/components/parameters/Enterprise'
+      - $ref: '#/components/parameters/Day'
       responses:
         '200':
           description: Daily user-level usage report download links
@@ -440,6 +614,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UsageReportDaily'
+              examples:
+                Getenterpriseuserscopilotusagedaily200Example:
+                  summary: Default getEnterpriseUsersCopilotUsageDaily 200 response
+                  x-microcks-default: true
+                  value:
+                    download_links:
+                    - https://www.example.com
+                    report_day: '2026-01-15'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -449,17 +631,20 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /enterprises/{enterprise}/copilot/metrics/reports/users-28-day/latest:
     get:
       operationId: getEnterpriseUsersCopilotUsage28Day
-      summary: GitHub Copilot Get latest 28-day enterprise user-level Copilot usage metrics
+      summary: Github Copilot Get Latest 28-day Enterprise User-level Copilot Usage Metrics
       description: >-
         Retrieves download links for the latest 28-day user-level Copilot
         usage metrics report at the enterprise level.
       tags:
-        - Copilot Usage Reports
+      - Copilot Usage Reports
       parameters:
-        - $ref: '#/components/parameters/Enterprise'
+      - $ref: '#/components/parameters/Enterprise'
       responses:
         '200':
           description: 28-day user-level usage report download links
@@ -467,6 +652,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UsageReport28Day'
+              examples:
+                Getenterpriseuserscopilotusage28day200Example:
+                  summary: Default getEnterpriseUsersCopilotUsage28Day 200 response
+                  x-microcks-default: true
+                  value:
+                    download_links:
+                    - https://www.example.com
+                    report_start_day: '2026-01-15'
+                    report_end_day: '2026-01-15'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -478,18 +672,21 @@ paths:
 
   # ── Organization Usage Reports ─────────────────────────────────────────
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /orgs/{org}/copilot/metrics/reports/organization-1-day:
     get:
       operationId: getOrganizationCopilotUsageDaily
-      summary: GitHub Copilot Get organization Copilot usage metrics for a specific day
+      summary: Github Copilot Get Organization Copilot Usage Metrics for a Specific Day
       description: >-
         Retrieves download links for daily organization-level Copilot usage
         metrics reports.
       tags:
-        - Copilot Usage Reports
+      - Copilot Usage Reports
       parameters:
-        - $ref: '#/components/parameters/Org'
-        - $ref: '#/components/parameters/Day'
+      - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Day'
       responses:
         '200':
           description: Daily organization usage report download links
@@ -497,6 +694,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UsageReportDaily'
+              examples:
+                Getorganizationcopilotusagedaily200Example:
+                  summary: Default getOrganizationCopilotUsageDaily 200 response
+                  x-microcks-default: true
+                  value:
+                    download_links:
+                    - https://www.example.com
+                    report_day: '2026-01-15'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -506,17 +711,20 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /orgs/{org}/copilot/metrics/reports/organization-28-day/latest:
     get:
       operationId: getOrganizationCopilotUsage28Day
-      summary: GitHub Copilot Get latest 28-day organization Copilot usage metrics
+      summary: Github Copilot Get Latest 28-day Organization Copilot Usage Metrics
       description: >-
         Retrieves download links for the latest 28-day organization-level
         Copilot usage metrics report.
       tags:
-        - Copilot Usage Reports
+      - Copilot Usage Reports
       parameters:
-        - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Org'
       responses:
         '200':
           description: 28-day organization usage report download links
@@ -524,6 +732,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UsageReport28Day'
+              examples:
+                Getorganizationcopilotusage28day200Example:
+                  summary: Default getOrganizationCopilotUsage28Day 200 response
+                  x-microcks-default: true
+                  value:
+                    download_links:
+                    - https://www.example.com
+                    report_start_day: '2026-01-15'
+                    report_end_day: '2026-01-15'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -533,18 +750,21 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /orgs/{org}/copilot/metrics/reports/users-1-day:
     get:
       operationId: getOrganizationUsersCopilotUsageDaily
-      summary: GitHub Copilot Get organization user-level Copilot usage metrics for a specific day
+      summary: Github Copilot Get Organization User-level Copilot Usage Metrics for a Specific Day
       description: >-
         Retrieves download links for daily user-level Copilot usage metrics
         reports at the organization level.
       tags:
-        - Copilot Usage Reports
+      - Copilot Usage Reports
       parameters:
-        - $ref: '#/components/parameters/Org'
-        - $ref: '#/components/parameters/Day'
+      - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Day'
       responses:
         '200':
           description: Daily user-level usage report download links
@@ -552,6 +772,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UsageReportDaily'
+              examples:
+                Getorganizationuserscopilotusagedaily200Example:
+                  summary: Default getOrganizationUsersCopilotUsageDaily 200 response
+                  x-microcks-default: true
+                  value:
+                    download_links:
+                    - https://www.example.com
+                    report_day: '2026-01-15'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -561,17 +789,20 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /orgs/{org}/copilot/metrics/reports/users-28-day/latest:
     get:
       operationId: getOrganizationUsersCopilotUsage28Day
-      summary: GitHub Copilot Get latest 28-day organization user-level Copilot usage metrics
+      summary: Github Copilot Get Latest 28-day Organization User-level Copilot Usage Metrics
       description: >-
         Retrieves download links for the latest 28-day user-level Copilot
         usage metrics report at the organization level.
       tags:
-        - Copilot Usage Reports
+      - Copilot Usage Reports
       parameters:
-        - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Org'
       responses:
         '200':
           description: 28-day user-level usage report download links
@@ -579,6 +810,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UsageReport28Day'
+              examples:
+                Getorganizationuserscopilotusage28day200Example:
+                  summary: Default getOrganizationUsersCopilotUsage28Day 200 response
+                  x-microcks-default: true
+                  value:
+                    download_links:
+                    - https://www.example.com
+                    report_start_day: '2026-01-15'
+                    report_end_day: '2026-01-15'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -590,18 +830,21 @@ paths:
 
   # ── Content Exclusion ──────────────────────────────────────────────────
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /orgs/{org}/copilot/content_exclusion:
     get:
       operationId: getCopilotContentExclusionRules
-      summary: GitHub Copilot Get Copilot content exclusion rules for an organization
+      summary: Github Copilot Get Copilot Content Exclusion Rules for an Organization
       description: >-
         Gets information about an organization's Copilot content exclusion
         path rules. These rules define which files and directories Copilot
         is prevented from accessing.
       tags:
-        - Copilot Content Exclusion
+      - Copilot Content Exclusion
       parameters:
-        - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Org'
       responses:
         '200':
           description: Content exclusion rules
@@ -609,6 +852,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ContentExclusionRules'
+              examples:
+                Getcopilotcontentexclusionrules200Example:
+                  summary: Default getCopilotContentExclusionRules 200 response
+                  x-microcks-default: true
+                  value: {}
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -618,22 +866,30 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     put:
       operationId: setCopilotContentExclusionRules
-      summary: GitHub Copilot Set Copilot content exclusion rules for an organization
+      summary: Github Copilot Set Copilot Content Exclusion Rules for an Organization
       description: >-
         Sets Copilot content exclusion path rules for an organization.
         Replaces existing rules with the provided set.
       tags:
-        - Copilot Content Exclusion
+      - Copilot Content Exclusion
       parameters:
-        - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Org'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ContentExclusionRules'
+            examples:
+              SetcopilotcontentexclusionrulesRequestExample:
+                summary: Default setCopilotContentExclusionRules request
+                x-microcks-default: true
+                value: {}
       responses:
         '200':
           description: Content exclusion rules updated
@@ -645,6 +901,12 @@ paths:
                   message:
                     type: string
                     example: Content exclusion rules updated successfully.
+              examples:
+                Setcopilotcontentexclusionrules200Example:
+                  summary: Default setCopilotContentExclusionRules 200 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -657,11 +919,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Setcopilotcontentexclusionrules413Example:
+                  summary: Default setCopilotContentExclusionRules 413 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    documentation_url: https://www.example.com
         '422':
           $ref: '#/components/responses/ValidationFailed'
         '500':
           $ref: '#/components/responses/InternalError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
 
   # ── Security Schemes ───────────────────────────────────────────────────
@@ -844,12 +1116,14 @@ components:
         message:
           type: string
           description: Human-readable error message
+          example: example_value
         documentation_url:
           type: string
           format: uri
           description: Link to relevant API documentation
+          example: https://www.example.com
       required:
-        - message
+      - message
 
     # ── Billing ──────────────────────────────────────────────────────────
 
@@ -865,48 +1139,54 @@ components:
           type: string
           description: How Copilot seats are managed for the organization.
           enum:
-            - assign_all
-            - assign_selected
-            - disabled
-            - unconfigured
+          - assign_all
+          - assign_selected
+          - disabled
+          - unconfigured
+          example: assign_all
         ide_chat:
           type: string
           description: Policy for Copilot Chat in IDEs.
           enum:
-            - enabled
-            - disabled
-            - unconfigured
+          - enabled
+          - disabled
+          - unconfigured
+          example: enabled
         platform_chat:
           type: string
           description: Policy for Copilot Chat on github.com.
           enum:
-            - enabled
-            - disabled
-            - unconfigured
+          - enabled
+          - disabled
+          - unconfigured
+          example: enabled
         cli:
           type: string
           description: Policy for Copilot in the CLI.
           enum:
-            - enabled
-            - disabled
-            - unconfigured
+          - enabled
+          - disabled
+          - unconfigured
+          example: enabled
         public_code_suggestions:
           type: string
           description: Policy for suggestions matching public code.
           enum:
-            - allow
-            - block
-            - unconfigured
+          - allow
+          - block
+          - unconfigured
+          example: allow
         plan_type:
           type: string
           description: The Copilot plan type for the organization.
           enum:
-            - business
-            - enterprise
+          - business
+          - enterprise
+          example: business
       required:
-        - seat_breakdown
-        - seat_management_setting
-        - plan_type
+      - seat_breakdown
+      - seat_management_setting
+      - plan_type
 
     SeatBreakdown:
       type: object
@@ -915,24 +1195,30 @@ components:
         total:
           type: integer
           description: Total number of Copilot seats.
+          example: 10
         added_this_cycle:
           type: integer
           description: Seats added in the current billing cycle.
+          example: 10
         pending_invitation:
           type: integer
           description: Seats with pending invitations.
+          example: 10
         pending_cancellation:
           type: integer
           description: Seats pending cancellation at end of cycle.
+          example: 10
         active_this_cycle:
           type: integer
           description: Seats active in the current billing cycle.
+          example: 10
         inactive_this_cycle:
           type: integer
           description: Seats inactive in the current billing cycle.
 
     # ── Seats ────────────────────────────────────────────────────────────
 
+          example: 10
     CopilotSeatsResponse:
       type: object
       description: Paginated list of Copilot seat assignments.
@@ -940,13 +1226,15 @@ components:
         total_seats:
           type: integer
           description: Total number of Copilot seats for the organization.
+          example: 10
         seats:
           type: array
           items:
             $ref: '#/components/schemas/CopilotSeatDetail'
+          example: []
       required:
-        - total_seats
-        - seats
+      - total_seats
+      - seats
 
     CopilotSeatDetail:
       type: object
@@ -958,63 +1246,72 @@ components:
           type: string
           format: date-time
           description: Timestamp when the seat was created.
+          example: '2026-01-15T10:30:00Z'
         updated_at:
           type: string
           format: date-time
           description: Timestamp when the seat was last updated.
           deprecated: true
+          example: '2026-01-15T10:30:00Z'
         pending_cancellation_date:
           type:
-            - string
-            - 'null'
+          - string
+          - 'null'
           format: date
           description: >-
             Date when seat cancellation takes effect. Null if not pending
             cancellation.
+          example: '2026-01-15'
         last_activity_at:
           type:
-            - string
-            - 'null'
+          - string
+          - 'null'
           format: date-time
           description: >-
             Timestamp of the user's last Copilot activity. Null if no
             activity recorded.
+          example: '2026-01-15T10:30:00Z'
         last_activity_editor:
           type:
-            - string
-            - 'null'
+          - string
+          - 'null'
           description: >-
             The IDE or editor used during the user's last Copilot activity.
             Null if no activity recorded.
+          example: example_value
         last_authenticated_at:
           type:
-            - string
-            - 'null'
+          - string
+          - 'null'
           format: date-time
           description: >-
             Timestamp of the user's last authentication with Copilot. Null
             if never authenticated.
+          example: '2026-01-15T10:30:00Z'
         plan_type:
           type: string
           description: The Copilot plan type for this seat.
           enum:
-            - business
-            - enterprise
-            - unknown
+          - business
+          - enterprise
+          - unknown
+          example: business
         assignee:
           oneOf:
-            - $ref: '#/components/schemas/SimpleUser'
-            - type: 'null'
+          - $ref: '#/components/schemas/SimpleUser'
+          - type: 'null'
           description: The GitHub user assigned to this seat.
+          example: example_value
         assigning_team:
           oneOf:
-            - $ref: '#/components/schemas/Team'
-            - type: 'null'
+          - $ref: '#/components/schemas/Team'
+          - type: 'null'
           description: >-
             The team through which this seat was assigned, if applicable.
+          example: example_value
       required:
-        - created_at
-        - plan_type
+      - created_at
+      - plan_type
 
     SimpleUser:
       type: object
@@ -1023,66 +1320,84 @@ components:
         login:
           type: string
           description: The username of the user.
+          example: example_value
         id:
           type: integer
           description: The unique identifier of the user.
+          example: abc123
         node_id:
           type: string
           description: The GraphQL node ID of the user.
+          example: '500123'
         avatar_url:
           type: string
           format: uri
           description: URL to the user's avatar image.
+          example: https://www.example.com
         gravatar_id:
           type:
-            - string
-            - 'null'
+          - string
+          - 'null'
+          example: '500123'
         url:
           type: string
           format: uri
           description: API URL for this user.
+          example: https://www.example.com
         html_url:
           type: string
           format: uri
           description: URL to the user's GitHub profile.
+          example: https://www.example.com
         followers_url:
           type: string
           format: uri
+          example: https://www.example.com
         following_url:
           type: string
+          example: https://www.example.com
         gists_url:
           type: string
+          example: https://www.example.com
         starred_url:
           type: string
+          example: https://www.example.com
         subscriptions_url:
           type: string
           format: uri
+          example: https://www.example.com
         organizations_url:
           type: string
           format: uri
+          example: https://www.example.com
         repos_url:
           type: string
           format: uri
+          example: https://www.example.com
         events_url:
           type: string
+          example: https://www.example.com
         received_events_url:
           type: string
           format: uri
+          example: https://www.example.com
         type:
           type: string
           description: The type of account (User, Organization, Bot, etc.).
+          example: example_value
         site_admin:
           type: boolean
           description: Whether the user is a GitHub site administrator.
+          example: true
       required:
-        - login
-        - id
-        - node_id
-        - avatar_url
-        - url
-        - html_url
-        - type
-        - site_admin
+      - login
+      - id
+      - node_id
+      - avatar_url
+      - url
+      - html_url
+      - type
+      - site_admin
 
     Team:
       type: object
@@ -1091,47 +1406,59 @@ components:
         id:
           type: integer
           description: Unique identifier of the team.
+          example: abc123
         node_id:
           type: string
+          example: '500123'
         name:
           type: string
           description: Name of the team.
+          example: Example Title
         slug:
           type: string
           description: URL-friendly slug of the team name.
+          example: example_value
         description:
           type:
-            - string
-            - 'null'
+          - string
+          - 'null'
           description: Description of the team.
+          example: A sample description.
         privacy:
           type: string
           enum:
-            - closed
-            - secret
+          - closed
+          - secret
+          example: closed
         notification_setting:
           type: string
           enum:
-            - notifications_enabled
-            - notifications_disabled
+          - notifications_enabled
+          - notifications_disabled
+          example: notifications_enabled
         permission:
           type: string
           description: The default permission level for the team.
+          example: example_value
         url:
           type: string
           format: uri
+          example: https://www.example.com
         html_url:
           type: string
           format: uri
+          example: https://www.example.com
         members_url:
           type: string
+          example: https://www.example.com
         repositories_url:
           type: string
           format: uri
+          example: https://www.example.com
       required:
-        - id
-        - name
-        - slug
+      - id
+      - name
+      - slug
 
     # ── Request Bodies ───────────────────────────────────────────────────
 
@@ -1145,8 +1472,9 @@ components:
             type: string
           description: List of team slugs within the organization.
           minItems: 1
+          example: []
       required:
-        - selected_teams
+      - selected_teams
 
     SelectedUsersRequest:
       type: object
@@ -1158,8 +1486,9 @@ components:
             type: string
           description: List of GitHub usernames who are organization members.
           minItems: 1
+          example: []
       required:
-        - selected_usernames
+      - selected_usernames
 
     SeatsCreatedResponse:
       type: object
@@ -1168,8 +1497,9 @@ components:
         seats_created:
           type: integer
           description: The number of new Copilot seats created.
+          example: 10
       required:
-        - seats_created
+      - seats_created
 
     SeatsCancelledResponse:
       type: object
@@ -1178,8 +1508,9 @@ components:
         seats_cancelled:
           type: integer
           description: The number of Copilot seats set to pending cancellation.
+          example: 10
       required:
-        - seats_cancelled
+      - seats_cancelled
 
     # ── Metrics ──────────────────────────────────────────────────────────
 
@@ -1193,32 +1524,39 @@ components:
           type: string
           format: date
           description: The date these metrics apply to (YYYY-MM-DD).
+          example: '2026-01-15'
         total_active_users:
           type: integer
           description: Total users with any Copilot activity on this date.
+          example: 10
         total_engaged_users:
           type: integer
           description: >-
             Total users who actively engaged with Copilot features on this
             date.
+          example: 10
         copilot_ide_code_completions:
           oneOf:
-            - $ref: '#/components/schemas/CopilotIdeCodeCompletions'
-            - type: 'null'
+          - $ref: '#/components/schemas/CopilotIdeCodeCompletions'
+          - type: 'null'
+          example: example_value
         copilot_ide_chat:
           oneOf:
-            - $ref: '#/components/schemas/CopilotIdeChat'
-            - type: 'null'
+          - $ref: '#/components/schemas/CopilotIdeChat'
+          - type: 'null'
+          example: example_value
         copilot_dotcom_chat:
           oneOf:
-            - $ref: '#/components/schemas/CopilotDotcomChat'
-            - type: 'null'
+          - $ref: '#/components/schemas/CopilotDotcomChat'
+          - type: 'null'
+          example: example_value
         copilot_dotcom_pull_requests:
           oneOf:
-            - $ref: '#/components/schemas/CopilotDotcomPullRequests'
-            - type: 'null'
+          - $ref: '#/components/schemas/CopilotDotcomPullRequests'
+          - type: 'null'
+          example: example_value
       required:
-        - date
+      - date
 
     CopilotIdeCodeCompletions:
       type: object
@@ -1227,15 +1565,18 @@ components:
         total_engaged_users:
           type: integer
           description: Users who accepted at least one code suggestion.
+          example: 10
         languages:
           type: array
           items:
             $ref: '#/components/schemas/MetricsLanguageSummary'
+          example: []
         editors:
           type: array
           items:
             $ref: '#/components/schemas/CodeCompletionsEditor'
 
+          example: []
     CodeCompletionsEditor:
       type: object
       description: Code completion metrics for a specific editor.
@@ -1243,13 +1584,16 @@ components:
         name:
           type: string
           description: Name of the editor (e.g., vscode, jetbrains, neovim).
+          example: Example Title
         total_engaged_users:
           type: integer
+          example: 10
         models:
           type: array
           items:
             $ref: '#/components/schemas/CodeCompletionsModel'
 
+          example: []
     CodeCompletionsModel:
       type: object
       description: Code completion metrics for a specific AI model.
@@ -1257,21 +1601,26 @@ components:
         name:
           type: string
           description: Name of the model or "default".
+          example: Example Title
         is_custom_model:
           type: boolean
           description: Whether this is a custom fine-tuned model.
+          example: true
         custom_model_training_date:
           type:
-            - string
-            - 'null'
+          - string
+          - 'null'
           description: Training date of the custom model, if applicable.
+          example: example_value
         total_engaged_users:
           type: integer
+          example: 10
         languages:
           type: array
           items:
             $ref: '#/components/schemas/CodeCompletionsLanguageMetrics'
 
+          example: []
     CodeCompletionsLanguageMetrics:
       type: object
       description: Detailed code completion metrics for a specific language.
@@ -1279,21 +1628,27 @@ components:
         name:
           type: string
           description: Programming language name.
+          example: Example Title
         total_engaged_users:
           type: integer
+          example: 10
         total_code_suggestions:
           type: integer
           description: Total number of code suggestions shown.
+          example: 10
         total_code_acceptances:
           type: integer
           description: Total number of code suggestions accepted.
+          example: 10
         total_code_lines_suggested:
           type: integer
           description: Total lines of code suggested.
+          example: 10
         total_code_lines_accepted:
           type: integer
           description: Total lines of code accepted.
 
+          example: 10
     CopilotIdeChat:
       type: object
       description: Metrics for Copilot Chat in IDEs.
@@ -1301,11 +1656,13 @@ components:
         total_engaged_users:
           type: integer
           description: Users who prompted Copilot Chat in an IDE.
+          example: 10
         editors:
           type: array
           items:
             $ref: '#/components/schemas/IdeChatEditor'
 
+          example: []
     IdeChatEditor:
       type: object
       description: IDE Chat metrics for a specific editor.
@@ -1313,65 +1670,82 @@ components:
         name:
           type: string
           description: Name of the editor.
+          example: Example Title
         total_engaged_users:
           type: integer
+          example: 10
         models:
           type: array
           items:
             $ref: '#/components/schemas/IdeChatModel'
 
+          example: []
     IdeChatModel:
       type: object
       description: IDE Chat metrics for a specific AI model.
       properties:
         name:
           type: string
+          example: Example Title
         is_custom_model:
           type: boolean
+          example: true
         custom_model_training_date:
           type:
-            - string
-            - 'null'
+          - string
+          - 'null'
+          example: example_value
         total_engaged_users:
           type: integer
+          example: 10
         total_chats:
           type: integer
           description: Total number of chat conversations.
+          example: 10
         total_chat_insertion_events:
           type: integer
           description: Number of times chat suggestions were inserted into code.
+          example: 10
         total_chat_copy_events:
           type: integer
           description: Number of times chat responses were copied.
 
+          example: 10
     CopilotDotcomChat:
       type: object
       description: Metrics for Copilot Chat on github.com.
       properties:
         total_engaged_users:
           type: integer
+          example: 10
         models:
           type: array
           items:
             $ref: '#/components/schemas/DotcomChatModel'
 
+          example: []
     DotcomChatModel:
       type: object
       description: Dotcom Chat metrics for a specific AI model.
       properties:
         name:
           type: string
+          example: Example Title
         is_custom_model:
           type: boolean
+          example: true
         custom_model_training_date:
           type:
-            - string
-            - 'null'
+          - string
+          - 'null'
+          example: example_value
         total_engaged_users:
           type: integer
+          example: 10
         total_chats:
           type: integer
 
+          example: 10
     CopilotDotcomPullRequests:
       type: object
       description: Metrics for Copilot pull request summaries on github.com.
@@ -1379,11 +1753,13 @@ components:
         total_engaged_users:
           type: integer
           description: Users who generated pull request summaries.
+          example: 10
         repositories:
           type: array
           items:
             $ref: '#/components/schemas/PullRequestRepository'
 
+          example: []
     PullRequestRepository:
       type: object
       description: Pull request summary metrics for a specific repository.
@@ -1391,31 +1767,39 @@ components:
         name:
           type: string
           description: Repository name.
+          example: Example Title
         total_engaged_users:
           type: integer
+          example: 10
         models:
           type: array
           items:
             $ref: '#/components/schemas/PullRequestModel'
 
+          example: []
     PullRequestModel:
       type: object
       description: Pull request summary metrics for a specific AI model.
       properties:
         name:
           type: string
+          example: Example Title
         is_custom_model:
           type: boolean
+          example: true
         custom_model_training_date:
           type:
-            - string
-            - 'null'
+          - string
+          - 'null'
+          example: example_value
         total_pr_summaries_created:
           type: integer
           description: Total number of pull request summaries generated.
+          example: 10
         total_engaged_users:
           type: integer
 
+          example: 10
     MetricsLanguageSummary:
       type: object
       description: Summary of engagement for a programming language.
@@ -1423,11 +1807,13 @@ components:
         name:
           type: string
           description: Programming language name.
+          example: Example Title
         total_engaged_users:
           type: integer
 
     # ── Usage Reports ────────────────────────────────────────────────────
 
+          example: 10
     UsageReportDaily:
       type: object
       description: Download links for a daily Copilot usage metrics report.
@@ -1438,13 +1824,15 @@ components:
             type: string
             format: uri
           description: Signed URLs to download the report files.
+          example: []
         report_day:
           type: string
           format: date
           description: The date the report covers.
+          example: '2026-01-15'
       required:
-        - download_links
-        - report_day
+      - download_links
+      - report_day
 
     UsageReport28Day:
       type: object
@@ -1456,18 +1844,21 @@ components:
             type: string
             format: uri
           description: Signed URLs to download the report files.
+          example: []
         report_start_day:
           type: string
           format: date
           description: Start date of the 28-day reporting period.
+          example: '2026-01-15'
         report_end_day:
           type: string
           format: date
           description: End date of the 28-day reporting period.
+          example: '2026-01-15'
       required:
-        - download_links
-        - report_start_day
-        - report_end_day
+      - download_links
+      - report_start_day
+      - report_end_day
 
     # ── Content Exclusion ────────────────────────────────────────────────
 
@@ -1483,5 +1874,5 @@ components:
         description: List of file path patterns to exclude for this repository.
       example:
         octo-repo:
-          - /src/some-dir/kernel.rs
-          - /secrets/**
+        - /src/some-dir/kernel.rs
+        - /secrets/**

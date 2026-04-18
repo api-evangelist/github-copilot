@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SelectedTeamsRequest",
+  "type": "object",
+  "description": "A list of team slugs to add or remove from the Copilot subscription.",
+  "properties": {
+    "selected_teams": {
+      "type": "array",
+      "description": "List of team slugs within the organization."
+    }
+  }
+}

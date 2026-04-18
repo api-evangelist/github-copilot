@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UsageReportDaily",
+  "type": "object",
+  "description": "Download links for a daily Copilot usage metrics report.",
+  "properties": {
+    "download_links": {
+      "type": "array",
+      "description": "Signed URLs to download the report files."
+    },
+    "report_day": {
+      "type": "string",
+      "description": "The date the report covers."
+    }
+  }
+}

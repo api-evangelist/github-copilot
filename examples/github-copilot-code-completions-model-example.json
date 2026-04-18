@@ -1,0 +1,7 @@
+{
+  "name": "Example Title",
+  "is_custom_model": true,
+  "custom_model_training_date": "example_value",
+  "total_engaged_users": 10,
+  "languages": []
+}

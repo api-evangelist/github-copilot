@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "UsageReport28Day",
+  "type": "object",
+  "properties": {
+    "download_links": {
+      "type": "array"
+    },
+    "report_start_day": {
+      "type": "string"
+    },
+    "report_end_day": {
+      "type": "string"
+    }
+  }
+}

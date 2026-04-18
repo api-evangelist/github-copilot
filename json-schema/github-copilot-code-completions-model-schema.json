@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CodeCompletionsModel",
+  "type": "object",
+  "description": "Code completion metrics for a specific AI model.",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the model or \"default\"."
+    },
+    "is_custom_model": {
+      "type": "boolean",
+      "description": "Whether this is a custom fine-tuned model."
+    },
+    "custom_model_training_date": {
+      "type": "['string', 'null']",
+      "description": "Training date of the custom model, if applicable."
+    },
+    "total_engaged_users": {
+      "type": "integer"
+    },
+    "languages": {
+      "type": "array"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "Example Title",
+  "is_custom_model": true,
+  "custom_model_training_date": "example_value",
+  "total_engaged_users": 10,
+  "total_chats": 10,
+  "total_chat_insertion_events": 10,
+  "total_chat_copy_events": 10
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PullRequestModel",
+  "type": "object",
+  "description": "Pull request summary metrics for a specific AI model.",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "is_custom_model": {
+      "type": "boolean"
+    },
+    "custom_model_training_date": {
+      "type": "['string', 'null']"
+    },
+    "total_pr_summaries_created": {
+      "type": "integer",
+      "description": "Total number of pull request summaries generated."
+    },
+    "total_engaged_users": {
+      "type": "integer"
+    }
+  }
+}

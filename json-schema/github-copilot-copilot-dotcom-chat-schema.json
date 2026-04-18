@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CopilotDotcomChat",
+  "type": "object",
+  "description": "Metrics for Copilot Chat on github.com.",
+  "properties": {
+    "total_engaged_users": {
+      "type": "integer"
+    },
+    "models": {
+      "type": "array"
+    }
+  }
+}

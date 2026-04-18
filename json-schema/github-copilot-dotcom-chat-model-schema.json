@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DotcomChatModel",
+  "type": "object",
+  "description": "Dotcom Chat metrics for a specific AI model.",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "is_custom_model": {
+      "type": "boolean"
+    },
+    "custom_model_training_date": {
+      "type": "['string', 'null']"
+    },
+    "total_engaged_users": {
+      "type": "integer"
+    },
+    "total_chats": {
+      "type": "integer"
+    }
+  }
+}

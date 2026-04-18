@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SeatBreakdown",
+  "type": "object",
+  "description": "Breakdown of Copilot seat counts by status.",
+  "properties": {
+    "total": {
+      "type": "integer",
+      "description": "Total number of Copilot seats."
+    },
+    "added_this_cycle": {
+      "type": "integer",
+      "description": "Seats added in the current billing cycle."
+    },
+    "pending_invitation": {
+      "type": "integer",
+      "description": "Seats with pending invitations."
+    },
+    "pending_cancellation": {
+      "type": "integer",
+      "description": "Seats pending cancellation at end of cycle."
+    },
+    "active_this_cycle": {
+      "type": "integer",
+      "description": "Seats active in the current billing cycle."
+    },
+    "inactive_this_cycle": {
+      "type": "integer",
+      "description": "Seats inactive in the current billing cycle."
+    }
+  }
+}

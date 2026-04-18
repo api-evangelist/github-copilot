@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SeatsCreatedResponse",
+  "type": "object",
+  "description": "Response after adding users or teams to the Copilot subscription.",
+  "properties": {
+    "seats_created": {
+      "type": "integer",
+      "description": "The number of new Copilot seats created."
+    }
+  }
+}

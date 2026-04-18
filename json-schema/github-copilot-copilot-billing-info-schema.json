@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CopilotBillingInfo",
+  "type": "object",
+  "description": "Copilot billing and subscription information for an organization, including seat breakdown and feature policy settings.",
+  "properties": {
+    "seat_management_setting": {
+      "type": "string",
+      "description": "How Copilot seats are managed for the organization."
+    },
+    "ide_chat": {
+      "type": "string",
+      "description": "Policy for Copilot Chat in IDEs."
+    },
+    "platform_chat": {
+      "type": "string",
+      "description": "Policy for Copilot Chat on github.com."
+    },
+    "cli": {
+      "type": "string",
+      "description": "Policy for Copilot in the CLI."
+    },
+    "public_code_suggestions": {
+      "type": "string",
+      "description": "Policy for suggestions matching public code."
+    },
+    "plan_type": {
+      "type": "string",
+      "description": "The Copilot plan type for the organization."
+    }
+  }
+}

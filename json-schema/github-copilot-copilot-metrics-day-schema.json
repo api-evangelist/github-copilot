@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CopilotMetricsDay",
+  "type": "object",
+  "description": "Aggregated Copilot usage metrics for a single day, broken down by feature, editor, language, and model.",
+  "properties": {
+    "date": {
+      "type": "string",
+      "description": "The date these metrics apply to (YYYY-MM-DD)."
+    },
+    "total_active_users": {
+      "type": "integer",
+      "description": "Total users with any Copilot activity on this date."
+    },
+    "total_engaged_users": {
+      "type": "integer",
+      "description": "Total users who actively engaged with Copilot features on this date."
+    },
+    "copilot_ide_code_completions": {
+      "type": "string"
+    },
+    "copilot_ide_chat": {
+      "type": "string"
+    },
+    "copilot_dotcom_chat": {
+      "type": "string"
+    },
+    "copilot_dotcom_pull_requests": {
+      "type": "string"
+    }
+  }
+}

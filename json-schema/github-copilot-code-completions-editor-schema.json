@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CodeCompletionsEditor",
+  "type": "object",
+  "description": "Code completion metrics for a specific editor.",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the editor (e.g., vscode, jetbrains, neovim)."
+    },
+    "total_engaged_users": {
+      "type": "integer"
+    },
+    "models": {
+      "type": "array"
+    }
+  }
+}

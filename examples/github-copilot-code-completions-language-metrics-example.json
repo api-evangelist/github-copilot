@@ -1,0 +1,8 @@
+{
+  "name": "Example Title",
+  "total_engaged_users": 10,
+  "total_code_suggestions": 10,
+  "total_code_acceptances": 10,
+  "total_code_lines_suggested": 10,
+  "total_code_lines_accepted": 10
+}

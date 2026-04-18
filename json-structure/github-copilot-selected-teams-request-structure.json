@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "SelectedTeamsRequest",
+  "type": "object",
+  "properties": {
+    "selected_teams": {
+      "type": "array"
+    }
+  }
+}

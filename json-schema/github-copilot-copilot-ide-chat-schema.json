@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CopilotIdeChat",
+  "type": "object",
+  "description": "Metrics for Copilot Chat in IDEs.",
+  "properties": {
+    "total_engaged_users": {
+      "type": "integer",
+      "description": "Users who prompted Copilot Chat in an IDE."
+    },
+    "editors": {
+      "type": "array"
+    }
+  }
+}

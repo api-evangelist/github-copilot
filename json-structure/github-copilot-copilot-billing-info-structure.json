@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "CopilotBillingInfo",
+  "type": "object",
+  "properties": {
+    "seat_management_setting": {
+      "type": "string"
+    },
+    "ide_chat": {
+      "type": "string"
+    },
+    "platform_chat": {
+      "type": "string"
+    },
+    "cli": {
+      "type": "string"
+    },
+    "public_code_suggestions": {
+      "type": "string"
+    },
+    "plan_type": {
+      "type": "string"
+    }
+  }
+}

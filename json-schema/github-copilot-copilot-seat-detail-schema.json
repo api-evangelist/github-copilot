@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CopilotSeatDetail",
+  "type": "object",
+  "description": "Details of a Copilot seat assignment for a user, including activity information and plan type.",
+  "properties": {
+    "created_at": {
+      "type": "string",
+      "description": "Timestamp when the seat was created."
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "Timestamp when the seat was last updated."
+    },
+    "pending_cancellation_date": {
+      "type": "['string', 'null']",
+      "description": "Date when seat cancellation takes effect. Null if not pending cancellation."
+    },
+    "last_activity_at": {
+      "type": "['string', 'null']",
+      "description": "Timestamp of the user's last Copilot activity. Null if no activity recorded."
+    },
+    "last_activity_editor": {
+      "type": "['string', 'null']",
+      "description": "The IDE or editor used during the user's last Copilot activity. Null if no activity recorded."
+    },
+    "last_authenticated_at": {
+      "type": "['string', 'null']",
+      "description": "Timestamp of the user's last authentication with Copilot. Null if never authenticated."
+    },
+    "plan_type": {
+      "type": "string",
+      "description": "The Copilot plan type for this seat."
+    },
+    "assignee": {
+      "type": "string",
+      "description": "The GitHub user assigned to this seat."
+    },
+    "assigning_team": {
+      "type": "string",
+      "description": "The team through which this seat was assigned, if applicable."
+    }
+  }
+}

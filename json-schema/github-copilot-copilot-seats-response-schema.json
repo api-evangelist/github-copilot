@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CopilotSeatsResponse",
+  "type": "object",
+  "description": "Paginated list of Copilot seat assignments.",
+  "properties": {
+    "total_seats": {
+      "type": "integer",
+      "description": "Total number of Copilot seats for the organization."
+    },
+    "seats": {
+      "type": "array"
+    }
+  }
+}

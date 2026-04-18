@@ -1,0 +1,13 @@
+name: github-copilot API Vocabulary
+provider: github-copilot
+created: '2026-04-18'
+modified: '2026-04-18'
+operations: 19
+schemas: 28
+tags:
+- Copilot Billing
+- Copilot Content Exclusion
+- Copilot Metrics
+- Copilot Seats
+- Copilot Usage Reports
+- Copilot User Management
