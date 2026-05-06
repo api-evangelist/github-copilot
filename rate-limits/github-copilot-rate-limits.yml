@@ -4,151 +4,100 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: GitHub Copilot
 providerId: github-copilot
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
-  - Agents
-  - AI
-  - Artificial Intelligence
-  - Code Generation
-  - Code Review
-  - Coding Agent
-  - Custom Instructions
-  - Developer Tools
-  - Extensions
-  - IDE
-  - Machine Learning
-  - MCP
-  - Metrics
-  - Model Context Protocol
-  - Productivity
   - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the GitHub Copilot API surface. Captures per-tier
-  quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to
-  be replaced with published provider limits.
+  - AI
+  - Developer Tools
+description: GitHub Copilot management APIs ride on top of the GitHub REST API and inherit GitHub's primary
+  and secondary rate limits (per-user, per-installation, and per-IP). Copilot itself enforces consumption
+  via per-plan premium request quotas (50/300/1,500/month for Free/Pro/Pro+) rather than per-second API
+  throttling for end-user inference. Inference traffic is gated by the plan's premium request budget and
+  per-model rate caps applied transparently in the IDE/CLI.
+sources:
+  - https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
+  - https://github.com/features/copilot/plans
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
+  limit: x-ratelimit-limit
+  remaining: x-ratelimit-remaining
+  used: x-ratelimit-used
+  reset: x-ratelimit-reset
+  resource: x-ratelimit-resource
   retryAfter: Retry-After
-  policy: RateLimit-Policy
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
+  forbidden: 403
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - GitHub Copilot API
-      - GitHub Copilot for Business API
-      - GitHub Copilot Chat API
-      - GitHub Copilot User Management API
-      - GitHub Copilot Metrics API
-      - GitHub Copilot Usage Metrics API
-      - GitHub Copilot Content Exclusion API
-      - GitHub Copilot Extensions API
-      - GitHub Copilot Coding Agent
-      - GitHub Copilot Code Review
-      - GitHub MCP Server
-      - GitHub Copilot Custom Instructions
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
+  - name: Unauthenticated REST (per IP)
+    scope: IP
+    metric: requests_per_hour
+    limit: 60
+    timeFrame: hour
+  - name: Authenticated REST (PAT / OAuth user token)
+    scope: user
+    metric: requests_per_hour
+    limit: 5000
+    timeFrame: hour
+  - name: GitHub App installations
+    scope: installation
+    metric: requests_per_hour
+    limit: 5000
+    timeFrame: hour
+    notes: Scales up to 12,500/hour based on repos/users; 15,000/hour on Enterprise Cloud.
+  - name: GitHub Actions GITHUB_TOKEN
+    scope: repository
+    metric: requests_per_hour
     limit: 1000
-    timeFrame: month
-    applies:
-      - GitHub Copilot API
-      - GitHub Copilot for Business API
-      - GitHub Copilot Chat API
-      - GitHub Copilot User Management API
-      - GitHub Copilot Metrics API
-      - GitHub Copilot Usage Metrics API
-      - GitHub Copilot Content Exclusion API
-      - GitHub Copilot Extensions API
-      - GitHub Copilot Coding Agent
-      - GitHub Copilot Code Review
-      - GitHub MCP Server
-      - GitHub Copilot Custom Instructions
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
+    timeFrame: hour
+  - name: Concurrent requests (REST + GraphQL)
+    scope: user
+    metric: concurrent_requests
     limit: 100
-    burst: 200
+  - name: Secondary - REST CPU points
+    scope: user
+    metric: points_per_minute
+    limit: 900
     timeFrame: minute
-    applies:
-      - GitHub Copilot API
-      - GitHub Copilot for Business API
-      - GitHub Copilot Chat API
-      - GitHub Copilot User Management API
-      - GitHub Copilot Metrics API
-      - GitHub Copilot Usage Metrics API
-      - GitHub Copilot Content Exclusion API
-      - GitHub Copilot Extensions API
-      - GitHub Copilot Coding Agent
-      - GitHub Copilot Code Review
-      - GitHub MCP Server
-      - GitHub Copilot Custom Instructions
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - GitHub Copilot API
-      - GitHub Copilot for Business API
-      - GitHub Copilot Chat API
-      - GitHub Copilot User Management API
-      - GitHub Copilot Metrics API
-      - GitHub Copilot Usage Metrics API
-      - GitHub Copilot Content Exclusion API
-      - GitHub Copilot Extensions API
-      - GitHub Copilot Coding Agent
-      - GitHub Copilot Code Review
-      - GitHub MCP Server
-      - GitHub Copilot Custom Instructions
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
+  - name: Secondary - content-creating requests
+    scope: user
     metric: requests_per_minute
-    limit: 1000
-    burst: 5000
+    limit: 80
     timeFrame: minute
-    applies:
-      - GitHub Copilot API
-      - GitHub Copilot for Business API
-      - GitHub Copilot Chat API
-      - GitHub Copilot User Management API
-      - GitHub Copilot Metrics API
-      - GitHub Copilot Usage Metrics API
-      - GitHub Copilot Content Exclusion API
-      - GitHub Copilot Extensions API
-      - GitHub Copilot Coding Agent
-      - GitHub Copilot Code Review
-      - GitHub MCP Server
-      - GitHub Copilot Custom Instructions
+  - name: Secondary - content-creating requests (hourly)
+    scope: user
+    metric: requests_per_hour
+    limit: 500
+    timeFrame: hour
+  - name: Copilot premium requests (Free)
+    scope: user
+    metric: requests_per_month
+    limit: 50
+    timeFrame: month
+    notes: Plan-level quota for premium model invocations; not a request-rate cap.
+  - name: Copilot premium requests (Pro)
+    scope: user
+    metric: requests_per_month
+    limit: 300
+    timeFrame: month
+  - name: Copilot premium requests (Pro+)
+    scope: user
+    metric: requests_per_month
+    limit: 1500
+    timeFrame: month
 policies:
   - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+    description: Honor Retry-After header on 429/403 (rate-limit) responses; otherwise exponential backoff
+      with jitter.
+  - name: Primary vs secondary limits
+    description: GitHub distinguishes primary (numeric per-hour limits) from secondary (abuse-prevention
+      rules like CPU points and content-creation caps). Both can return 429.
+  - name: Premium request budget
+    description: Copilot inference (chat, agent mode, code review) consumes premium requests; once exhausted,
+      paid plans bill overage at $0.04/request and free plans pause premium features until the next month.
+  - name: Conditional requests
+    description: Use ETag / If-None-Match for read-mostly endpoints — 304 responses do not count against
+      the primary rate limit.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
