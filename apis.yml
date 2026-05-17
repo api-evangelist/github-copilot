@@ -7,7 +7,7 @@ url: https://api.github.com/apis.yaml
 created: '2024'
 modified: '2026-04-18'
 specificationVersion: '0.18'
-type: Contract
+kind: contract
 access: 3rd-Party
 apis:
   - name: GitHub Copilot API
