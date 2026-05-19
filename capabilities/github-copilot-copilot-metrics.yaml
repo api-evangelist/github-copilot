@@ -1,0 +1,102 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: GitHub Copilot REST API — Copilot Metrics
+  description: 'GitHub Copilot REST API — Copilot Metrics. 2 operations. Lead operation: Github Copilot Get Copilot Metrics
+    for an Organization. Self-contained Naftiko capability covering one Github Copilot business surface.'
+  tags:
+  - Github Copilot
+  - Copilot Metrics
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    GITHUB_COPILOT_API_KEY: GITHUB_COPILOT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: github-copilot-copilot-metrics
+    baseUri: https://api.github.com
+    description: GitHub Copilot REST API — Copilot Metrics business capability. Self-contained, no shared references.
+    resources:
+    - name: orgs-org-copilot-metrics
+      path: /orgs/{org}/copilot/metrics
+      operations:
+      - name: getcopilotmetricsfororganization
+        method: GET
+        description: Github Copilot Get Copilot Metrics for an Organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: orgs-org-team-team_slug-copilot-metrics
+      path: /orgs/{org}/team/{team_slug}/copilot/metrics
+      operations:
+      - name: getcopilotmetricsforteam
+        method: GET
+        description: Github Copilot Get Copilot Metrics for a Team
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.GITHUB_COPILOT_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: github-copilot-copilot-metrics-rest
+    port: 8080
+    description: REST adapter for GitHub Copilot REST API — Copilot Metrics. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/orgs/{org}/copilot/metrics
+      name: orgs-org-copilot-metrics
+      description: REST surface for orgs-org-copilot-metrics.
+      operations:
+      - method: GET
+        name: getcopilotmetricsfororganization
+        description: Github Copilot Get Copilot Metrics for an Organization
+        call: github-copilot-copilot-metrics.getcopilotmetricsfororganization
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orgs/{org}/team/{team-slug}/copilot/metrics
+      name: orgs-org-team-team-slug-copilot-metrics
+      description: REST surface for orgs-org-team-team_slug-copilot-metrics.
+      operations:
+      - method: GET
+        name: getcopilotmetricsforteam
+        description: Github Copilot Get Copilot Metrics for a Team
+        call: github-copilot-copilot-metrics.getcopilotmetricsforteam
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: github-copilot-copilot-metrics-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for GitHub Copilot REST API — Copilot Metrics. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: github-copilot-get-copilot-metrics
+      description: Github Copilot Get Copilot Metrics for an Organization
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: github-copilot-copilot-metrics.getcopilotmetricsfororganization
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: github-copilot-get-copilot-metrics-2
+      description: Github Copilot Get Copilot Metrics for a Team
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: github-copilot-copilot-metrics.getcopilotmetricsforteam
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: GitHub Copilot REST API — Copilot Billing
+  description: 'GitHub Copilot REST API — Copilot Billing. 1 operations. Lead operation: Github Copilot Get Copilot Billing
+    Information for an Organization. Self-contained Naftiko capability covering one Github Copilot business surface.'
+  tags:
+  - Github Copilot
+  - Copilot Billing
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    GITHUB_COPILOT_API_KEY: GITHUB_COPILOT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: github-copilot-copilot-billing
+    baseUri: https://api.github.com
+    description: GitHub Copilot REST API — Copilot Billing business capability. Self-contained, no shared references.
+    resources:
+    - name: orgs-org-copilot-billing
+      path: /orgs/{org}/copilot/billing
+      operations:
+      - name: getcopilotbillingfororganization
+        method: GET
+        description: Github Copilot Get Copilot Billing Information for an Organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.GITHUB_COPILOT_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: github-copilot-copilot-billing-rest
+    port: 8080
+    description: REST adapter for GitHub Copilot REST API — Copilot Billing. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/orgs/{org}/copilot/billing
+      name: orgs-org-copilot-billing
+      description: REST surface for orgs-org-copilot-billing.
+      operations:
+      - method: GET
+        name: getcopilotbillingfororganization
+        description: Github Copilot Get Copilot Billing Information for an Organization
+        call: github-copilot-copilot-billing.getcopilotbillingfororganization
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: github-copilot-copilot-billing-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for GitHub Copilot REST API — Copilot Billing. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: github-copilot-get-copilot-billing
+      description: Github Copilot Get Copilot Billing Information for an Organization
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: github-copilot-copilot-billing.getcopilotbillingfororganization
+      outputParameters:
+      - type: object
+        mapping: $.
