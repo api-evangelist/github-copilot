@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CopilotSeatDetail",
+  "title": "CopilotSeatDetail",
+  "type": "object",
+  "description": "Details of a Copilot seat assignment for a user, including activity information and plan type.",
+  "properties": {
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the seat was created.",
+      "example": "2026-01-15T10:30:00Z"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the seat was last updated.",
+      "deprecated": true,
+      "example": "2026-01-15T10:30:00Z"
+    },
+    "pending_cancellation_date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date",
+      "description": "Date when seat cancellation takes effect. Null if not pending cancellation.",
+      "example": "2026-01-15"
+    },
+    "last_activity_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time",
+      "description": "Timestamp of the user's last Copilot activity. Null if no activity recorded.",
+      "example": "2026-01-15T10:30:00Z"
+    },
+    "last_activity_editor": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The IDE or editor used during the user's last Copilot activity. Null if no activity recorded.",
+      "example": "example_value"
+    },
+    "last_authenticated_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time",
+      "description": "Timestamp of the user's last authentication with Copilot. Null if never authenticated.",
+      "example": "2026-01-15T10:30:00Z"
+    },
+    "plan_type": {
+      "type": "string",
+      "description": "The Copilot plan type for this seat.",
+      "enum": [
+        "business",
+        "enterprise",
+        "unknown"
+      ],
+      "example": "business"
+    },
+    "assignee": {
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/SimpleUser"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The GitHub user assigned to this seat.",
+      "example": "example_value"
+    },
+    "assigning_team": {
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/Team"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The team through which this seat was assigned, if applicable.",
+      "example": "example_value"
+    }
+  },
+  "required": [
+    "created_at",
+    "plan_type"
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SimpleUser",
+  "title": "SimpleUser",
+  "type": "object",
+  "description": "A GitHub user account.",
+  "properties": {
+    "login": {
+      "type": "string",
+      "description": "The username of the user.",
+      "example": "example_value"
+    },
+    "id": {
+      "type": "integer",
+      "description": "The unique identifier of the user.",
+      "example": "abc123"
+    },
+    "node_id": {
+      "type": "string",
+      "description": "The GraphQL node ID of the user.",
+      "example": "500123"
+    },
+    "avatar_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to the user's avatar image.",
+      "example": "https://www.example.com"
+    },
+    "gravatar_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "example": "500123"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "API URL for this user.",
+      "example": "https://www.example.com"
+    },
+    "html_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to the user's GitHub profile.",
+      "example": "https://www.example.com"
+    },
+    "followers_url": {
+      "type": "string",
+      "format": "uri",
+      "example": "https://www.example.com"
+    },
+    "following_url": {
+      "type": "string",
+      "example": "https://www.example.com"
+    },
+    "gists_url": {
+      "type": "string",
+      "example": "https://www.example.com"
+    },
+    "starred_url": {
+      "type": "string",
+      "example": "https://www.example.com"
+    },
+    "subscriptions_url": {
+      "type": "string",
+      "format": "uri",
+      "example": "https://www.example.com"
+    },
+    "organizations_url": {
+      "type": "string",
+      "format": "uri",
+      "example": "https://www.example.com"
+    },
+    "repos_url": {
+      "type": "string",
+      "format": "uri",
+      "example": "https://www.example.com"
+    },
+    "events_url": {
+      "type": "string",
+      "example": "https://www.example.com"
+    },
+    "received_events_url": {
+      "type": "string",
+      "format": "uri",
+      "example": "https://www.example.com"
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of account (User, Organization, Bot, etc.).",
+      "example": "example_value"
+    },
+    "site_admin": {
+      "type": "boolean",
+      "description": "Whether the user is a GitHub site administrator.",
+      "example": true
+    }
+  },
+  "required": [
+    "login",
+    "id",
+    "node_id",
+    "avatar_url",
+    "url",
+    "html_url",
+    "type",
+    "site_admin"
+  ]
+}

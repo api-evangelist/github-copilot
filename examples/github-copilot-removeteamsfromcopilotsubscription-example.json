@@ -1,0 +1,27 @@
+{
+  "operationId": "removeTeamsFromCopilotSubscription",
+  "method": "DELETE",
+  "path": "/orgs/{org}/copilot/billing/selected_teams",
+  "summary": "Github Copilot Remove Teams From Copilot Subscription",
+  "requestExamples": [
+    {
+      "contentType": "application/json",
+      "name": "RemoveteamsfromcopilotsubscriptionRequestExample",
+      "example": {
+        "selected_teams": [
+          "example_value"
+        ]
+      }
+    }
+  ],
+  "responseExamples": [
+    {
+      "status": "200",
+      "contentType": "application/json",
+      "name": "Removeteamsfromcopilotsubscription200Example",
+      "example": {
+        "seats_cancelled": 10
+      }
+    }
+  ]
+}

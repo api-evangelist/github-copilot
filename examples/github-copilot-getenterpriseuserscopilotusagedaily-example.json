@@ -1,0 +1,20 @@
+{
+  "operationId": "getEnterpriseUsersCopilotUsageDaily",
+  "method": "GET",
+  "path": "/enterprises/{enterprise}/copilot/metrics/reports/users-1-day",
+  "summary": "Github Copilot Get Enterprise User-level Copilot Usage Metrics for a Specific Day",
+  "requestExamples": [],
+  "responseExamples": [
+    {
+      "status": "200",
+      "contentType": "application/json",
+      "name": "Getenterpriseuserscopilotusagedaily200Example",
+      "example": {
+        "download_links": [
+          "https://www.example.com"
+        ],
+        "report_day": "2026-01-15"
+      }
+    }
+  ]
+}

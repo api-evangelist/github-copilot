@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/UsageReport28Day",
+  "title": "UsageReport28Day",
+  "type": "object",
+  "description": "Download links for a 28-day Copilot usage metrics report.",
+  "properties": {
+    "download_links": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      },
+      "description": "Signed URLs to download the report files.",
+      "example": []
+    },
+    "report_start_day": {
+      "type": "string",
+      "format": "date",
+      "description": "Start date of the 28-day reporting period.",
+      "example": "2026-01-15"
+    },
+    "report_end_day": {
+      "type": "string",
+      "format": "date",
+      "description": "End date of the 28-day reporting period.",
+      "example": "2026-01-15"
+    }
+  },
+  "required": [
+    "download_links",
+    "report_start_day",
+    "report_end_day"
+  ]
+}

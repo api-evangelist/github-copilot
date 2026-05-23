@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CopilotIdeCodeCompletions",
+  "title": "CopilotIdeCodeCompletions",
+  "type": "object",
+  "description": "Metrics for Copilot code completions in IDEs.",
+  "properties": {
+    "total_engaged_users": {
+      "type": "integer",
+      "description": "Users who accepted at least one code suggestion.",
+      "example": 10
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/MetricsLanguageSummary"
+      },
+      "example": []
+    },
+    "editors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/CodeCompletionsEditor"
+      },
+      "example": []
+    }
+  }
+}

@@ -1,0 +1,393 @@
+{
+  "provider": "GitHub Copilot",
+  "providerId": "github-copilot",
+  "kind": "json-structure",
+  "description": "Structural overview of the GitHub Copilot API surface; extracted from openapi/.",
+  "schemaCount": 28,
+  "operationCount": 19,
+  "schemas": [
+    {
+      "name": "Error",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "message"
+      ]
+    },
+    {
+      "name": "CopilotBillingInfo",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "seat_breakdown",
+        "seat_management_setting",
+        "plan_type"
+      ]
+    },
+    {
+      "name": "SeatBreakdown",
+      "type": "object",
+      "propertyCount": 6,
+      "required": []
+    },
+    {
+      "name": "CopilotSeatsResponse",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "total_seats",
+        "seats"
+      ]
+    },
+    {
+      "name": "CopilotSeatDetail",
+      "type": "object",
+      "propertyCount": 9,
+      "required": [
+        "created_at",
+        "plan_type"
+      ]
+    },
+    {
+      "name": "SimpleUser",
+      "type": "object",
+      "propertyCount": 18,
+      "required": [
+        "login",
+        "id",
+        "node_id",
+        "avatar_url",
+        "url",
+        "html_url",
+        "type",
+        "site_admin"
+      ]
+    },
+    {
+      "name": "Team",
+      "type": "object",
+      "propertyCount": 12,
+      "required": [
+        "id",
+        "name",
+        "slug"
+      ]
+    },
+    {
+      "name": "SelectedTeamsRequest",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "selected_teams"
+      ]
+    },
+    {
+      "name": "SelectedUsersRequest",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "selected_usernames"
+      ]
+    },
+    {
+      "name": "SeatsCreatedResponse",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "seats_created"
+      ]
+    },
+    {
+      "name": "SeatsCancelledResponse",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "seats_cancelled"
+      ]
+    },
+    {
+      "name": "CopilotMetricsDay",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "date"
+      ]
+    },
+    {
+      "name": "CopilotIdeCodeCompletions",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "CodeCompletionsEditor",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "CodeCompletionsModel",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "CodeCompletionsLanguageMetrics",
+      "type": "object",
+      "propertyCount": 6,
+      "required": []
+    },
+    {
+      "name": "CopilotIdeChat",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "IdeChatEditor",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "IdeChatModel",
+      "type": "object",
+      "propertyCount": 7,
+      "required": []
+    },
+    {
+      "name": "CopilotDotcomChat",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "DotcomChatModel",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "CopilotDotcomPullRequests",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "PullRequestRepository",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "PullRequestModel",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "MetricsLanguageSummary",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "UsageReportDaily",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "download_links",
+        "report_day"
+      ]
+    },
+    {
+      "name": "UsageReport28Day",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "download_links",
+        "report_start_day",
+        "report_end_day"
+      ]
+    },
+    {
+      "name": "ContentExclusionRules",
+      "type": "object",
+      "propertyCount": 0,
+      "required": []
+    }
+  ],
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/orgs/{org}/copilot/billing",
+      "operationId": "getCopilotBillingForOrganization",
+      "summary": "Github Copilot Get Copilot Billing Information for an Organization",
+      "tags": [
+        "Copilot Billing"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org}/copilot/billing/seats",
+      "operationId": "listCopilotSeats",
+      "summary": "Github Copilot List All Copilot Seat Assignments for an Organization",
+      "tags": [
+        "Copilot Seats"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org}/copilot/billing/selected_teams",
+      "operationId": "addTeamsToCopilotSubscription",
+      "summary": "Github Copilot Add Teams to Copilot Subscription",
+      "tags": [
+        "Copilot User Management"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/orgs/{org}/copilot/billing/selected_teams",
+      "operationId": "removeTeamsFromCopilotSubscription",
+      "summary": "Github Copilot Remove Teams From Copilot Subscription",
+      "tags": [
+        "Copilot User Management"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org}/copilot/billing/selected_users",
+      "operationId": "addUsersToCopilotSubscription",
+      "summary": "Github Copilot Add Users to Copilot Subscription",
+      "tags": [
+        "Copilot User Management"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/orgs/{org}/copilot/billing/selected_users",
+      "operationId": "removeUsersFromCopilotSubscription",
+      "summary": "Github Copilot Remove Users From Copilot Subscription",
+      "tags": [
+        "Copilot User Management"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org}/members/{username}/copilot",
+      "operationId": "getCopilotSeatForUser",
+      "summary": "Github Copilot Get Copilot Seat Assignment Details for a User",
+      "tags": [
+        "Copilot Seats"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org}/copilot/metrics",
+      "operationId": "getCopilotMetricsForOrganization",
+      "summary": "Github Copilot Get Copilot Metrics for an Organization",
+      "tags": [
+        "Copilot Metrics"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org}/team/{team_slug}/copilot/metrics",
+      "operationId": "getCopilotMetricsForTeam",
+      "summary": "Github Copilot Get Copilot Metrics for a Team",
+      "tags": [
+        "Copilot Metrics"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/enterprises/{enterprise}/copilot/metrics/reports/enterprise-1-day",
+      "operationId": "getEnterpriseCopilotUsageDaily",
+      "summary": "Github Copilot Get Enterprise Copilot Usage Metrics for a Specific Day",
+      "tags": [
+        "Copilot Usage Reports"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/enterprises/{enterprise}/copilot/metrics/reports/enterprise-28-day/latest",
+      "operationId": "getEnterpriseCopilotUsage28Day",
+      "summary": "Github Copilot Get Latest 28-day Enterprise Copilot Usage Metrics",
+      "tags": [
+        "Copilot Usage Reports"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/enterprises/{enterprise}/copilot/metrics/reports/users-1-day",
+      "operationId": "getEnterpriseUsersCopilotUsageDaily",
+      "summary": "Github Copilot Get Enterprise User-level Copilot Usage Metrics for a Specific Day",
+      "tags": [
+        "Copilot Usage Reports"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/enterprises/{enterprise}/copilot/metrics/reports/users-28-day/latest",
+      "operationId": "getEnterpriseUsersCopilotUsage28Day",
+      "summary": "Github Copilot Get Latest 28-day Enterprise User-level Copilot Usage Metrics",
+      "tags": [
+        "Copilot Usage Reports"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org}/copilot/metrics/reports/organization-1-day",
+      "operationId": "getOrganizationCopilotUsageDaily",
+      "summary": "Github Copilot Get Organization Copilot Usage Metrics for a Specific Day",
+      "tags": [
+        "Copilot Usage Reports"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org}/copilot/metrics/reports/organization-28-day/latest",
+      "operationId": "getOrganizationCopilotUsage28Day",
+      "summary": "Github Copilot Get Latest 28-day Organization Copilot Usage Metrics",
+      "tags": [
+        "Copilot Usage Reports"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org}/copilot/metrics/reports/users-1-day",
+      "operationId": "getOrganizationUsersCopilotUsageDaily",
+      "summary": "Github Copilot Get Organization User-level Copilot Usage Metrics for a Specific Day",
+      "tags": [
+        "Copilot Usage Reports"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org}/copilot/metrics/reports/users-28-day/latest",
+      "operationId": "getOrganizationUsersCopilotUsage28Day",
+      "summary": "Github Copilot Get Latest 28-day Organization User-level Copilot Usage Metrics",
+      "tags": [
+        "Copilot Usage Reports"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org}/copilot/content_exclusion",
+      "operationId": "getCopilotContentExclusionRules",
+      "summary": "Github Copilot Get Copilot Content Exclusion Rules for an Organization",
+      "tags": [
+        "Copilot Content Exclusion"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/orgs/{org}/copilot/content_exclusion",
+      "operationId": "setCopilotContentExclusionRules",
+      "summary": "Github Copilot Set Copilot Content Exclusion Rules for an Organization",
+      "tags": [
+        "Copilot Content Exclusion"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "operationId": "removeUsersFromCopilotSubscription",
+  "method": "DELETE",
+  "path": "/orgs/{org}/copilot/billing/selected_users",
+  "summary": "Github Copilot Remove Users From Copilot Subscription",
+  "requestExamples": [
+    {
+      "contentType": "application/json",
+      "name": "RemoveusersfromcopilotsubscriptionRequestExample",
+      "example": {
+        "selected_usernames": [
+          "example_value"
+        ]
+      }
+    }
+  ],
+  "responseExamples": [
+    {
+      "status": "200",
+      "contentType": "application/json",
+      "name": "Removeusersfromcopilotsubscription200Example",
+      "example": {
+        "seats_cancelled": 10
+      }
+    }
+  ]
+}

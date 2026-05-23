@@ -1,0 +1,17 @@
+name: GitHub Copilot Domain Vocabulary
+provider: GitHub Copilot
+providerId: github-copilot
+description: Tag-derived vocabulary for the GitHub Copilot API surface; sourced from openapi/ tags.
+terms:
+- term: Copilot Billing
+  description: Organization-level Copilot billing and subscription information
+- term: Copilot Content Exclusion
+  description: Manage content exclusion path rules for organizations
+- term: Copilot Metrics
+  description: Aggregated Copilot usage metrics by organization and team
+- term: Copilot Seats
+  description: Seat assignment management for organizations
+- term: Copilot Usage Reports
+  description: Downloadable usage metrics reports for enterprises and organizations
+- term: Copilot User Management
+  description: Add and remove individual users and teams from Copilot subscriptions

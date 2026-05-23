@@ -1,0 +1,25 @@
+{
+  "operationId": "getCopilotMetricsForTeam",
+  "method": "GET",
+  "path": "/orgs/{org}/team/{team_slug}/copilot/metrics",
+  "summary": "Github Copilot Get Copilot Metrics for a Team",
+  "requestExamples": [],
+  "responseExamples": [
+    {
+      "status": "200",
+      "contentType": "application/json",
+      "name": "Getcopilotmetricsforteam200Example",
+      "example": [
+        {
+          "date": "2026-01-15",
+          "total_active_users": 10,
+          "total_engaged_users": 10,
+          "copilot_ide_code_completions": "example_value",
+          "copilot_ide_chat": "example_value",
+          "copilot_dotcom_chat": "example_value",
+          "copilot_dotcom_pull_requests": "example_value"
+        }
+      ]
+    }
+  ]
+}

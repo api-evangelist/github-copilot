@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CopilotBillingInfo",
+  "title": "CopilotBillingInfo",
+  "type": "object",
+  "description": "Copilot billing and subscription information for an organization, including seat breakdown and feature policy settings.",
+  "properties": {
+    "seat_breakdown": {
+      "$ref": "#/components/schemas/SeatBreakdown"
+    },
+    "seat_management_setting": {
+      "type": "string",
+      "description": "How Copilot seats are managed for the organization.",
+      "enum": [
+        "assign_all",
+        "assign_selected",
+        "disabled",
+        "unconfigured"
+      ],
+      "example": "assign_all"
+    },
+    "ide_chat": {
+      "type": "string",
+      "description": "Policy for Copilot Chat in IDEs.",
+      "enum": [
+        "enabled",
+        "disabled",
+        "unconfigured"
+      ],
+      "example": "enabled"
+    },
+    "platform_chat": {
+      "type": "string",
+      "description": "Policy for Copilot Chat on github.com.",
+      "enum": [
+        "enabled",
+        "disabled",
+        "unconfigured"
+      ],
+      "example": "enabled"
+    },
+    "cli": {
+      "type": "string",
+      "description": "Policy for Copilot in the CLI.",
+      "enum": [
+        "enabled",
+        "disabled",
+        "unconfigured"
+      ],
+      "example": "enabled"
+    },
+    "public_code_suggestions": {
+      "type": "string",
+      "description": "Policy for suggestions matching public code.",
+      "enum": [
+        "allow",
+        "block",
+        "unconfigured"
+      ],
+      "example": "allow"
+    },
+    "plan_type": {
+      "type": "string",
+      "description": "The Copilot plan type for the organization.",
+      "enum": [
+        "business",
+        "enterprise"
+      ],
+      "example": "business"
+    }
+  },
+  "required": [
+    "seat_breakdown",
+    "seat_management_setting",
+    "plan_type"
+  ]
+}

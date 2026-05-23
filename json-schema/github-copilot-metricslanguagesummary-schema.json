@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MetricsLanguageSummary",
+  "title": "MetricsLanguageSummary",
+  "type": "object",
+  "description": "Summary of engagement for a programming language.",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Programming language name.",
+      "example": "Example Title"
+    },
+    "total_engaged_users": {
+      "type": "integer",
+      "example": 10
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "operationId": "getOrganizationCopilotUsageDaily",
+  "method": "GET",
+  "path": "/orgs/{org}/copilot/metrics/reports/organization-1-day",
+  "summary": "Github Copilot Get Organization Copilot Usage Metrics for a Specific Day",
+  "requestExamples": [],
+  "responseExamples": [
+    {
+      "status": "200",
+      "contentType": "application/json",
+      "name": "Getorganizationcopilotusagedaily200Example",
+      "example": {
+        "download_links": [
+          "https://www.example.com"
+        ],
+        "report_day": "2026-01-15"
+      }
+    }
+  ]
+}

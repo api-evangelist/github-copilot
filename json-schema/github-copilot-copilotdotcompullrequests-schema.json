@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CopilotDotcomPullRequests",
+  "title": "CopilotDotcomPullRequests",
+  "type": "object",
+  "description": "Metrics for Copilot pull request summaries on github.com.",
+  "properties": {
+    "total_engaged_users": {
+      "type": "integer",
+      "description": "Users who generated pull request summaries.",
+      "example": 10
+    },
+    "repositories": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/PullRequestRepository"
+      },
+      "example": []
+    }
+  }
+}

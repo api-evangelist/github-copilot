@@ -1,0 +1,32 @@
+{
+  "operationId": "setCopilotContentExclusionRules",
+  "method": "PUT",
+  "path": "/orgs/{org}/copilot/content_exclusion",
+  "summary": "Github Copilot Set Copilot Content Exclusion Rules for an Organization",
+  "requestExamples": [
+    {
+      "contentType": "application/json",
+      "name": "SetcopilotcontentexclusionrulesRequestExample",
+      "example": {}
+    }
+  ],
+  "responseExamples": [
+    {
+      "status": "200",
+      "contentType": "application/json",
+      "name": "Setcopilotcontentexclusionrules200Example",
+      "example": {
+        "message": "example_value"
+      }
+    },
+    {
+      "status": "413",
+      "contentType": "application/json",
+      "name": "Setcopilotcontentexclusionrules413Example",
+      "example": {
+        "message": "example_value",
+        "documentation_url": "https://www.example.com"
+      }
+    }
+  ]
+}

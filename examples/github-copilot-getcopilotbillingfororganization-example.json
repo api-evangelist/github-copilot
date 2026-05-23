@@ -1,0 +1,30 @@
+{
+  "operationId": "getCopilotBillingForOrganization",
+  "method": "GET",
+  "path": "/orgs/{org}/copilot/billing",
+  "summary": "Github Copilot Get Copilot Billing Information for an Organization",
+  "requestExamples": [],
+  "responseExamples": [
+    {
+      "status": "200",
+      "contentType": "application/json",
+      "name": "Getcopilotbillingfororganization200Example",
+      "example": {
+        "seat_breakdown": {
+          "total": 10,
+          "added_this_cycle": 10,
+          "pending_invitation": 10,
+          "pending_cancellation": 10,
+          "active_this_cycle": 10,
+          "inactive_this_cycle": 10
+        },
+        "seat_management_setting": "assign_all",
+        "ide_chat": "enabled",
+        "platform_chat": "enabled",
+        "cli": "enabled",
+        "public_code_suggestions": "allow",
+        "plan_type": "business"
+      }
+    }
+  ]
+}

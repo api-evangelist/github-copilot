@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ContentExclusionRules",
+  "title": "ContentExclusionRules",
+  "type": "object",
+  "description": "Content exclusion rules mapping repository names to arrays of file path patterns that Copilot is prevented from accessing.",
+  "additionalProperties": {
+    "type": "array",
+    "items": {
+      "type": "string"
+    },
+    "description": "List of file path patterns to exclude for this repository."
+  },
+  "example": {
+    "octo-repo": [
+      "/src/some-dir/kernel.rs",
+      "/secrets/**"
+    ]
+  }
+}

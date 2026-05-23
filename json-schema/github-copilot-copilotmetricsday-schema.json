@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CopilotMetricsDay",
+  "title": "CopilotMetricsDay",
+  "type": "object",
+  "description": "Aggregated Copilot usage metrics for a single day, broken down by feature, editor, language, and model.",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "The date these metrics apply to (YYYY-MM-DD).",
+      "example": "2026-01-15"
+    },
+    "total_active_users": {
+      "type": "integer",
+      "description": "Total users with any Copilot activity on this date.",
+      "example": 10
+    },
+    "total_engaged_users": {
+      "type": "integer",
+      "description": "Total users who actively engaged with Copilot features on this date.",
+      "example": 10
+    },
+    "copilot_ide_code_completions": {
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/CopilotIdeCodeCompletions"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "example": "example_value"
+    },
+    "copilot_ide_chat": {
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/CopilotIdeChat"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "example": "example_value"
+    },
+    "copilot_dotcom_chat": {
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/CopilotDotcomChat"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "example": "example_value"
+    },
+    "copilot_dotcom_pull_requests": {
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/CopilotDotcomPullRequests"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "example": "example_value"
+    }
+  },
+  "required": [
+    "date"
+  ]
+}

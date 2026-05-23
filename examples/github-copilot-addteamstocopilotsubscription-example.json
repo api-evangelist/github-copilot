@@ -1,0 +1,27 @@
+{
+  "operationId": "addTeamsToCopilotSubscription",
+  "method": "POST",
+  "path": "/orgs/{org}/copilot/billing/selected_teams",
+  "summary": "Github Copilot Add Teams to Copilot Subscription",
+  "requestExamples": [
+    {
+      "contentType": "application/json",
+      "name": "AddteamstocopilotsubscriptionRequestExample",
+      "example": {
+        "selected_teams": [
+          "example_value"
+        ]
+      }
+    }
+  ],
+  "responseExamples": [
+    {
+      "status": "201",
+      "contentType": "application/json",
+      "name": "Addteamstocopilotsubscription201Example",
+      "example": {
+        "seats_created": 10
+      }
+    }
+  ]
+}

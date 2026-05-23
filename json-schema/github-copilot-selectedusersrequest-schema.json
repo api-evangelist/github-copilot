@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SelectedUsersRequest",
+  "title": "SelectedUsersRequest",
+  "type": "object",
+  "description": "A list of usernames to add or remove from the Copilot subscription.",
+  "properties": {
+    "selected_usernames": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of GitHub usernames who are organization members.",
+      "minItems": 1,
+      "example": []
+    }
+  },
+  "required": [
+    "selected_usernames"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "operationId": "addUsersToCopilotSubscription",
+  "method": "POST",
+  "path": "/orgs/{org}/copilot/billing/selected_users",
+  "summary": "Github Copilot Add Users to Copilot Subscription",
+  "requestExamples": [
+    {
+      "contentType": "application/json",
+      "name": "AdduserstocopilotsubscriptionRequestExample",
+      "example": {
+        "selected_usernames": [
+          "example_value"
+        ]
+      }
+    }
+  ],
+  "responseExamples": [
+    {
+      "status": "201",
+      "contentType": "application/json",
+      "name": "Adduserstocopilotsubscription201Example",
+      "example": {
+        "seats_created": 10
+      }
+    }
+  ]
+}

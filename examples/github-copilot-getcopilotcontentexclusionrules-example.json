@@ -1,0 +1,15 @@
+{
+  "operationId": "getCopilotContentExclusionRules",
+  "method": "GET",
+  "path": "/orgs/{org}/copilot/content_exclusion",
+  "summary": "Github Copilot Get Copilot Content Exclusion Rules for an Organization",
+  "requestExamples": [],
+  "responseExamples": [
+    {
+      "status": "200",
+      "contentType": "application/json",
+      "name": "Getcopilotcontentexclusionrules200Example",
+      "example": {}
+    }
+  ]
+}
