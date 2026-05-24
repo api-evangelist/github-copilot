@@ -383,3 +383,5 @@ common:
     description: Copilot coding agent uses GitHub Actions to spin up secure environments for autonomous coding tasks.
   - name: Model Context Protocol
     description: Standard protocol integration enabling AI tools to access GitHub data through the official MCP server.
+- type: LLMsTxt
+  url: https://docs.github.com/llms.txt
