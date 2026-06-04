@@ -1,0 +1,101 @@
+arazzo: 1.0.1
+info:
+  title: GitHub Copilot Audit Seat Assignments
+  summary: List all Copilot seat assignments for an organization and drill into the first seat's details.
+  description: >-
+    An auditing flow for GitHub Copilot seats. The workflow enumerates all
+    active Copilot seats billed to the organization, then branches: when at
+    least one seat exists it fetches the detailed seat assignment for the first
+    assignee, and when no seats exist it ends. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: githubCopilotApi
+  url: ../openapi/github-copilot-openapi.yml
+  type: openapi
+workflows:
+- workflowId: audit-seats
+  summary: List Copilot seats and inspect the first assignee's seat details.
+  description: >-
+    Lists all Copilot seat assignments for the organization, branches on whether
+    any seats were returned, and reads the seat detail for the supplied
+    inspection username when seats are present.
+  inputs:
+    type: object
+    required:
+    - org
+    - inspectUsername
+    properties:
+      org:
+        type: string
+        description: The organization name (case-insensitive).
+      inspectUsername:
+        type: string
+        description: A seated username whose seat detail is read when seats exist.
+      perPage:
+        type: integer
+        description: Number of seats to return per page (max 100).
+        default: 50
+      page:
+        type: integer
+        description: The page number of results to fetch.
+        default: 1
+  steps:
+  - stepId: listSeats
+    description: >-
+      Enumerate all active Copilot seats billed to the organization, including
+      each user's last activity date, editor, and authentication timestamp.
+    operationId: listCopilotSeats
+    parameters:
+    - name: org
+      in: path
+      value: $inputs.org
+    - name: per_page
+      in: query
+      value: $inputs.perPage
+    - name: page
+      in: query
+      value: $inputs.page
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      totalSeats: $response.body#/total_seats
+      seats: $response.body#/seats
+    onSuccess:
+    - name: seatsPresent
+      type: goto
+      stepId: inspectSeat
+      criteria:
+      - context: $response.body
+        condition: $.total_seats > 0
+        type: jsonpath
+    - name: noSeats
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.total_seats == 0
+        type: jsonpath
+  - stepId: inspectSeat
+    description: >-
+      Read the comprehensive Copilot seat assignment details for the inspection
+      user, including usage patterns, last activity, and assignment origin.
+    operationId: getCopilotSeatForUser
+    parameters:
+    - name: org
+      in: path
+      value: $inputs.org
+    - name: username
+      in: path
+      value: $inputs.inspectUsername
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      planType: $response.body#/plan_type
+      lastActivityAt: $response.body#/last_activity_at
+      lastActivityEditor: $response.body#/last_activity_editor
+      pendingCancellationDate: $response.body#/pending_cancellation_date
+  outputs:
+    totalSeats: $steps.listSeats.outputs.totalSeats
+    inspectedPlanType: $steps.inspectSeat.outputs.planType
+    inspectedLastActivityAt: $steps.inspectSeat.outputs.lastActivityAt

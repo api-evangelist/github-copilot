@@ -1,0 +1,108 @@
+arazzo: 1.0.1
+info:
+  title: GitHub Copilot Team Metrics Report
+  summary: Pull organization-wide Copilot metrics, then drill into a specific team's aggregated metrics.
+  description: >-
+    A comparison flow that contrasts organization-wide Copilot adoption against
+    a single team. The workflow first retrieves aggregated Copilot metrics for
+    the whole organization, then branches: when the organization returned at
+    least one day of metrics it drills into the supplied team's aggregated
+    metrics for the same window, otherwise it ends. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: githubCopilotApi
+  url: ../openapi/github-copilot-openapi.yml
+  type: openapi
+workflows:
+- workflowId: team-metrics-report
+  summary: Org-wide Copilot metrics, then branch into a single team's metrics.
+  description: >-
+    Retrieves aggregated org Copilot metrics, branches to end when no metric
+    days were returned, and otherwise fetches the supplied team's aggregated
+    metrics for the same date window.
+  inputs:
+    type: object
+    required:
+    - org
+    - teamSlug
+    properties:
+      org:
+        type: string
+        description: The organization name (case-insensitive).
+      teamSlug:
+        type: string
+        description: The slug of the team to drill into.
+      since:
+        type: string
+        description: Show metrics since this date (ISO 8601 YYYY-MM-DD, max 100 days back).
+      until:
+        type: string
+        description: Show metrics until this date (ISO 8601 YYYY-MM-DD).
+  steps:
+  - stepId: getOrgMetrics
+    description: >-
+      Retrieve aggregated Copilot metrics for the whole organization broken down
+      by language and IDE editor. Requires at least five members with active
+      licenses; reflects previous-day data.
+    operationId: getCopilotMetricsForOrganization
+    parameters:
+    - name: org
+      in: path
+      value: $inputs.org
+    - name: since
+      in: query
+      value: $inputs.since
+    - name: until
+      in: query
+      value: $inputs.until
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      orgFirstDay: $response.body#/0/date
+      orgActiveUsers: $response.body#/0/total_active_users
+      orgEngagedUsers: $response.body#/0/total_engaged_users
+    onSuccess:
+    - name: orgHasMetrics
+      type: goto
+      stepId: getTeamMetrics
+      criteria:
+      - context: $response.body
+        condition: $.length > 0
+        type: jsonpath
+    - name: orgNoMetrics
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.length == 0
+        type: jsonpath
+  - stepId: getTeamMetrics
+    description: >-
+      Retrieve aggregated Copilot metrics for the specified team within the
+      organization for the same date window. Requires at least five team members
+      with active licenses.
+    operationId: getCopilotMetricsForTeam
+    parameters:
+    - name: org
+      in: path
+      value: $inputs.org
+    - name: team_slug
+      in: path
+      value: $inputs.teamSlug
+    - name: since
+      in: query
+      value: $inputs.since
+    - name: until
+      in: query
+      value: $inputs.until
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      teamFirstDay: $response.body#/0/date
+      teamActiveUsers: $response.body#/0/total_active_users
+      teamEngagedUsers: $response.body#/0/total_engaged_users
+  outputs:
+    orgActiveUsers: $steps.getOrgMetrics.outputs.orgActiveUsers
+    teamActiveUsers: $steps.getTeamMetrics.outputs.teamActiveUsers
+    teamEngagedUsers: $steps.getTeamMetrics.outputs.teamEngagedUsers

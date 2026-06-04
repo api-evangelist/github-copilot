@@ -1,0 +1,103 @@
+arazzo: 1.0.1
+info:
+  title: GitHub Copilot Provision Seats for Teams
+  summary: Confirm organization billing capacity, assign Copilot seats to whole teams, and read back the updated seat breakdown.
+  description: >-
+    A team-level seat provisioning flow for GitHub Copilot. The workflow reads
+    the organization's Copilot billing to confirm seat management is active,
+    branches to abort when management is disabled, purchases seats for every
+    member of the supplied teams, and re-reads billing to confirm the updated
+    seat breakdown. Every step spells out its request inline so the flow can be
+    read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: githubCopilotApi
+  url: ../openapi/github-copilot-openapi.yml
+  type: openapi
+workflows:
+- workflowId: provision-teams
+  summary: Confirm billing, assign Copilot seats to teams, and re-read the breakdown.
+  description: >-
+    Reads org Copilot billing, branches to abort when seat management is
+    disabled, adds seats for all members of the supplied team slugs, then reads
+    billing again to observe the updated seat breakdown.
+  inputs:
+    type: object
+    required:
+    - org
+    - selectedTeams
+    properties:
+      org:
+        type: string
+        description: The organization name (case-insensitive).
+      selectedTeams:
+        type: array
+        items:
+          type: string
+        description: Team slugs within the organization to assign Copilot seats to.
+  steps:
+  - stepId: getBilling
+    description: >-
+      Read the organization's Copilot billing information to confirm seat
+      management is enabled before purchasing seats for teams.
+    operationId: getCopilotBillingForOrganization
+    parameters:
+    - name: org
+      in: path
+      value: $inputs.org
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      seatManagementSetting: $response.body#/seat_management_setting
+      totalSeatsBefore: $response.body#/seat_breakdown/total
+    onSuccess:
+    - name: seatManagementEnabled
+      type: goto
+      stepId: addTeams
+      criteria:
+      - context: $response.body
+        condition: $.seat_management_setting != 'disabled'
+        type: jsonpath
+    - name: seatManagementDisabled
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.seat_management_setting == 'disabled'
+        type: jsonpath
+  - stepId: addTeams
+    description: >-
+      Purchase Copilot seats for all members of the supplied teams. Billing is
+      applied per the organization's plan. Responds 201 with the number of new
+      seats created.
+    operationId: addTeamsToCopilotSubscription
+    parameters:
+    - name: org
+      in: path
+      value: $inputs.org
+    requestBody:
+      contentType: application/json
+      payload:
+        selected_teams: $inputs.selectedTeams
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      seatsCreated: $response.body#/seats_created
+  - stepId: confirmBilling
+    description: >-
+      Re-read the organization's Copilot billing information to observe the
+      updated seat breakdown after the team seats were purchased.
+    operationId: getCopilotBillingForOrganization
+    parameters:
+    - name: org
+      in: path
+      value: $inputs.org
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      totalSeatsAfter: $response.body#/seat_breakdown/total
+      addedThisCycle: $response.body#/seat_breakdown/added_this_cycle
+      pendingInvitation: $response.body#/seat_breakdown/pending_invitation
+  outputs:
+    seatsCreated: $steps.addTeams.outputs.seatsCreated
+    totalSeatsBefore: $steps.getBilling.outputs.totalSeatsBefore
+    totalSeatsAfter: $steps.confirmBilling.outputs.totalSeatsAfter

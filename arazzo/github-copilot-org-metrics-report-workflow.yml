@@ -1,0 +1,94 @@
+arazzo: 1.0.1
+info:
+  title: GitHub Copilot Organization Metrics Report
+  summary: Pull aggregated organization Copilot metrics, then fetch the latest 28-day org and user-level usage report links.
+  description: >-
+    A reporting flow that assembles a full picture of Copilot usage for an
+    organization. The workflow first retrieves aggregated daily Copilot metrics
+    broken down by feature, then fetches download links for the latest 28-day
+    organization-level usage report, and finally the latest 28-day user-level
+    usage report. Every step spells out its request inline so the flow can be
+    read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: githubCopilotApi
+  url: ../openapi/github-copilot-openapi.yml
+  type: openapi
+workflows:
+- workflowId: org-metrics-report
+  summary: Aggregate org metrics plus 28-day org and user-level usage report links.
+  description: >-
+    Retrieves aggregated Copilot metrics for the organization, then the latest
+    28-day organization usage report download links, then the latest 28-day
+    user-level usage report download links.
+  inputs:
+    type: object
+    required:
+    - org
+    properties:
+      org:
+        type: string
+        description: The organization name (case-insensitive).
+      since:
+        type: string
+        description: Show metrics since this date (ISO 8601 YYYY-MM-DD, max 100 days back).
+      until:
+        type: string
+        description: Show metrics until this date (ISO 8601 YYYY-MM-DD).
+  steps:
+  - stepId: getMetrics
+    description: >-
+      Retrieve aggregated Copilot metrics for the organization broken down by
+      language and IDE editor. Requires at least five members with active
+      licenses; reflects previous-day data.
+    operationId: getCopilotMetricsForOrganization
+    parameters:
+    - name: org
+      in: path
+      value: $inputs.org
+    - name: since
+      in: query
+      value: $inputs.since
+    - name: until
+      in: query
+      value: $inputs.until
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      firstDay: $response.body#/0/date
+      firstDayActiveUsers: $response.body#/0/total_active_users
+      firstDayEngagedUsers: $response.body#/0/total_engaged_users
+  - stepId: getOrg28DayReport
+    description: >-
+      Fetch download links for the latest 28-day organization-level Copilot
+      usage metrics report.
+    operationId: getOrganizationCopilotUsage28Day
+    parameters:
+    - name: org
+      in: path
+      value: $inputs.org
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      orgDownloadLinks: $response.body#/download_links
+      reportStartDay: $response.body#/report_start_day
+      reportEndDay: $response.body#/report_end_day
+  - stepId: getUsers28DayReport
+    description: >-
+      Fetch download links for the latest 28-day user-level Copilot usage
+      metrics report at the organization level.
+    operationId: getOrganizationUsersCopilotUsage28Day
+    parameters:
+    - name: org
+      in: path
+      value: $inputs.org
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      usersDownloadLinks: $response.body#/download_links
+      usersReportStartDay: $response.body#/report_start_day
+      usersReportEndDay: $response.body#/report_end_day
+  outputs:
+    firstDayActiveUsers: $steps.getMetrics.outputs.firstDayActiveUsers
+    orgDownloadLinks: $steps.getOrg28DayReport.outputs.orgDownloadLinks
+    usersDownloadLinks: $steps.getUsers28DayReport.outputs.usersDownloadLinks

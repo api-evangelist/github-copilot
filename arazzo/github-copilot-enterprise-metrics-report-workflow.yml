@@ -1,0 +1,93 @@
+arazzo: 1.0.1
+info:
+  title: GitHub Copilot Enterprise Metrics Report
+  summary: Fetch the latest 28-day enterprise usage report, then the daily enterprise and user-level usage reports for a specific day.
+  description: >-
+    A reporting flow that assembles enterprise-level Copilot usage report links.
+    The workflow first fetches the latest 28-day enterprise usage report to
+    establish the reporting window, then fetches the daily enterprise-level
+    usage report for the requested day, and finally the daily user-level usage
+    report for the same day. Every step spells out its request inline so the
+    flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: githubCopilotApi
+  url: ../openapi/github-copilot-openapi.yml
+  type: openapi
+workflows:
+- workflowId: enterprise-metrics-report
+  summary: Latest 28-day enterprise report plus daily enterprise and user-level reports.
+  description: >-
+    Fetches the latest 28-day enterprise usage report download links, then the
+    daily enterprise usage report for the supplied day, then the daily
+    user-level usage report for the same day.
+  inputs:
+    type: object
+    required:
+    - enterprise
+    - day
+    properties:
+      enterprise:
+        type: string
+        description: The slug version of the enterprise name.
+      day:
+        type: string
+        description: The date for the daily reports in YYYY-MM-DD format.
+  steps:
+  - stepId: get28DayReport
+    description: >-
+      Fetch download links for the latest 28-day enterprise-level Copilot usage
+      metrics report to establish the current reporting window.
+    operationId: getEnterpriseCopilotUsage28Day
+    parameters:
+    - name: enterprise
+      in: path
+      value: $inputs.enterprise
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      downloadLinks: $response.body#/download_links
+      reportStartDay: $response.body#/report_start_day
+      reportEndDay: $response.body#/report_end_day
+  - stepId: getDailyEnterpriseReport
+    description: >-
+      Fetch download links for the daily enterprise-level Copilot usage metrics
+      report for the requested day. Data is available from October 10, 2025
+      back up to one year historically.
+    operationId: getEnterpriseCopilotUsageDaily
+    parameters:
+    - name: enterprise
+      in: path
+      value: $inputs.enterprise
+    - name: day
+      in: query
+      value: $inputs.day
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      dailyDownloadLinks: $response.body#/download_links
+      reportDay: $response.body#/report_day
+  - stepId: getDailyUsersReport
+    description: >-
+      Fetch download links for the daily user-level Copilot usage metrics report
+      at the enterprise level for the same requested day, providing individual
+      user engagement statistics.
+    operationId: getEnterpriseUsersCopilotUsageDaily
+    parameters:
+    - name: enterprise
+      in: path
+      value: $inputs.enterprise
+    - name: day
+      in: query
+      value: $inputs.day
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      usersDailyDownloadLinks: $response.body#/download_links
+      usersReportDay: $response.body#/report_day
+  outputs:
+    reportStartDay: $steps.get28DayReport.outputs.reportStartDay
+    reportEndDay: $steps.get28DayReport.outputs.reportEndDay
+    dailyDownloadLinks: $steps.getDailyEnterpriseReport.outputs.dailyDownloadLinks
+    usersDailyDownloadLinks: $steps.getDailyUsersReport.outputs.usersDailyDownloadLinks

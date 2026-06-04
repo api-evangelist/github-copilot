@@ -1,0 +1,102 @@
+arazzo: 1.0.1
+info:
+  title: GitHub Copilot Deprovision Seats for Users
+  summary: List current seats, set seats to pending cancellation for selected users, and confirm the updated billing breakdown.
+  description: >-
+    A controlled seat removal flow for GitHub Copilot. The workflow lists the
+    organization's current Copilot seats so the caller can confirm there is
+    something to remove, branches to abort when no seats exist, sets the supplied
+    users' seats to pending cancellation, and re-reads billing to confirm the
+    pending cancellation count. Every step spells out its request inline so the
+    flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: githubCopilotApi
+  url: ../openapi/github-copilot-openapi.yml
+  type: openapi
+workflows:
+- workflowId: deprovision-users
+  summary: List seats, cancel seats for users, and confirm pending cancellations.
+  description: >-
+    Lists Copilot seats, branches to end when none exist, sets the supplied
+    usernames' seats to pending cancellation, then reads billing to observe the
+    updated pending cancellation count.
+  inputs:
+    type: object
+    required:
+    - org
+    - selectedUsernames
+    properties:
+      org:
+        type: string
+        description: The organization name (case-insensitive).
+      selectedUsernames:
+        type: array
+        items:
+          type: string
+        description: GitHub usernames whose Copilot seats should be cancelled.
+  steps:
+  - stepId: listSeats
+    description: >-
+      List the organization's current Copilot seats to confirm there are seats
+      available to cancel before issuing the removal.
+    operationId: listCopilotSeats
+    parameters:
+    - name: org
+      in: path
+      value: $inputs.org
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      totalSeatsBefore: $response.body#/total_seats
+    onSuccess:
+    - name: seatsPresent
+      type: goto
+      stepId: removeUsers
+      criteria:
+      - context: $response.body
+        condition: $.total_seats > 0
+        type: jsonpath
+    - name: noSeats
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.total_seats == 0
+        type: jsonpath
+  - stepId: removeUsers
+    description: >-
+      Set the supplied users' Copilot seats to pending cancellation. Access
+      ends at the conclusion of the current billing cycle. Responds 200 with the
+      number of seats cancelled.
+    operationId: removeUsersFromCopilotSubscription
+    parameters:
+    - name: org
+      in: path
+      value: $inputs.org
+    requestBody:
+      contentType: application/json
+      payload:
+        selected_usernames: $inputs.selectedUsernames
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      seatsCancelled: $response.body#/seats_cancelled
+  - stepId: confirmBilling
+    description: >-
+      Re-read the organization's Copilot billing information to observe the
+      updated pending cancellation count after the seats were removed.
+    operationId: getCopilotBillingForOrganization
+    parameters:
+    - name: org
+      in: path
+      value: $inputs.org
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      totalSeatsAfter: $response.body#/seat_breakdown/total
+      pendingCancellation: $response.body#/seat_breakdown/pending_cancellation
+  outputs:
+    seatsCancelled: $steps.removeUsers.outputs.seatsCancelled
+    totalSeatsBefore: $steps.listSeats.outputs.totalSeatsBefore
+    pendingCancellation: $steps.confirmBilling.outputs.pendingCancellation

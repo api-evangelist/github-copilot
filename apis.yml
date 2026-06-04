@@ -297,6 +297,30 @@ tags:
 - Model Context Protocol
 - Productivity
 common:
+- type: ArazzoWorkflows
+  url: arazzo/
+  workflows:
+  - url: arazzo/github-copilot-audit-seats-workflow.yml
+    name: GitHub Copilot Audit Seat Assignments
+    summary: List all Copilot seat assignments for an organization and drill into the first seat's details.
+  - url: arazzo/github-copilot-deprovision-users-workflow.yml
+    name: GitHub Copilot Deprovision Seats for Users
+    summary: List current seats, set seats to pending cancellation for selected users, and confirm the updated billing breakdown.
+  - url: arazzo/github-copilot-enterprise-metrics-report-workflow.yml
+    name: GitHub Copilot Enterprise Metrics Report
+    summary: Fetch the latest 28-day enterprise usage report, then the daily enterprise and user-level usage reports for a specific day.
+  - url: arazzo/github-copilot-org-metrics-report-workflow.yml
+    name: GitHub Copilot Organization Metrics Report
+    summary: Pull aggregated organization Copilot metrics, then fetch the latest 28-day org and user-level usage report links.
+  - url: arazzo/github-copilot-provision-teams-workflow.yml
+    name: GitHub Copilot Provision Seats for Teams
+    summary: Confirm organization billing capacity, assign Copilot seats to whole teams, and read back the updated seat breakdown.
+  - url: arazzo/github-copilot-provision-users-workflow.yml
+    name: GitHub Copilot Provision Seats for Users
+    summary: Check organization billing capacity, assign Copilot seats to selected users, and verify a seat was granted.
+  - url: arazzo/github-copilot-team-metrics-report-workflow.yml
+    name: GitHub Copilot Team Metrics Report
+    summary: Pull organization-wide Copilot metrics, then drill into a specific team's aggregated metrics.
 - type: Portal
   url: https://github.com/features/copilot
 - type: StatusPage
