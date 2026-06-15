@@ -1,0 +1,541 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "GitHub Copilot REST API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Copilot Billing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Github Copilot Get Copilot Billing Information for an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/orgs/:org/copilot/billing",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              }
+            ]
+          },
+          "docs": "Retrieves subscription details including seat breakdown and feature policies for an organization's Copilot subscription. Only organization owners can access this endpoint."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Copilot Seats",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Github Copilot List All Copilot Seat Assignments for an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/orgs/:org/copilot/billing/seats",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number of results to fetch."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results per page (max 100)."
+              }
+            ]
+          },
+          "docs": "Enumerates all active Copilot seats for which an organization is currently billed, including user activity metrics such as last activity date, editor, and authentication timestamp."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Get Copilot Seat Assignment Details for a User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/orgs/:org/members/:username/copilot",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              },
+              {
+                "name": "username",
+                "value": "octocat",
+                "type": "path",
+                "description": "The handle for the GitHub user account."
+              }
+            ]
+          },
+          "docs": "Retrieves comprehensive seat assignment information for a specific organization member, including usage patterns, last activity, and assignment origin."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Copilot User Management",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Github Copilot Add Teams to Copilot Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.github.com/orgs/:org/copilot/billing/selected_teams",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Purchases Copilot seats for all members within designated teams. Billing is based on the organization's Copilot plan. Only organization owners can call this endpoint."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Remove Teams From Copilot Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.github.com/orgs/:org/copilot/billing/selected_teams",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Marks seats for all members of specified teams as pending cancellation. Access ends at the conclusion of the current billing cycle."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Add Users to Copilot Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.github.com/orgs/:org/copilot/billing/selected_users",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Provisions Copilot seats for specified individual organization members. Charges are applied per the organization's plan structure."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Remove Users From Copilot Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.github.com/orgs/:org/copilot/billing/selected_users",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets user seats to pending cancellation, revoking access at the end of the billing cycle unless the user is retained through a team assignment."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Copilot Metrics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Github Copilot Get Copilot Metrics for an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/orgs/:org/copilot/metrics",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              },
+              {
+                "name": "since",
+                "value": "",
+                "type": "query",
+                "description": "Show usage metrics since this date (ISO 8601 format YYYY-MM-DD). Maximum 100 days in the past."
+              },
+              {
+                "name": "until",
+                "value": "",
+                "type": "query",
+                "description": "Show usage metrics until this date (ISO 8601 format YYYY-MM-DD)."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number of results to fetch."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Number of days of metrics per page (max 100)."
+              }
+            ]
+          },
+          "docs": "Retrieves aggregated metrics for various GitHub Copilot features broken down by language and IDE editor. Requires at least five organization members with active Copilot licenses. Data reflects previous day metrics only."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Get Copilot Metrics for a Team",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/orgs/:org/team/:team_slug/copilot/metrics",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              },
+              {
+                "name": "team_slug",
+                "value": "engineering",
+                "type": "path",
+                "description": "The slug of the team name."
+              },
+              {
+                "name": "since",
+                "value": "",
+                "type": "query",
+                "description": "Show usage metrics since this date (ISO 8601 format YYYY-MM-DD). Maximum 100 days in the past."
+              },
+              {
+                "name": "until",
+                "value": "",
+                "type": "query",
+                "description": "Show usage metrics until this date (ISO 8601 format YYYY-MM-DD)."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number of results to fetch."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Number of days of metrics per page (max 100)."
+              }
+            ]
+          },
+          "docs": "Retrieves aggregated Copilot metrics for a specific team within an organization, broken down by language and IDE editor. Requires at least five team members with active Copilot licenses."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Copilot Usage Reports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Github Copilot Get Enterprise Copilot Usage Metrics for a Specific Day",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/enterprises/:enterprise/copilot/metrics/reports/enterprise-1-day",
+            "params": [
+              {
+                "name": "enterprise",
+                "value": "octo-enterprise",
+                "type": "path",
+                "description": "The slug version of the enterprise name."
+              },
+              {
+                "name": "day",
+                "value": "",
+                "type": "query",
+                "description": "The date for the report in YYYY-MM-DD format."
+              }
+            ]
+          },
+          "docs": "Retrieves download links for daily enterprise-level Copilot usage metrics reports. Reports are generated daily and data is available from October 10, 2025, extending back up to one year historically."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Get Latest 28-day Enterprise Copilot Usage Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/enterprises/:enterprise/copilot/metrics/reports/enterprise-28-day/latest",
+            "params": [
+              {
+                "name": "enterprise",
+                "value": "octo-enterprise",
+                "type": "path",
+                "description": "The slug version of the enterprise name."
+              }
+            ]
+          },
+          "docs": "Retrieves download links for the latest 28-day enterprise-level Copilot usage metrics report."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Get Enterprise User-level Copilot Usage Metrics for a Specific Day",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/enterprises/:enterprise/copilot/metrics/reports/users-1-day",
+            "params": [
+              {
+                "name": "enterprise",
+                "value": "octo-enterprise",
+                "type": "path",
+                "description": "The slug version of the enterprise name."
+              },
+              {
+                "name": "day",
+                "value": "",
+                "type": "query",
+                "description": "The date for the report in YYYY-MM-DD format."
+              }
+            ]
+          },
+          "docs": "Retrieves download links for daily user-level Copilot usage metrics reports at the enterprise level, providing individual user engagement statistics, feature usage patterns, and adoption metrics."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Get Latest 28-day Enterprise User-level Copilot Usage Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/enterprises/:enterprise/copilot/metrics/reports/users-28-day/latest",
+            "params": [
+              {
+                "name": "enterprise",
+                "value": "octo-enterprise",
+                "type": "path",
+                "description": "The slug version of the enterprise name."
+              }
+            ]
+          },
+          "docs": "Retrieves download links for the latest 28-day user-level Copilot usage metrics report at the enterprise level."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Get Organization Copilot Usage Metrics for a Specific Day",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/orgs/:org/copilot/metrics/reports/organization-1-day",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              },
+              {
+                "name": "day",
+                "value": "",
+                "type": "query",
+                "description": "The date for the report in YYYY-MM-DD format."
+              }
+            ]
+          },
+          "docs": "Retrieves download links for daily organization-level Copilot usage metrics reports."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Get Latest 28-day Organization Copilot Usage Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/orgs/:org/copilot/metrics/reports/organization-28-day/latest",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              }
+            ]
+          },
+          "docs": "Retrieves download links for the latest 28-day organization-level Copilot usage metrics report."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Get Organization User-level Copilot Usage Metrics for a Specific Day",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/orgs/:org/copilot/metrics/reports/users-1-day",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              },
+              {
+                "name": "day",
+                "value": "",
+                "type": "query",
+                "description": "The date for the report in YYYY-MM-DD format."
+              }
+            ]
+          },
+          "docs": "Retrieves download links for daily user-level Copilot usage metrics reports at the organization level."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Get Latest 28-day Organization User-level Copilot Usage Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/orgs/:org/copilot/metrics/reports/users-28-day/latest",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              }
+            ]
+          },
+          "docs": "Retrieves download links for the latest 28-day user-level Copilot usage metrics report at the organization level."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Copilot Content Exclusion",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Github Copilot Get Copilot Content Exclusion Rules for an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/orgs/:org/copilot/content_exclusion",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              }
+            ]
+          },
+          "docs": "Gets information about an organization's Copilot content exclusion path rules. These rules define which files and directories Copilot is prevented from accessing."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Set Copilot Content Exclusion Rules for an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.github.com/orgs/:org/copilot/content_exclusion",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets Copilot content exclusion path rules for an organization. Replaces existing rules with the provided set."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
