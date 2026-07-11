@@ -1,0 +1,35 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/github-copilot-openapi.yml
+schemes:
+- name: OAuthToken
+  source: openapi/github-copilot-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://github.com/login/oauth/authorize
+    tokenUrl: https://github.com/login/oauth/access_token
+scopes:
+- scope: copilot
+  description: Manage Copilot content exclusion settings
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/github-copilot-openapi.yml
+- scope: manage_billing:copilot
+  description: Manage Copilot billing settings
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/github-copilot-openapi.yml
+- scope: read:enterprise
+  description: Read enterprise data
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/github-copilot-openapi.yml
+- scope: read:org
+  description: Read organization membership and settings
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/github-copilot-openapi.yml

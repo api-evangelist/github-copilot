@@ -300,6 +300,8 @@ tags:
   - Model Context Protocol
   - Productivity
 common:
+  - type: OAuthScopes
+    url: scopes/github-copilot-scopes.yml
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/github-copilot/overview
   - type: Arazzo
