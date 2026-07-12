@@ -1,0 +1,27 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/github-copilot-openapi.yml
+summary:
+  types:
+  - http
+  - oauth2
+  oauth2_flows:
+  - authorizationCode
+schemes:
+- name: BearerToken
+  type: http
+  scheme: bearer
+  description: Personal access token (classic) with manage_billing:copilot, read:org, or read:enterprise
+    scopes; or fine-grained token with GitHub Copilot Business (read) or Administration (read)
+    permissions.
+  sources:
+  - openapi/github-copilot-openapi.yml
+- name: OAuthToken
+  type: oauth2
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://github.com/login/oauth/authorize
+    tokenUrl: https://github.com/login/oauth/access_token
+    scopes: 4
+  sources:
+  - openapi/github-copilot-openapi.yml

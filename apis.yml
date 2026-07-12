@@ -300,6 +300,8 @@ tags:
   - Model Context Protocol
   - Productivity
 common:
+  - type: Authentication
+    url: authentication/github-copilot-authentication.yml
   - type: OAuthScopes
     url: scopes/github-copilot-scopes.yml
   - type: PostmanWorkspace
