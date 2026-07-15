@@ -300,6 +300,8 @@ tags:
   - Model Context Protocol
   - Productivity
 common:
+  - type: AgenticAccess
+    url: agentic-access/github-copilot-agentic-access.yml
   - type: Authentication
     url: authentication/github-copilot-authentication.yml
   - type: OAuthScopes
