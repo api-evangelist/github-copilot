@@ -1,0 +1,42 @@
+generated: '2026-06-20'
+method: derived
+source: >-
+  Derived from the object relationships in openapi/github-copilot-openapi.yml
+  (schema $ref links and id-reference fields such as org, enterprise, team_slug,
+  username, assignee) and the corresponding json-schema/ files. Captures the
+  entity-relationship graph behind Copilot seat management, billing, metrics,
+  and content exclusion.
+docs: https://docs.github.com/en/rest/copilot
+notation: >-
+  relationships use has_one / has_many / belongs_to with the reference field
+  name; direction is from the entity that owns the reference. GitHub resources
+  are addressed by path parameters (org, enterprise, team_slug, username) rather
+  than opaque id prefixes.
+entities:
+  - {name: Enterprise, key: enterprise, domain: account, description: A GitHub enterprise account containing organizations.}
+  - {name: Organization, key: org, domain: account, description: A GitHub organization that holds Copilot subscriptions and seats.}
+  - {name: Team, key: team_slug, domain: account, description: A team within an organization; can be granted Copilot seats in bulk.}
+  - {name: SimpleUser, key: login, domain: account, description: A GitHub user; the assignee of a Copilot seat.}
+  - {name: CopilotBillingInfo, key: '(org)', domain: billing, description: An organization's Copilot subscription/billing summary and feature policies.}
+  - {name: SeatBreakdown, key: '(org)', domain: billing, description: Seat counts by status (total, added_this_cycle, pending_invitation, active_this_cycle, inactive_this_cycle).}
+  - {name: CopilotSeatDetail, key: '(org, assignee)', domain: seats, description: A single Copilot seat assignment and its state.}
+  - {name: CopilotMetricsDay, key: date, domain: metrics, description: One day of aggregated Copilot usage metrics for an org or team.}
+  - {name: MetricsLanguageSummary, key: name, domain: metrics, description: Per-language breakdown within a metrics day.}
+  - {name: UsageReportDaily, key: '(entity, day)', domain: metrics, description: A 1-day Copilot usage report row (entity- or user-level).}
+  - {name: UsageReport28Day, key: '(entity, period)', domain: metrics, description: A 28-day aggregated Copilot usage report.}
+  - {name: ContentExclusionRules, key: '(org|enterprise)', domain: governance, description: Path-based content exclusion rules for an org or enterprise.}
+relationships:
+  - {from: Enterprise, to: Organization, kind: has_many, via: enterprise}
+  - {from: Organization, to: Team, kind: has_many, via: org}
+  - {from: Organization, to: CopilotBillingInfo, kind: has_one, via: org}
+  - {from: CopilotBillingInfo, to: SeatBreakdown, kind: has_one, via: seat_breakdown}
+  - {from: Organization, to: CopilotSeatDetail, kind: has_many, via: org}
+  - {from: CopilotSeatDetail, to: SimpleUser, kind: belongs_to, via: assignee}
+  - {from: Team, to: CopilotSeatDetail, kind: has_many, via: assigning_team}
+  - {from: Organization, to: CopilotMetricsDay, kind: has_many, via: org}
+  - {from: Team, to: CopilotMetricsDay, kind: has_many, via: team_slug}
+  - {from: CopilotMetricsDay, to: MetricsLanguageSummary, kind: has_many, via: language}
+  - {from: Enterprise, to: UsageReportDaily, kind: has_many, via: enterprise}
+  - {from: Organization, to: UsageReportDaily, kind: has_many, via: org}
+  - {from: Organization, to: ContentExclusionRules, kind: has_one, via: org}
+  - {from: Enterprise, to: ContentExclusionRules, kind: has_one, via: enterprise}

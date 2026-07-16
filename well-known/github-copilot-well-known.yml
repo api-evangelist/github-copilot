@@ -1,0 +1,30 @@
+generated: '2026-06-20'
+method: searched
+source: Live probes of the /.well-known/ surface on the GitHub API and web hosts.
+hosts:
+  - host: https://api.github.com
+    documents:
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/openid-configuration, status: 404}
+      - {path: /.well-known/oauth-authorization-server, status: 404}
+      - {path: /.well-known/api-catalog, status: 404}
+      - {path: /.well-known/ai-plugin.json, status: 404}
+  - host: https://github.com
+    documents:
+      - path: /.well-known/security.txt          # RFC 9116
+        status: 200
+        file: github-copilot-security.txt
+      - {path: /.well-known/openid-configuration, status: 404}
+      - {path: /.well-known/oauth-authorization-server, status: 404}
+      - {path: /.well-known/api-catalog, status: 404}
+      - {path: /.well-known/ai-plugin.json, status: 404}
+  - host: https://docs.github.com
+    documents:
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/openid-configuration, status: 404}
+notes: >-
+  Only the org-wide RFC 9116 security.txt at github.com resolves. GitHub does
+  not expose OIDC/OAuth authorization-server discovery documents at these hosts;
+  OAuth endpoints are documented at https://github.com/login/oauth (see
+  authentication/github-copilot-authentication.yml). GitHub Actions OIDC uses a
+  separate token host (token.actions.githubusercontent.com) not probed here.

@@ -3,7 +3,7 @@ description: APIs and resources for GitHub Copilot, an AI pair programmer that h
 image: https://github.githubassets.com/images/modules/site/copilot/copilot-logo.png
 url: https://api.github.com/apis.yaml
 created: '2024'
-modified: '2026-05-19'
+modified: '2026-06-20'
 specificationVersion: '0.18'
 kind: contract
 access: 3rd-Party
@@ -306,6 +306,38 @@ common:
     url: authentication/github-copilot-authentication.yml
   - type: OAuthScopes
     url: scopes/github-copilot-scopes.yml
+  - type: Packages
+    url: packages/github-copilot-packages.yml
+  - type: WellKnown
+    url: well-known/github-copilot-well-known.yml
+  - type: SecurityTxt
+    url: well-known/github-copilot-security.txt
+  - type: MCPServer
+    url: mcp/github-copilot-mcp.yml
+  - type: LLMsTxt
+    url: llms/github-copilot-llms.txt
+  - type: Overlay
+    url: overlays/github-copilot-openapi-overlay.yaml
+  - type: Conformance
+    url: conformance/github-copilot-conformance.yml
+  - type: ErrorCatalog
+    url: errors/github-copilot-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/github-copilot-lifecycle.yml
+  - type: Conventions
+    url: conventions/github-copilot-conventions.yml
+  - type: ChangeLog
+    url: changelog/github-copilot-changelog.yml
+  - type: CLI
+    url: cli/github-copilot-cli.yml
+  - type: DataModel
+    url: data-model/github-copilot-data-model.yml
+  - type: DomainSecurity
+    url: security/github-copilot-domain-security.yml
+  - type: VulnerabilityDisclosure
+    url: security/github-copilot-vulnerability-disclosure.yml
+  - type: TrustCenter
+    url: security/github-copilot-trust-center.yml
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/github-copilot/overview
   - type: Arazzo

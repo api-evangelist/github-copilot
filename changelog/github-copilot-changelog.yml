@@ -1,0 +1,22 @@
+generated: '2026-06-20'
+method: searched
+source: https://github.blog/changelog/label/copilot/
+description: >-
+  Structured capture of GitHub's dated Copilot changelog. GitHub publishes
+  product changes to the GitHub Changelog under the "copilot" label; the REST
+  API surface itself is versioned by date via X-GitHub-Api-Version (see
+  lifecycle/github-copilot-lifecycle.yml). This artifact records the recent
+  window of entries; the live changelog is the source of truth.
+docs: https://github.blog/changelog/label/copilot/
+versioning:
+  scheme: dated product changelog (feature-level); REST API versioned via X-GitHub-Api-Version
+  detail: lifecycle/github-copilot-lifecycle.yml
+entries:
+  - {date: '2026-07-14', title: GitHub Copilot in Visual Studio — June update, highlight: New Copilot capabilities for the Visual Studio IDE integration.}
+  - {date: '2026-07-14', title: GitHub Copilot for JetBrains expands BYOK capabilities, highlight: Bring-your-own-key model support extended to JetBrains IDEs.}
+  - {date: '2026-07-14', title: Security reviews now available in the GitHub Copilot app, highlight: Security analysis added to the Copilot app.}
+  - {date: '2026-07-10', title: Agentic autofix for code scanning alerts in public preview, highlight: Automated fixes for code scanning security findings.}
+  - {date: '2026-07-09', title: 'OpenAI GPT-5.6 Sol, Terra, and Luna now available in GitHub Copilot', highlight: New OpenAI model options in Copilot.}
+  - {date: '2026-07-09', title: Ask Copilot for a repository overview, highlight: Request AI-generated summaries of a codebase.}
+  - {date: '2026-07-08', title: Enterprise-managed OpenTelemetry export for VS Code and CLI, highlight: OTel observability export for enterprise Copilot deployments.}
+  - {date: '2026-07-08', title: Deploy managed Copilot settings via MDM in VS Code and CLI, highlight: Centralized MDM-based configuration management.}

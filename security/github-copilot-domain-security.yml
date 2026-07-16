@@ -1,0 +1,32 @@
+generated: '2026-06-20'
+method: probed
+source: >-
+  Live DNS/TLS/HTTP probes of the GitHub API and web hosts (2026-06-20). The
+  mechanical probe-domain-security.py excludes github.com as a code host, so
+  these hosts were probed manually with dig + openssl/curl. Absence of a record
+  (e.g. no DNSSEC) is valid recorded data.
+hosts:
+  - {host: api.github.com, https: true, tls_version: TLSv1.3, hsts: true, hsts_max_age: 31536000, hsts_preload: true, cert_not_after: '2026-09-29'}
+  - {host: github.com, https: true, tls_version: TLSv1.3, hsts: true, hsts_max_age: 31536000, hsts_preload: true, cert_not_after: '2026-09-30'}
+  - {host: docs.github.com, https: true, hsts: true, hsts_max_age: 31557600, cert_not_after: '2026-09-02'}
+  - {host: api.githubcopilot.com, https: true, http_status: 404, cert_not_after: '2026-08-30', note: 'Copilot API / MCP host; root returns 404, endpoints require auth.'}
+domains:
+  - domain: github.com
+    dnssec: false
+    caa: ['issue digicert.com', 'issue globalsign.com', 'issue letsencrypt.org', 'issue sectigo.com', 'issuewild digicert.com', 'issuewild letsencrypt.org', 'issuewild sectigo.com']
+    spf: true
+    dmarc: true
+    dmarc_policy: quarantine
+    dmarc_subdomain_policy: reject
+  - domain: githubcopilot.com
+    dnssec: false
+    caa: ['issue digicert.com', 'issue letsencrypt.org (dns-01)', 'issue sectigo.com', 'issuewild digicert.com', 'issuewild sectigo.com']
+    spf: true
+    spf_policy: '-all (hard fail)'
+    dmarc: true
+    dmarc_policy: reject
+notes: >-
+  All probed hosts serve TLS 1.3 with HSTS + preload. Both registrable domains
+  publish CAA (restricting issuance to DigiCert/GlobalSign/Let's Encrypt/Sectigo),
+  SPF, and DMARC; githubcopilot.com enforces the strictest posture (SPF -all,
+  DMARC p=reject). Neither domain has DNSSEC (DS record absent).

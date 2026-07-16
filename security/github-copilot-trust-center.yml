@@ -1,0 +1,23 @@
+generated: '2026-06-20'
+method: searched
+probe: true
+source: >-
+  https://copilot.github.trust.page/ — GitHub Copilot's dedicated Trust Center
+  (SafeBase-hosted). The page is a JavaScript single-page app whose document
+  registry loads behind an access gate, so the certification list could not be
+  enumerated verbatim by automated fetch; the trust center URL itself is
+  confirmed real and is the authoritative source for Copilot's compliance
+  documents.
+url: https://copilot.github.trust.page/
+related:
+  - {label: GitHub Trust Center, url: https://github.com/trust-center}
+  - {label: Copilot Trust Center docs, url: https://resources.github.com/copilot-trust-center/}
+certifications: []
+certifications_note: >-
+  Not enumerated here because the SafeBase trust-page document list was not
+  machine-readable at fetch time; consult https://copilot.github.trust.page/ for
+  the current, authoritative certification set (GitHub publishes SOC and ISO
+  reports under NDA via this portal). No certification names are asserted
+  without a verified source.
+evidence:
+  - {source: https://copilot.github.trust.page/, kind: trust-center, verified: url-only}

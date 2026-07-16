@@ -1,0 +1,40 @@
+generated: '2026-06-20'
+method: searched
+source: >-
+  https://docs.github.com/en/rest/about-the-rest-api/api-versions,
+  https://docs.github.com/en/rest/overview/breaking-changes,
+  https://github.blog/changelog/label/copilot/,
+  https://www.githubstatus.com; deprecated operations derived from
+  openapi/github-copilot-openapi.yml (none flagged deprecated).
+versioning:
+  scheme: date-based
+  mechanism: X-GitHub-Api-Version request header
+  current: '2022-11-28'
+  docs: https://docs.github.com/en/rest/about-the-rest-api/api-versions
+  notes: >-
+    GitHub versions the REST API by date via the X-GitHub-Api-Version header.
+    When a new version ships, older versions remain supported for a deprecation
+    window; requests without the header default to the oldest supported version.
+deprecation:
+  policy_url: https://docs.github.com/en/rest/overview/breaking-changes
+  changelog: https://github.blog/changelog/label/copilot/
+  sunset_header: false
+  notes: >-
+    Breaking changes are announced ahead of time on the GitHub changelog and
+    surfaced by pinning to a dated X-GitHub-Api-Version, rather than via RFC 8594
+    Sunset/Deprecation response headers.
+sla:
+  url: https://github.com/enterprise
+  public_uptime_target: null
+  notes: >-
+    GitHub does not publish a numeric uptime SLA for standard accounts;
+    availability commitments are handled through GitHub Enterprise agreements.
+status_page: https://www.githubstatus.com/
+rate_limits: https://docs.github.com/en/rest/overview/rate-limits-for-the-rest-api
+billing_transition:
+  note: >-
+    Per the GitHub blog (2026-04), GitHub Copilot individual plans and billing
+    moved to usage-based (premium requests) billing — a commercial lifecycle
+    change captured in blogs/ and changelog/github-copilot-changelog.yml, not an
+    API-version change.
+deprecated_operations: []

@@ -1,0 +1,26 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for GitHub Copilot REST API
+  version: 1.0.0
+extends: openapi/github-copilot-openapi.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-slug: github-copilot
+      x-apievangelist-conventions: conventions/github-copilot-conventions.yml
+      x-apievangelist-authentication: authentication/github-copilot-authentication.yml
+      x-apievangelist-scopes: scopes/github-copilot-scopes.yml
+      x-apievangelist-errors: errors/github-copilot-problem-types.yml
+      x-apievangelist-lifecycle: lifecycle/github-copilot-lifecycle.yml
+      x-apievangelist-data-model: data-model/github-copilot-data-model.yml
+      x-apievangelist-mcp: mcp/github-copilot-mcp.yml
+  - target: $.info
+    update:
+      x-agentic-access: agentic-access/github-copilot-agentic-access.yml
+  - target: $.servers[0]
+    update:
+      x-apievangelist-domain-security: security/github-copilot-domain-security.yml
+notes: >-
+  Non-mutating overlay recording API Evangelist enrichment cross-links onto the
+  harvested OpenAPI. Apply with the apply_overlay tooling; never edit
+  openapi/github-copilot-openapi.yml directly.

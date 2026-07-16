@@ -1,0 +1,62 @@
+generated: '2026-06-20'
+method: searched
+source: >-
+  https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api
+  and related REST API guides. Cross-cutting request/response conventions that
+  apply to every GitHub REST endpoint including the Copilot slice, captured from
+  the docs and derived from openapi/github-copilot-openapi.yml.
+description: >-
+  How the GitHub REST API behaves across every operation: authentication,
+  versioning, pagination, conditional requests, rate-limit signaling, request
+  tracing, media types, and the error envelope. These runtime-semantics
+  conventions are not fully expressed by OpenAPI.
+base_url: https://api.github.com
+api_style: REST over HTTPS, JSON request/response
+authentication:
+  scheme: Bearer token in Authorization header
+  token_types: [personal access token (classic), fine-grained PAT, OAuth app token, GitHub App installation token]
+  docs: https://docs.github.com/en/rest/authentication
+  detail: authentication/github-copilot-authentication.yml
+  user_agent_required: true   # requests without a User-Agent header are rejected (403)
+versioning:
+  scheme: date-based
+  header: X-GitHub-Api-Version
+  example: '2022-11-28'
+  docs: https://docs.github.com/en/rest/about-the-rest-api/api-versions
+  detail: lifecycle/github-copilot-lifecycle.yml
+media_types:
+  default: application/vnd.github+json
+  pattern: application/vnd.github.PARAM+json    # e.g. application/vnd.github.raw+json
+  accept_header: true
+pagination:
+  style: page-number with Link header
+  request_params:
+    per_page: 1-100, default 30
+    page: 1-based page number
+  response:
+    link_header: 'Link: <...>; rel="next", <...>; rel="last", rel="prev", rel="first"'
+  docs: https://docs.github.com/en/rest/using-the-rest-api/using-pagination-in-the-rest-api
+conditional_requests:
+  supported: true
+  mechanism: ETag / If-None-Match and Last-Modified / If-Modified-Since
+  not_modified: 304 Not Modified (does not count against the rate limit)
+  docs: https://docs.github.com/en/rest/using-the-rest-api/best-practices-for-using-the-rest-api
+idempotency:
+  supported: false
+  note: >-
+    GitHub does not offer an Idempotency-Key header; GET/HEAD are inherently
+    idempotent and most Copilot management writes (PUT/DELETE seat assignment)
+    are naturally idempotent by resource state.
+request_tracing:
+  header: X-GitHub-Request-Id
+  note: Unique per-request id echoed on every response; include it when contacting support.
+rate_limiting:
+  headers: [x-ratelimit-limit, x-ratelimit-remaining, x-ratelimit-reset, x-ratelimit-used, x-ratelimit-resource]
+  exhausted_status: [403, 429]
+  retry_after: Retry-After header on secondary rate limits
+  docs: https://docs.github.com/en/rest/overview/rate-limits-for-the-rest-api
+  detail: rate-limits/github-copilot-rate-limits.yml
+error_envelope:
+  media_type: application/json
+  shape: '{ "message": string, "documentation_url": string, "errors": [ { "resource", "field", "code" } ]? }'
+  detail: errors/github-copilot-problem-types.yml

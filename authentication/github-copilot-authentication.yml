@@ -1,6 +1,7 @@
-generated: '2026-07-11'
-method: derived
+generated: '2026-06-20'
+method: searched
 source: openapi/github-copilot-openapi.yml
+docs: https://docs.github.com/en/rest/authentication/authenticating-to-the-rest-api
 summary:
   types:
   - http
@@ -22,6 +23,16 @@ schemes:
   - flow: authorizationCode
     authorizationUrl: https://github.com/login/oauth/authorize
     tokenUrl: https://github.com/login/oauth/access_token
-    scopes: 4
+    scopes: 5
   sources:
   - openapi/github-copilot-openapi.yml
+token_types:
+- Personal access token (classic) — Authorization bearer; carries OAuth scopes (see scopes/github-copilot-scopes.yml).
+- Fine-grained personal access token — uses org "GitHub Copilot Business" (read) and "Administration" permissions.
+- OAuth app token / GitHub App installation token — Authorization bearer.
+notes: >-
+  All GitHub REST requests require a User-Agent header and send the bearer token
+  in the Authorization header. Docs:
+  https://docs.github.com/en/rest/authentication/authenticating-to-the-rest-api
+  and https://docs.github.com/en/rest/copilot/copilot-user-management for the
+  Copilot per-endpoint permission matrix.

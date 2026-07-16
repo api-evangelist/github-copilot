@@ -1,0 +1,46 @@
+generated: '2026-06-20'
+method: derived
+format: github-error-object
+source: >-
+  Derived from the shared component responses (Unauthorized, Forbidden,
+  NotFound, ValidationFailed, InternalError) referenced by 4xx/5xx responses
+  across openapi/github-copilot-openapi.yml, enriched from the GitHub REST API
+  error documentation
+  (https://docs.github.com/en/rest/using-the-rest-api/troubleshooting-the-rest-api).
+  GitHub does NOT use RFC 9457 application/problem+json; every error is returned
+  as {"message": ..., "documentation_url": ..., "errors": [...]}.
+envelope:
+  media_type: application/json
+  shape: '{ "message": string, "documentation_url": string, "errors": [ { "resource", "field", "code" } ]? }'
+  detail: json-schema/github-copilot-error-schema.json
+problems:
+  - status: 401
+    title: Unauthorized
+    meaning: Requires authentication; the credentials are missing or invalid.
+    remediation: Supply a valid bearer token (PAT, fine-grained token, or OAuth token) in the Authorization header.
+    source_response: '#/components/responses/Unauthorized'
+  - status: 403
+    title: Forbidden
+    meaning: Insufficient permissions, or the request was rate-limited / blocked (e.g. missing User-Agent, secondary rate limit).
+    remediation: Ensure the token carries the required scopes/permissions (see scopes/github-copilot-scopes.yml) and honor rate-limit headers.
+    source_response: '#/components/responses/Forbidden'
+  - status: 404
+    title: Not Found
+    meaning: The requested resource does not exist, or the token cannot see it (GitHub returns 404 rather than 403 to avoid leaking existence).
+    remediation: Verify the org/enterprise/username path parameters and that the token has visibility into the resource.
+    source_response: '#/components/responses/NotFound'
+  - status: 422
+    title: Unprocessable Entity / Validation Failed
+    meaning: Validation failed, or the endpoint has been spammed. The errors[] array details each invalid field.
+    remediation: Inspect the errors[] array (resource, field, code) and correct the request body.
+    source_response: '#/components/responses/ValidationFailed'
+  - status: 500
+    title: Internal Server Error
+    meaning: A server-side error occurred at GitHub.
+    remediation: Retry with backoff; if persistent, check https://www.githubstatus.com/ and contact GitHub Support.
+    source_response: '#/components/responses/InternalError'
+notes: >-
+  GitHub also returns 429 for primary rate-limit exhaustion on some endpoints
+  and 304 Not Modified for conditional requests; these are cross-cutting and not
+  modeled as named component responses in the Copilot slice. See
+  conventions/github-copilot-conventions.yml for rate-limit signaling.

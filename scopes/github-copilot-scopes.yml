@@ -1,6 +1,7 @@
-generated: '2026-07-11'
-method: derived
+generated: '2026-06-20'
+method: searched
 source: openapi/github-copilot-openapi.yml
+docs: https://docs.github.com/en/rest/copilot/copilot-user-management
 schemes:
 - name: OAuthToken
   source: openapi/github-copilot-openapi.yml
@@ -9,27 +10,49 @@ schemes:
     authorizationUrl: https://github.com/login/oauth/authorize
     tokenUrl: https://github.com/login/oauth/access_token
 scopes:
-- scope: copilot
-  description: Manage Copilot content exclusion settings
-  flows:
-  - authorizationCode
-  sources:
-  - openapi/github-copilot-openapi.yml
 - scope: manage_billing:copilot
-  description: Manage Copilot billing settings
+  description: >-
+    Manage Copilot billing and seat assignments — required for adding/removing
+    users or teams from Copilot subscriptions and viewing billing information.
   flows:
   - authorizationCode
   sources:
   - openapi/github-copilot-openapi.yml
-- scope: read:enterprise
-  description: Read enterprise data
-  flows:
-  - authorizationCode
-  sources:
-  - openapi/github-copilot-openapi.yml
+  - https://docs.github.com/en/rest/copilot/copilot-user-management
 - scope: read:org
-  description: Read organization membership and settings
+  description: >-
+    Read organization membership and settings — sufficient (alongside
+    manage_billing:copilot) for read operations such as viewing Copilot billing,
+    seats, and metrics.
   flows:
   - authorizationCode
   sources:
   - openapi/github-copilot-openapi.yml
+  - https://docs.github.com/en/rest/copilot/copilot-user-management
+- scope: admin:org
+  description: >-
+    Full organization administration — alternative to manage_billing:copilot for
+    write operations (adding/removing users or teams from Copilot subscriptions).
+  flows:
+  - authorizationCode
+  sources:
+  - https://docs.github.com/en/rest/copilot/copilot-user-management
+- scope: read:enterprise
+  description: Read enterprise data — required for enterprise-level Copilot usage metrics reports.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/github-copilot-openapi.yml
+- scope: copilot
+  description: >-
+    Copilot scope covering Copilot content-exclusion and related settings on
+    fine-grained/classic tokens.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/github-copilot-openapi.yml
+notes: >-
+  Fine-grained personal access tokens use the "GitHub Copilot Business" (read)
+  and organization "Administration" permissions instead of the classic OAuth
+  scopes above. See https://docs.github.com/en/rest/copilot/copilot-user-management
+  for the per-endpoint permission matrix.

@@ -1,0 +1,43 @@
+generated: '2026-06-20'
+method: derived
+source: >-
+  Derived from openapi/github-copilot-openapi.yml (securitySchemes, error
+  schema, pagination conventions) and GitHub REST API documentation claims
+  (docs.github.com/en/rest). Cross-cutting standards the Copilot REST API
+  conforms to (or does not).
+standards:
+  - id: oauth2
+    conforms: true
+    evidence: >-
+      openapi securitySchemes declare an oauth2 scheme (OAuthToken,
+      authorizationCode flow, github.com/login/oauth authorize+token endpoints).
+  - id: http-bearer-auth
+    conforms: true
+    evidence: openapi securitySchemes define BearerToken (http bearer); personal access / fine-grained tokens.
+  - id: oidc
+    conforms: false
+    evidence: >-
+      No /.well-known/openid-configuration on api.github.com or github.com
+      (probed 404). GitHub Actions uses OIDC on a separate token host, out of
+      scope for this REST slice.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: Errors use GitHub's {message, documentation_url, errors[]} object, not application/problem+json. See errors/github-copilot-problem-types.yml.
+  - id: rfc9116-security-txt
+    conforms: true
+    evidence: github.com/.well-known/security.txt returns 200 (HackerOne contact, bounty.github.com policy).
+  - id: pagination
+    conforms: true
+    evidence: Link-header pagination with page/per_page params across GitHub REST list endpoints (docs.github.com/en/rest/using-the-rest-api/using-pagination-in-the-rest-api).
+  - id: api-versioning
+    conforms: true
+    evidence: Date-based X-GitHub-Api-Version request header (e.g. 2022-11-28).
+  - id: conditional-requests
+    conforms: true
+    evidence: ETag / If-None-Match with 304 Not Modified responses across GitHub REST API.
+  - id: rate-limit-headers
+    conforms: true
+    evidence: x-ratelimit-limit / -remaining / -reset / -used response headers.
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: GitHub announces deprecations via changelog and API-version pinning rather than RFC 8594 Sunset/Deprecation headers.

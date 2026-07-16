@@ -1,0 +1,40 @@
+generated: '2026-06-20'
+method: searched
+source: >-
+  https://github.com/github/copilot-cli and the npm package @github/copilot,
+  plus the gh copilot extension (github.com/github/gh-copilot). There are two
+  distinct first-party Copilot command-line surfaces.
+description: >-
+  GitHub Copilot's command-line surfaces. (1) The standalone GitHub Copilot CLI
+  (@github/copilot) — an agentic coding assistant that runs in the terminal.
+  (2) The `gh copilot` extension for the GitHub CLI — suggest/explain shell
+  commands. The binaries are catalogued in packages/github-copilot-packages.yml.
+clis:
+  - name: GitHub Copilot CLI
+    binary: copilot
+    package: "@github/copilot"
+    repo: https://github.com/github/copilot-cli
+    docs: https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-in-the-cli
+    install:
+      npm: npm install -g @github/copilot
+    description: >-
+      Brings the Copilot coding agent to the terminal — reads/edits files, runs
+      commands, and completes tasks interactively or non-interactively. Supports
+      MCP servers, custom agents, slash commands, and multiple model families.
+    surface:
+      - {kind: mode, name: interactive, description: Launch an interactive agent session in the current directory.}
+      - {kind: mode, name: non-interactive, description: Run a single prompt/task and exit (scriptable).}
+      - {kind: feature, name: slash-commands, description: In-session slash commands to control context, models, and agents.}
+      - {kind: feature, name: mcp, description: Connect MCP servers for additional tools/context (see mcp/github-copilot-mcp.yml).}
+      - {kind: feature, name: custom-agents, description: Define specialized agents for specific tasks.}
+  - name: gh copilot (GitHub CLI extension)
+    binary: gh copilot
+    repo: https://github.com/github/gh-copilot
+    docs: https://docs.github.com/en/copilot/how-tos/use-copilot-in-the-cli
+    install:
+      gh_extension: gh extension install github/gh-copilot
+    description: An extension for the GitHub CLI (gh) that suggests and explains shell/git/gh commands.
+    surface:
+      - {kind: command, name: gh copilot suggest, description: Ask Copilot to suggest a command for a described task.}
+      - {kind: command, name: gh copilot explain, description: Ask Copilot to explain what a given command does.}
+      - {kind: command, name: gh copilot config, description: Configure the extension (e.g. usage analytics opt-in).}

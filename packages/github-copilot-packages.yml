@@ -1,0 +1,75 @@
+generated: '2026-06-20'
+method: searched
+source: >-
+  https://docs.github.com/en/rest/using-the-rest-api/libraries-for-the-rest-api
+  and the public package registries. The GitHub Copilot REST API is a slice of
+  the GitHub REST API served from api.github.com, so the first-party client
+  libraries are the official Octokit family plus the community-maintained
+  language SDKs GitHub documents. Registry HTTP status recorded at fetch time.
+description: >-
+  First-party GitHub API client libraries (Octokit) usable against the Copilot
+  REST endpoints, plus the GitHub Copilot CLI package. Octokit.js and Octokit.rb
+  are GitHub-maintained; the Python/Go SDKs are the community libraries GitHub
+  links from its REST API docs (official: false).
+packages:
+  - language: javascript
+    registry: npm
+    name: octokit
+    url: https://www.npmjs.com/package/octokit
+    source: https://github.com/octokit/octokit.js
+    install: npm install octokit
+    official: true
+    note: The all-batteries-included GitHub SDK for browsers, Node.js and Deno.
+  - language: javascript
+    registry: npm
+    name: "@octokit/rest"
+    url: https://www.npmjs.com/package/@octokit/rest
+    source: https://github.com/octokit/rest.js
+    install: npm install @octokit/rest
+    official: true
+  - language: javascript
+    registry: npm
+    name: "@octokit/core"
+    url: https://www.npmjs.com/package/@octokit/core
+    source: https://github.com/octokit/core.js
+    install: npm install @octokit/core
+    official: true
+  - language: javascript
+    registry: npm
+    name: "@github/copilot"
+    url: https://www.npmjs.com/package/@github/copilot
+    source: https://github.com/github/copilot-cli
+    install: npm install -g @github/copilot
+    official: true
+    note: GitHub Copilot CLI — the coding agent in your terminal. Binary is `copilot`. See cli/github-copilot-cli.yml.
+  - language: ruby
+    registry: rubygems
+    name: octokit
+    url: https://rubygems.org/gems/octokit
+    source: https://github.com/octokit/octokit.rb
+    install: gem install octokit
+    official: true
+  - language: python
+    registry: pypi
+    name: PyGithub
+    url: https://pypi.org/project/PyGithub/
+    source: https://github.com/PyGithub/PyGithub
+    install: pip install PyGithub
+    official: false
+    note: Community library GitHub links from its REST API documentation.
+  - language: python
+    registry: pypi
+    name: ghapi
+    url: https://pypi.org/project/ghapi/
+    source: https://github.com/AnswerDotAI/ghapi
+    install: pip install ghapi
+    official: false
+    note: Community library GitHub links from its REST API documentation.
+  - language: go
+    registry: pkg.go.dev
+    name: github.com/google/go-github
+    url: https://pkg.go.dev/github.com/google/go-github/v66/github
+    source: https://github.com/google/go-github
+    install: go get github.com/google/go-github/v66/github
+    official: false
+    note: Community library GitHub links from its REST API documentation.
