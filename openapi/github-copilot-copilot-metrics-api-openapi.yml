@@ -1,0 +1,507 @@
+openapi: 3.1.0
+info:
+  title: GitHub Copilot REST Copilot Billing Copilot Metrics API
+  description: REST API for managing GitHub Copilot seat assignments, billing, usage metrics, content exclusion rules, and organizational settings. Covers user management, aggregated metrics, usage reports, and content governance across organizations and enterprises.
+  version: 1.0.0
+  contact:
+    name: GitHub Support
+    url: https://support.github.com
+    email: support@github.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  x-logo:
+    url: https://github.githubassets.com/images/modules/site/copilot/copilot-logo.png
+servers:
+- url: https://api.github.com
+  description: GitHub REST API
+security:
+- BearerToken: []
+- OAuthToken: []
+tags:
+- name: Copilot Metrics
+  description: Aggregated Copilot usage metrics by organization and team
+paths:
+  /orgs/{org}/copilot/metrics:
+    get:
+      operationId: getCopilotMetricsForOrganization
+      summary: Github Copilot Get Copilot Metrics for an Organization
+      description: Retrieves aggregated metrics for various GitHub Copilot features broken down by language and IDE editor. Requires at least five organization members with active Copilot licenses. Data reflects previous day metrics only.
+      tags:
+      - Copilot Metrics
+      parameters:
+      - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Since'
+      - $ref: '#/components/parameters/Until'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PerPageMetrics'
+      responses:
+        '200':
+          description: Aggregated Copilot metrics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CopilotMetricsDay'
+              examples:
+                Getcopilotmetricsfororganization200Example:
+                  summary: Default getCopilotMetricsForOrganization 200 response
+                  x-microcks-default: true
+                  value:
+                  - date: '2026-01-15'
+                    total_active_users: 10
+                    total_engaged_users: 10
+                    copilot_ide_code_completions: example_value
+                    copilot_ide_chat: example_value
+                    copilot_dotcom_chat: example_value
+                    copilot_dotcom_pull_requests: example_value
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /orgs/{org}/team/{team_slug}/copilot/metrics:
+    get:
+      operationId: getCopilotMetricsForTeam
+      summary: Github Copilot Get Copilot Metrics for a Team
+      description: Retrieves aggregated Copilot metrics for a specific team within an organization, broken down by language and IDE editor. Requires at least five team members with active Copilot licenses.
+      tags:
+      - Copilot Metrics
+      parameters:
+      - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/TeamSlug'
+      - $ref: '#/components/parameters/Since'
+      - $ref: '#/components/parameters/Until'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PerPageMetrics'
+      responses:
+        '200':
+          description: Aggregated Copilot metrics for the team
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CopilotMetricsDay'
+              examples:
+                Getcopilotmetricsforteam200Example:
+                  summary: Default getCopilotMetricsForTeam 200 response
+                  x-microcks-default: true
+                  value:
+                  - date: '2026-01-15'
+                    total_active_users: 10
+                    total_engaged_users: 10
+                    copilot_ide_code_completions: example_value
+                    copilot_ide_chat: example_value
+                    copilot_dotcom_chat: example_value
+                    copilot_dotcom_pull_requests: example_value
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    DotcomChatModel:
+      type: object
+      description: Dotcom Chat metrics for a specific AI model.
+      properties:
+        name:
+          type: string
+          example: Example Title
+        is_custom_model:
+          type: boolean
+          example: true
+        custom_model_training_date:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        total_engaged_users:
+          type: integer
+          example: 10
+        total_chats:
+          type: integer
+          example: 10
+    CopilotIdeCodeCompletions:
+      type: object
+      description: Metrics for Copilot code completions in IDEs.
+      properties:
+        total_engaged_users:
+          type: integer
+          description: Users who accepted at least one code suggestion.
+          example: 10
+        languages:
+          type: array
+          items:
+            $ref: '#/components/schemas/MetricsLanguageSummary'
+          example: []
+        editors:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodeCompletionsEditor'
+          example: []
+    IdeChatEditor:
+      type: object
+      description: IDE Chat metrics for a specific editor.
+      properties:
+        name:
+          type: string
+          description: Name of the editor.
+          example: Example Title
+        total_engaged_users:
+          type: integer
+          example: 10
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdeChatModel'
+          example: []
+    CopilotDotcomPullRequests:
+      type: object
+      description: Metrics for Copilot pull request summaries on github.com.
+      properties:
+        total_engaged_users:
+          type: integer
+          description: Users who generated pull request summaries.
+          example: 10
+        repositories:
+          type: array
+          items:
+            $ref: '#/components/schemas/PullRequestRepository'
+          example: []
+    CodeCompletionsModel:
+      type: object
+      description: Code completion metrics for a specific AI model.
+      properties:
+        name:
+          type: string
+          description: Name of the model or "default".
+          example: Example Title
+        is_custom_model:
+          type: boolean
+          description: Whether this is a custom fine-tuned model.
+          example: true
+        custom_model_training_date:
+          type:
+          - string
+          - 'null'
+          description: Training date of the custom model, if applicable.
+          example: example_value
+        total_engaged_users:
+          type: integer
+          example: 10
+        languages:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodeCompletionsLanguageMetrics'
+          example: []
+    CodeCompletionsLanguageMetrics:
+      type: object
+      description: Detailed code completion metrics for a specific language.
+      properties:
+        name:
+          type: string
+          description: Programming language name.
+          example: Example Title
+        total_engaged_users:
+          type: integer
+          example: 10
+        total_code_suggestions:
+          type: integer
+          description: Total number of code suggestions shown.
+          example: 10
+        total_code_acceptances:
+          type: integer
+          description: Total number of code suggestions accepted.
+          example: 10
+        total_code_lines_suggested:
+          type: integer
+          description: Total lines of code suggested.
+          example: 10
+        total_code_lines_accepted:
+          type: integer
+          description: Total lines of code accepted.
+          example: 10
+    PullRequestRepository:
+      type: object
+      description: Pull request summary metrics for a specific repository.
+      properties:
+        name:
+          type: string
+          description: Repository name.
+          example: Example Title
+        total_engaged_users:
+          type: integer
+          example: 10
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/PullRequestModel'
+          example: []
+    CopilotIdeChat:
+      type: object
+      description: Metrics for Copilot Chat in IDEs.
+      properties:
+        total_engaged_users:
+          type: integer
+          description: Users who prompted Copilot Chat in an IDE.
+          example: 10
+        editors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdeChatEditor'
+          example: []
+    CopilotDotcomChat:
+      type: object
+      description: Metrics for Copilot Chat on github.com.
+      properties:
+        total_engaged_users:
+          type: integer
+          example: 10
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/DotcomChatModel'
+          example: []
+    PullRequestModel:
+      type: object
+      description: Pull request summary metrics for a specific AI model.
+      properties:
+        name:
+          type: string
+          example: Example Title
+        is_custom_model:
+          type: boolean
+          example: true
+        custom_model_training_date:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        total_pr_summaries_created:
+          type: integer
+          description: Total number of pull request summaries generated.
+          example: 10
+        total_engaged_users:
+          type: integer
+          example: 10
+    CopilotMetricsDay:
+      type: object
+      description: Aggregated Copilot usage metrics for a single day, broken down by feature, editor, language, and model.
+      properties:
+        date:
+          type: string
+          format: date
+          description: The date these metrics apply to (YYYY-MM-DD).
+          example: '2026-01-15'
+        total_active_users:
+          type: integer
+          description: Total users with any Copilot activity on this date.
+          example: 10
+        total_engaged_users:
+          type: integer
+          description: Total users who actively engaged with Copilot features on this date.
+          example: 10
+        copilot_ide_code_completions:
+          oneOf:
+          - $ref: '#/components/schemas/CopilotIdeCodeCompletions'
+          - type: 'null'
+          example: example_value
+        copilot_ide_chat:
+          oneOf:
+          - $ref: '#/components/schemas/CopilotIdeChat'
+          - type: 'null'
+          example: example_value
+        copilot_dotcom_chat:
+          oneOf:
+          - $ref: '#/components/schemas/CopilotDotcomChat'
+          - type: 'null'
+          example: example_value
+        copilot_dotcom_pull_requests:
+          oneOf:
+          - $ref: '#/components/schemas/CopilotDotcomPullRequests'
+          - type: 'null'
+          example: example_value
+      required:
+      - date
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: example_value
+        documentation_url:
+          type: string
+          format: uri
+          description: Link to relevant API documentation
+          example: https://www.example.com
+      required:
+      - message
+    IdeChatModel:
+      type: object
+      description: IDE Chat metrics for a specific AI model.
+      properties:
+        name:
+          type: string
+          example: Example Title
+        is_custom_model:
+          type: boolean
+          example: true
+        custom_model_training_date:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        total_engaged_users:
+          type: integer
+          example: 10
+        total_chats:
+          type: integer
+          description: Total number of chat conversations.
+          example: 10
+        total_chat_insertion_events:
+          type: integer
+          description: Number of times chat suggestions were inserted into code.
+          example: 10
+        total_chat_copy_events:
+          type: integer
+          description: Number of times chat responses were copied.
+          example: 10
+    MetricsLanguageSummary:
+      type: object
+      description: Summary of engagement for a programming language.
+      properties:
+        name:
+          type: string
+          description: Programming language name.
+          example: Example Title
+        total_engaged_users:
+          type: integer
+          example: 10
+    CodeCompletionsEditor:
+      type: object
+      description: Code completion metrics for a specific editor.
+      properties:
+        name:
+          type: string
+          description: Name of the editor (e.g., vscode, jetbrains, neovim).
+          example: Example Title
+        total_engaged_users:
+          type: integer
+          example: 10
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodeCompletionsModel'
+          example: []
+  responses:
+    ValidationFailed:
+      description: Validation failed or endpoint has been spammed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number of results to fetch.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    Since:
+      name: since
+      in: query
+      required: false
+      description: Show usage metrics since this date (ISO 8601 format YYYY-MM-DD). Maximum 100 days in the past.
+      schema:
+        type: string
+        format: date
+    Until:
+      name: until
+      in: query
+      required: false
+      description: Show usage metrics until this date (ISO 8601 format YYYY-MM-DD).
+      schema:
+        type: string
+        format: date
+    PerPageMetrics:
+      name: per_page
+      in: query
+      required: false
+      description: Number of days of metrics per page (max 100).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+    TeamSlug:
+      name: team_slug
+      in: path
+      required: true
+      description: The slug of the team name.
+      schema:
+        type: string
+      example: engineering
+    Org:
+      name: org
+      in: path
+      required: true
+      description: The organization name. Case-insensitive.
+      schema:
+        type: string
+      example: octo-org
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+      description: Personal access token (classic) with manage_billing:copilot, read:org, or read:enterprise scopes; or fine-grained token with GitHub Copilot Business (read) or Administration (read) permissions.
+    OAuthToken:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://github.com/login/oauth/authorize
+          tokenUrl: https://github.com/login/oauth/access_token
+          scopes:
+            manage_billing:copilot: Manage Copilot billing settings
+            read:org: Read organization membership and settings
+            read:enterprise: Read enterprise data
+            copilot: Manage Copilot content exclusion settings
+externalDocs:
+  description: GitHub Copilot REST API Documentation
+  url: https://docs.github.com/en/rest/copilot

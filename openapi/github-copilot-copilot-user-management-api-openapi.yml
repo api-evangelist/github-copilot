@@ -1,0 +1,335 @@
+openapi: 3.1.0
+info:
+  title: GitHub Copilot REST Copilot Billing Copilot User Management API
+  description: REST API for managing GitHub Copilot seat assignments, billing, usage metrics, content exclusion rules, and organizational settings. Covers user management, aggregated metrics, usage reports, and content governance across organizations and enterprises.
+  version: 1.0.0
+  contact:
+    name: GitHub Support
+    url: https://support.github.com
+    email: support@github.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  x-logo:
+    url: https://github.githubassets.com/images/modules/site/copilot/copilot-logo.png
+servers:
+- url: https://api.github.com
+  description: GitHub REST API
+security:
+- BearerToken: []
+- OAuthToken: []
+tags:
+- name: Copilot User Management
+  description: Add and remove individual users and teams from Copilot subscriptions
+paths:
+  /orgs/{org}/copilot/billing/selected_teams:
+    post:
+      operationId: addTeamsToCopilotSubscription
+      summary: Github Copilot Add Teams to Copilot Subscription
+      description: Purchases Copilot seats for all members within designated teams. Billing is based on the organization's Copilot plan. Only organization owners can call this endpoint.
+      tags:
+      - Copilot User Management
+      parameters:
+      - $ref: '#/components/parameters/Org'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectedTeamsRequest'
+            examples:
+              AddteamstocopilotsubscriptionRequestExample:
+                summary: Default addTeamsToCopilotSubscription request
+                x-microcks-default: true
+                value:
+                  selected_teams:
+                  - example_value
+      responses:
+        '201':
+          description: Teams added to Copilot subscription
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeatsCreatedResponse'
+              examples:
+                Addteamstocopilotsubscription201Example:
+                  summary: Default addTeamsToCopilotSubscription 201 response
+                  x-microcks-default: true
+                  value:
+                    seats_created: 10
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      operationId: removeTeamsFromCopilotSubscription
+      summary: Github Copilot Remove Teams From Copilot Subscription
+      description: Marks seats for all members of specified teams as pending cancellation. Access ends at the conclusion of the current billing cycle.
+      tags:
+      - Copilot User Management
+      parameters:
+      - $ref: '#/components/parameters/Org'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectedTeamsRequest'
+            examples:
+              RemoveteamsfromcopilotsubscriptionRequestExample:
+                summary: Default removeTeamsFromCopilotSubscription request
+                x-microcks-default: true
+                value:
+                  selected_teams:
+                  - example_value
+      responses:
+        '200':
+          description: Teams removed from Copilot subscription
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeatsCancelledResponse'
+              examples:
+                Removeteamsfromcopilotsubscription200Example:
+                  summary: Default removeTeamsFromCopilotSubscription 200 response
+                  x-microcks-default: true
+                  value:
+                    seats_cancelled: 10
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /orgs/{org}/copilot/billing/selected_users:
+    post:
+      operationId: addUsersToCopilotSubscription
+      summary: Github Copilot Add Users to Copilot Subscription
+      description: Provisions Copilot seats for specified individual organization members. Charges are applied per the organization's plan structure.
+      tags:
+      - Copilot User Management
+      parameters:
+      - $ref: '#/components/parameters/Org'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectedUsersRequest'
+            examples:
+              AdduserstocopilotsubscriptionRequestExample:
+                summary: Default addUsersToCopilotSubscription request
+                x-microcks-default: true
+                value:
+                  selected_usernames:
+                  - example_value
+      responses:
+        '201':
+          description: Users added to Copilot subscription
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeatsCreatedResponse'
+              examples:
+                Adduserstocopilotsubscription201Example:
+                  summary: Default addUsersToCopilotSubscription 201 response
+                  x-microcks-default: true
+                  value:
+                    seats_created: 10
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      operationId: removeUsersFromCopilotSubscription
+      summary: Github Copilot Remove Users From Copilot Subscription
+      description: Sets user seats to pending cancellation, revoking access at the end of the billing cycle unless the user is retained through a team assignment.
+      tags:
+      - Copilot User Management
+      parameters:
+      - $ref: '#/components/parameters/Org'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectedUsersRequest'
+            examples:
+              RemoveusersfromcopilotsubscriptionRequestExample:
+                summary: Default removeUsersFromCopilotSubscription request
+                x-microcks-default: true
+                value:
+                  selected_usernames:
+                  - example_value
+      responses:
+        '200':
+          description: Users removed from Copilot subscription
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeatsCancelledResponse'
+              examples:
+                Removeusersfromcopilotsubscription200Example:
+                  summary: Default removeUsersFromCopilotSubscription 200 response
+                  x-microcks-default: true
+                  value:
+                    seats_cancelled: 10
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  responses:
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Requires authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationFailed:
+      description: Validation failed or endpoint has been spammed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    SelectedTeamsRequest:
+      type: object
+      description: A list of team slugs to add or remove from the Copilot subscription.
+      properties:
+        selected_teams:
+          type: array
+          items:
+            type: string
+          description: List of team slugs within the organization.
+          minItems: 1
+          example: []
+      required:
+      - selected_teams
+    SelectedUsersRequest:
+      type: object
+      description: A list of usernames to add or remove from the Copilot subscription.
+      properties:
+        selected_usernames:
+          type: array
+          items:
+            type: string
+          description: List of GitHub usernames who are organization members.
+          minItems: 1
+          example: []
+      required:
+      - selected_usernames
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: example_value
+        documentation_url:
+          type: string
+          format: uri
+          description: Link to relevant API documentation
+          example: https://www.example.com
+      required:
+      - message
+    SeatsCreatedResponse:
+      type: object
+      description: Response after adding users or teams to the Copilot subscription.
+      properties:
+        seats_created:
+          type: integer
+          description: The number of new Copilot seats created.
+          example: 10
+      required:
+      - seats_created
+    SeatsCancelledResponse:
+      type: object
+      description: Response after removing users or teams from the Copilot subscription.
+      properties:
+        seats_cancelled:
+          type: integer
+          description: The number of Copilot seats set to pending cancellation.
+          example: 10
+      required:
+      - seats_cancelled
+  parameters:
+    Org:
+      name: org
+      in: path
+      required: true
+      description: The organization name. Case-insensitive.
+      schema:
+        type: string
+      example: octo-org
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+      description: Personal access token (classic) with manage_billing:copilot, read:org, or read:enterprise scopes; or fine-grained token with GitHub Copilot Business (read) or Administration (read) permissions.
+    OAuthToken:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://github.com/login/oauth/authorize
+          tokenUrl: https://github.com/login/oauth/access_token
+          scopes:
+            manage_billing:copilot: Manage Copilot billing settings
+            read:org: Read organization membership and settings
+            read:enterprise: Read enterprise data
+            copilot: Manage Copilot content exclusion settings
+externalDocs:
+  description: GitHub Copilot REST API Documentation
+  url: https://docs.github.com/en/rest/copilot

@@ -1,0 +1,450 @@
+openapi: 3.1.0
+info:
+  title: GitHub Copilot REST Copilot Billing Copilot Seats API
+  description: REST API for managing GitHub Copilot seat assignments, billing, usage metrics, content exclusion rules, and organizational settings. Covers user management, aggregated metrics, usage reports, and content governance across organizations and enterprises.
+  version: 1.0.0
+  contact:
+    name: GitHub Support
+    url: https://support.github.com
+    email: support@github.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  x-logo:
+    url: https://github.githubassets.com/images/modules/site/copilot/copilot-logo.png
+servers:
+- url: https://api.github.com
+  description: GitHub REST API
+security:
+- BearerToken: []
+- OAuthToken: []
+tags:
+- name: Copilot Seats
+  description: Seat assignment management for organizations
+paths:
+  /orgs/{org}/copilot/billing/seats:
+    get:
+      operationId: listCopilotSeats
+      summary: Github Copilot List All Copilot Seat Assignments for an Organization
+      description: Enumerates all active Copilot seats for which an organization is currently billed, including user activity metrics such as last activity date, editor, and authentication timestamp.
+      tags:
+      - Copilot Seats
+      parameters:
+      - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: List of Copilot seat assignments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopilotSeatsResponse'
+              examples:
+                Listcopilotseats200Example:
+                  summary: Default listCopilotSeats 200 response
+                  x-microcks-default: true
+                  value:
+                    total_seats: 10
+                    seats:
+                    - created_at: '2026-01-15T10:30:00Z'
+                      updated_at: '2026-01-15T10:30:00Z'
+                      pending_cancellation_date: '2026-01-15'
+                      last_activity_at: '2026-01-15T10:30:00Z'
+                      last_activity_editor: example_value
+                      last_authenticated_at: '2026-01-15T10:30:00Z'
+                      plan_type: business
+                      assignee: example_value
+                      assigning_team: example_value
+          headers:
+            Link:
+              $ref: '#/components/headers/LinkPagination'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /orgs/{org}/members/{username}/copilot:
+    get:
+      operationId: getCopilotSeatForUser
+      summary: Github Copilot Get Copilot Seat Assignment Details for a User
+      description: Retrieves comprehensive seat assignment information for a specific organization member, including usage patterns, last activity, and assignment origin.
+      tags:
+      - Copilot Seats
+      parameters:
+      - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Username'
+      responses:
+        '200':
+          description: Copilot seat details for the user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopilotSeatDetail'
+              examples:
+                Getcopilotseatforuser200Example:
+                  summary: Default getCopilotSeatForUser 200 response
+                  x-microcks-default: true
+                  value:
+                    created_at: '2026-01-15T10:30:00Z'
+                    updated_at: '2026-01-15T10:30:00Z'
+                    pending_cancellation_date: '2026-01-15'
+                    last_activity_at: '2026-01-15T10:30:00Z'
+                    last_activity_editor: example_value
+                    last_authenticated_at: '2026-01-15T10:30:00Z'
+                    plan_type: business
+                    assignee: example_value
+                    assigning_team: example_value
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  responses:
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Requires authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationFailed:
+      description: Validation failed or endpoint has been spammed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    CopilotSeatsResponse:
+      type: object
+      description: Paginated list of Copilot seat assignments.
+      properties:
+        total_seats:
+          type: integer
+          description: Total number of Copilot seats for the organization.
+          example: 10
+        seats:
+          type: array
+          items:
+            $ref: '#/components/schemas/CopilotSeatDetail'
+          example: []
+      required:
+      - total_seats
+      - seats
+    CopilotSeatDetail:
+      type: object
+      description: Details of a Copilot seat assignment for a user, including activity information and plan type.
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the seat was created.
+          example: '2026-01-15T10:30:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the seat was last updated.
+          deprecated: true
+          example: '2026-01-15T10:30:00Z'
+        pending_cancellation_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: Date when seat cancellation takes effect. Null if not pending cancellation.
+          example: '2026-01-15'
+        last_activity_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp of the user's last Copilot activity. Null if no activity recorded.
+          example: '2026-01-15T10:30:00Z'
+        last_activity_editor:
+          type:
+          - string
+          - 'null'
+          description: The IDE or editor used during the user's last Copilot activity. Null if no activity recorded.
+          example: example_value
+        last_authenticated_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp of the user's last authentication with Copilot. Null if never authenticated.
+          example: '2026-01-15T10:30:00Z'
+        plan_type:
+          type: string
+          description: The Copilot plan type for this seat.
+          enum:
+          - business
+          - enterprise
+          - unknown
+          example: business
+        assignee:
+          oneOf:
+          - $ref: '#/components/schemas/SimpleUser'
+          - type: 'null'
+          description: The GitHub user assigned to this seat.
+          example: example_value
+        assigning_team:
+          oneOf:
+          - $ref: '#/components/schemas/Team'
+          - type: 'null'
+          description: The team through which this seat was assigned, if applicable.
+          example: example_value
+      required:
+      - created_at
+      - plan_type
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: example_value
+        documentation_url:
+          type: string
+          format: uri
+          description: Link to relevant API documentation
+          example: https://www.example.com
+      required:
+      - message
+    Team:
+      type: object
+      description: A GitHub team.
+      properties:
+        id:
+          type: integer
+          description: Unique identifier of the team.
+          example: abc123
+        node_id:
+          type: string
+          example: '500123'
+        name:
+          type: string
+          description: Name of the team.
+          example: Example Title
+        slug:
+          type: string
+          description: URL-friendly slug of the team name.
+          example: example_value
+        description:
+          type:
+          - string
+          - 'null'
+          description: Description of the team.
+          example: A sample description.
+        privacy:
+          type: string
+          enum:
+          - closed
+          - secret
+          example: closed
+        notification_setting:
+          type: string
+          enum:
+          - notifications_enabled
+          - notifications_disabled
+          example: notifications_enabled
+        permission:
+          type: string
+          description: The default permission level for the team.
+          example: example_value
+        url:
+          type: string
+          format: uri
+          example: https://www.example.com
+        html_url:
+          type: string
+          format: uri
+          example: https://www.example.com
+        members_url:
+          type: string
+          example: https://www.example.com
+        repositories_url:
+          type: string
+          format: uri
+          example: https://www.example.com
+      required:
+      - id
+      - name
+      - slug
+    SimpleUser:
+      type: object
+      description: A GitHub user account.
+      properties:
+        login:
+          type: string
+          description: The username of the user.
+          example: example_value
+        id:
+          type: integer
+          description: The unique identifier of the user.
+          example: abc123
+        node_id:
+          type: string
+          description: The GraphQL node ID of the user.
+          example: '500123'
+        avatar_url:
+          type: string
+          format: uri
+          description: URL to the user's avatar image.
+          example: https://www.example.com
+        gravatar_id:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+        url:
+          type: string
+          format: uri
+          description: API URL for this user.
+          example: https://www.example.com
+        html_url:
+          type: string
+          format: uri
+          description: URL to the user's GitHub profile.
+          example: https://www.example.com
+        followers_url:
+          type: string
+          format: uri
+          example: https://www.example.com
+        following_url:
+          type: string
+          example: https://www.example.com
+        gists_url:
+          type: string
+          example: https://www.example.com
+        starred_url:
+          type: string
+          example: https://www.example.com
+        subscriptions_url:
+          type: string
+          format: uri
+          example: https://www.example.com
+        organizations_url:
+          type: string
+          format: uri
+          example: https://www.example.com
+        repos_url:
+          type: string
+          format: uri
+          example: https://www.example.com
+        events_url:
+          type: string
+          example: https://www.example.com
+        received_events_url:
+          type: string
+          format: uri
+          example: https://www.example.com
+        type:
+          type: string
+          description: The type of account (User, Organization, Bot, etc.).
+          example: example_value
+        site_admin:
+          type: boolean
+          description: Whether the user is a GitHub site administrator.
+          example: true
+      required:
+      - login
+      - id
+      - node_id
+      - avatar_url
+      - url
+      - html_url
+      - type
+      - site_admin
+  parameters:
+    PerPage:
+      name: per_page
+      in: query
+      required: false
+      description: The number of results per page (max 100).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 50
+    Org:
+      name: org
+      in: path
+      required: true
+      description: The organization name. Case-insensitive.
+      schema:
+        type: string
+      example: octo-org
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number of results to fetch.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    Username:
+      name: username
+      in: path
+      required: true
+      description: The handle for the GitHub user account.
+      schema:
+        type: string
+      example: octocat
+  headers:
+    LinkPagination:
+      description: Pagination links in RFC 5988 format.
+      schema:
+        type: string
+      example: <https://api.github.com/orgs/octo-org/copilot/billing/seats?page=2>; rel="next"
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+      description: Personal access token (classic) with manage_billing:copilot, read:org, or read:enterprise scopes; or fine-grained token with GitHub Copilot Business (read) or Administration (read) permissions.
+    OAuthToken:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://github.com/login/oauth/authorize
+          tokenUrl: https://github.com/login/oauth/access_token
+          scopes:
+            manage_billing:copilot: Manage Copilot billing settings
+            read:org: Read organization membership and settings
+            read:enterprise: Read enterprise data
+            copilot: Manage Copilot content exclusion settings
+externalDocs:
+  description: GitHub Copilot REST API Documentation
+  url: https://docs.github.com/en/rest/copilot

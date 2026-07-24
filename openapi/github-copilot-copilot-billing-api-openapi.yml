@@ -1,0 +1,224 @@
+openapi: 3.1.0
+info:
+  title: GitHub Copilot REST Copilot Billing API
+  description: REST API for managing GitHub Copilot seat assignments, billing, usage metrics, content exclusion rules, and organizational settings. Covers user management, aggregated metrics, usage reports, and content governance across organizations and enterprises.
+  version: 1.0.0
+  contact:
+    name: GitHub Support
+    url: https://support.github.com
+    email: support@github.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  x-logo:
+    url: https://github.githubassets.com/images/modules/site/copilot/copilot-logo.png
+servers:
+- url: https://api.github.com
+  description: GitHub REST API
+security:
+- BearerToken: []
+- OAuthToken: []
+tags:
+- name: Copilot Billing
+  description: Organization-level Copilot billing and subscription information
+paths:
+  /orgs/{org}/copilot/billing:
+    get:
+      operationId: getCopilotBillingForOrganization
+      summary: Github Copilot Get Copilot Billing Information for an Organization
+      description: Retrieves subscription details including seat breakdown and feature policies for an organization's Copilot subscription. Only organization owners can access this endpoint.
+      tags:
+      - Copilot Billing
+      parameters:
+      - $ref: '#/components/parameters/Org'
+      responses:
+        '200':
+          description: Copilot billing information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopilotBillingInfo'
+              examples:
+                Getcopilotbillingfororganization200Example:
+                  summary: Default getCopilotBillingForOrganization 200 response
+                  x-microcks-default: true
+                  value:
+                    seat_breakdown:
+                      total: 10
+                      added_this_cycle: 10
+                      pending_invitation: 10
+                      pending_cancellation: 10
+                      active_this_cycle: 10
+                      inactive_this_cycle: 10
+                    seat_management_setting: assign_all
+                    ide_chat: enabled
+                    platform_chat: enabled
+                    cli: enabled
+                    public_code_suggestions: allow
+                    plan_type: business
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  responses:
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Requires authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: example_value
+        documentation_url:
+          type: string
+          format: uri
+          description: Link to relevant API documentation
+          example: https://www.example.com
+      required:
+      - message
+    SeatBreakdown:
+      type: object
+      description: Breakdown of Copilot seat counts by status.
+      properties:
+        total:
+          type: integer
+          description: Total number of Copilot seats.
+          example: 10
+        added_this_cycle:
+          type: integer
+          description: Seats added in the current billing cycle.
+          example: 10
+        pending_invitation:
+          type: integer
+          description: Seats with pending invitations.
+          example: 10
+        pending_cancellation:
+          type: integer
+          description: Seats pending cancellation at end of cycle.
+          example: 10
+        active_this_cycle:
+          type: integer
+          description: Seats active in the current billing cycle.
+          example: 10
+        inactive_this_cycle:
+          type: integer
+          description: Seats inactive in the current billing cycle.
+          example: 10
+    CopilotBillingInfo:
+      type: object
+      description: Copilot billing and subscription information for an organization, including seat breakdown and feature policy settings.
+      properties:
+        seat_breakdown:
+          $ref: '#/components/schemas/SeatBreakdown'
+        seat_management_setting:
+          type: string
+          description: How Copilot seats are managed for the organization.
+          enum:
+          - assign_all
+          - assign_selected
+          - disabled
+          - unconfigured
+          example: assign_all
+        ide_chat:
+          type: string
+          description: Policy for Copilot Chat in IDEs.
+          enum:
+          - enabled
+          - disabled
+          - unconfigured
+          example: enabled
+        platform_chat:
+          type: string
+          description: Policy for Copilot Chat on github.com.
+          enum:
+          - enabled
+          - disabled
+          - unconfigured
+          example: enabled
+        cli:
+          type: string
+          description: Policy for Copilot in the CLI.
+          enum:
+          - enabled
+          - disabled
+          - unconfigured
+          example: enabled
+        public_code_suggestions:
+          type: string
+          description: Policy for suggestions matching public code.
+          enum:
+          - allow
+          - block
+          - unconfigured
+          example: allow
+        plan_type:
+          type: string
+          description: The Copilot plan type for the organization.
+          enum:
+          - business
+          - enterprise
+          example: business
+      required:
+      - seat_breakdown
+      - seat_management_setting
+      - plan_type
+  parameters:
+    Org:
+      name: org
+      in: path
+      required: true
+      description: The organization name. Case-insensitive.
+      schema:
+        type: string
+      example: octo-org
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+      description: Personal access token (classic) with manage_billing:copilot, read:org, or read:enterprise scopes; or fine-grained token with GitHub Copilot Business (read) or Administration (read) permissions.
+    OAuthToken:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://github.com/login/oauth/authorize
+          tokenUrl: https://github.com/login/oauth/access_token
+          scopes:
+            manage_billing:copilot: Manage Copilot billing settings
+            read:org: Read organization membership and settings
+            read:enterprise: Read enterprise data
+            copilot: Manage Copilot content exclusion settings
+externalDocs:
+  description: GitHub Copilot REST API Documentation
+  url: https://docs.github.com/en/rest/copilot

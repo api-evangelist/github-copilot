@@ -1,0 +1,205 @@
+openapi: 3.1.0
+info:
+  title: GitHub Copilot REST Copilot Billing Copilot Content Exclusion API
+  description: REST API for managing GitHub Copilot seat assignments, billing, usage metrics, content exclusion rules, and organizational settings. Covers user management, aggregated metrics, usage reports, and content governance across organizations and enterprises.
+  version: 1.0.0
+  contact:
+    name: GitHub Support
+    url: https://support.github.com
+    email: support@github.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  x-logo:
+    url: https://github.githubassets.com/images/modules/site/copilot/copilot-logo.png
+servers:
+- url: https://api.github.com
+  description: GitHub REST API
+security:
+- BearerToken: []
+- OAuthToken: []
+tags:
+- name: Copilot Content Exclusion
+  description: Manage content exclusion path rules for organizations
+paths:
+  /orgs/{org}/copilot/content_exclusion:
+    get:
+      operationId: getCopilotContentExclusionRules
+      summary: Github Copilot Get Copilot Content Exclusion Rules for an Organization
+      description: Gets information about an organization's Copilot content exclusion path rules. These rules define which files and directories Copilot is prevented from accessing.
+      tags:
+      - Copilot Content Exclusion
+      parameters:
+      - $ref: '#/components/parameters/Org'
+      responses:
+        '200':
+          description: Content exclusion rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentExclusionRules'
+              examples:
+                Getcopilotcontentexclusionrules200Example:
+                  summary: Default getCopilotContentExclusionRules 200 response
+                  x-microcks-default: true
+                  value: {}
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    put:
+      operationId: setCopilotContentExclusionRules
+      summary: Github Copilot Set Copilot Content Exclusion Rules for an Organization
+      description: Sets Copilot content exclusion path rules for an organization. Replaces existing rules with the provided set.
+      tags:
+      - Copilot Content Exclusion
+      parameters:
+      - $ref: '#/components/parameters/Org'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContentExclusionRules'
+            examples:
+              SetcopilotcontentexclusionrulesRequestExample:
+                summary: Default setCopilotContentExclusionRules request
+                x-microcks-default: true
+                value: {}
+      responses:
+        '200':
+          description: Content exclusion rules updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Content exclusion rules updated successfully.
+              examples:
+                Setcopilotcontentexclusionrules200Example:
+                  summary: Default setCopilotContentExclusionRules 200 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '413':
+          description: Payload too large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Setcopilotcontentexclusionrules413Example:
+                  summary: Default setCopilotContentExclusionRules 413 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    documentation_url: https://www.example.com
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  responses:
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Requires authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationFailed:
+      description: Validation failed or endpoint has been spammed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: example_value
+        documentation_url:
+          type: string
+          format: uri
+          description: Link to relevant API documentation
+          example: https://www.example.com
+      required:
+      - message
+    ContentExclusionRules:
+      type: object
+      description: Content exclusion rules mapping repository names to arrays of file path patterns that Copilot is prevented from accessing.
+      additionalProperties:
+        type: array
+        items:
+          type: string
+        description: List of file path patterns to exclude for this repository.
+      example:
+        octo-repo:
+        - /src/some-dir/kernel.rs
+        - /secrets/**
+  parameters:
+    Org:
+      name: org
+      in: path
+      required: true
+      description: The organization name. Case-insensitive.
+      schema:
+        type: string
+      example: octo-org
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+      description: Personal access token (classic) with manage_billing:copilot, read:org, or read:enterprise scopes; or fine-grained token with GitHub Copilot Business (read) or Administration (read) permissions.
+    OAuthToken:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://github.com/login/oauth/authorize
+          tokenUrl: https://github.com/login/oauth/access_token
+          scopes:
+            manage_billing:copilot: Manage Copilot billing settings
+            read:org: Read organization membership and settings
+            read:enterprise: Read enterprise data
+            copilot: Manage Copilot content exclusion settings
+externalDocs:
+  description: GitHub Copilot REST API Documentation
+  url: https://docs.github.com/en/rest/copilot

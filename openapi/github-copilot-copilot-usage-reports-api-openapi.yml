@@ -1,0 +1,441 @@
+openapi: 3.1.0
+info:
+  title: GitHub Copilot REST Copilot Billing Copilot Usage Reports API
+  description: REST API for managing GitHub Copilot seat assignments, billing, usage metrics, content exclusion rules, and organizational settings. Covers user management, aggregated metrics, usage reports, and content governance across organizations and enterprises.
+  version: 1.0.0
+  contact:
+    name: GitHub Support
+    url: https://support.github.com
+    email: support@github.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  x-logo:
+    url: https://github.githubassets.com/images/modules/site/copilot/copilot-logo.png
+servers:
+- url: https://api.github.com
+  description: GitHub REST API
+security:
+- BearerToken: []
+- OAuthToken: []
+tags:
+- name: Copilot Usage Reports
+  description: Downloadable usage metrics reports for enterprises and organizations
+paths:
+  /enterprises/{enterprise}/copilot/metrics/reports/enterprise-1-day:
+    get:
+      operationId: getEnterpriseCopilotUsageDaily
+      summary: Github Copilot Get Enterprise Copilot Usage Metrics for a Specific Day
+      description: Retrieves download links for daily enterprise-level Copilot usage metrics reports. Reports are generated daily and data is available from October 10, 2025, extending back up to one year historically.
+      tags:
+      - Copilot Usage Reports
+      parameters:
+      - $ref: '#/components/parameters/Enterprise'
+      - $ref: '#/components/parameters/Day'
+      responses:
+        '200':
+          description: Daily enterprise usage report download links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageReportDaily'
+              examples:
+                Getenterprisecopilotusagedaily200Example:
+                  summary: Default getEnterpriseCopilotUsageDaily 200 response
+                  x-microcks-default: true
+                  value:
+                    download_links:
+                    - https://www.example.com
+                    report_day: '2026-01-15'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /enterprises/{enterprise}/copilot/metrics/reports/enterprise-28-day/latest:
+    get:
+      operationId: getEnterpriseCopilotUsage28Day
+      summary: Github Copilot Get Latest 28-day Enterprise Copilot Usage Metrics
+      description: Retrieves download links for the latest 28-day enterprise-level Copilot usage metrics report.
+      tags:
+      - Copilot Usage Reports
+      parameters:
+      - $ref: '#/components/parameters/Enterprise'
+      responses:
+        '200':
+          description: 28-day enterprise usage report download links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageReport28Day'
+              examples:
+                Getenterprisecopilotusage28day200Example:
+                  summary: Default getEnterpriseCopilotUsage28Day 200 response
+                  x-microcks-default: true
+                  value:
+                    download_links:
+                    - https://www.example.com
+                    report_start_day: '2026-01-15'
+                    report_end_day: '2026-01-15'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /enterprises/{enterprise}/copilot/metrics/reports/users-1-day:
+    get:
+      operationId: getEnterpriseUsersCopilotUsageDaily
+      summary: Github Copilot Get Enterprise User-level Copilot Usage Metrics for a Specific Day
+      description: Retrieves download links for daily user-level Copilot usage metrics reports at the enterprise level, providing individual user engagement statistics, feature usage patterns, and adoption metrics.
+      tags:
+      - Copilot Usage Reports
+      parameters:
+      - $ref: '#/components/parameters/Enterprise'
+      - $ref: '#/components/parameters/Day'
+      responses:
+        '200':
+          description: Daily user-level usage report download links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageReportDaily'
+              examples:
+                Getenterpriseuserscopilotusagedaily200Example:
+                  summary: Default getEnterpriseUsersCopilotUsageDaily 200 response
+                  x-microcks-default: true
+                  value:
+                    download_links:
+                    - https://www.example.com
+                    report_day: '2026-01-15'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /enterprises/{enterprise}/copilot/metrics/reports/users-28-day/latest:
+    get:
+      operationId: getEnterpriseUsersCopilotUsage28Day
+      summary: Github Copilot Get Latest 28-day Enterprise User-level Copilot Usage Metrics
+      description: Retrieves download links for the latest 28-day user-level Copilot usage metrics report at the enterprise level.
+      tags:
+      - Copilot Usage Reports
+      parameters:
+      - $ref: '#/components/parameters/Enterprise'
+      responses:
+        '200':
+          description: 28-day user-level usage report download links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageReport28Day'
+              examples:
+                Getenterpriseuserscopilotusage28day200Example:
+                  summary: Default getEnterpriseUsersCopilotUsage28Day 200 response
+                  x-microcks-default: true
+                  value:
+                    download_links:
+                    - https://www.example.com
+                    report_start_day: '2026-01-15'
+                    report_end_day: '2026-01-15'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /orgs/{org}/copilot/metrics/reports/organization-1-day:
+    get:
+      operationId: getOrganizationCopilotUsageDaily
+      summary: Github Copilot Get Organization Copilot Usage Metrics for a Specific Day
+      description: Retrieves download links for daily organization-level Copilot usage metrics reports.
+      tags:
+      - Copilot Usage Reports
+      parameters:
+      - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Day'
+      responses:
+        '200':
+          description: Daily organization usage report download links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageReportDaily'
+              examples:
+                Getorganizationcopilotusagedaily200Example:
+                  summary: Default getOrganizationCopilotUsageDaily 200 response
+                  x-microcks-default: true
+                  value:
+                    download_links:
+                    - https://www.example.com
+                    report_day: '2026-01-15'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /orgs/{org}/copilot/metrics/reports/organization-28-day/latest:
+    get:
+      operationId: getOrganizationCopilotUsage28Day
+      summary: Github Copilot Get Latest 28-day Organization Copilot Usage Metrics
+      description: Retrieves download links for the latest 28-day organization-level Copilot usage metrics report.
+      tags:
+      - Copilot Usage Reports
+      parameters:
+      - $ref: '#/components/parameters/Org'
+      responses:
+        '200':
+          description: 28-day organization usage report download links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageReport28Day'
+              examples:
+                Getorganizationcopilotusage28day200Example:
+                  summary: Default getOrganizationCopilotUsage28Day 200 response
+                  x-microcks-default: true
+                  value:
+                    download_links:
+                    - https://www.example.com
+                    report_start_day: '2026-01-15'
+                    report_end_day: '2026-01-15'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /orgs/{org}/copilot/metrics/reports/users-1-day:
+    get:
+      operationId: getOrganizationUsersCopilotUsageDaily
+      summary: Github Copilot Get Organization User-level Copilot Usage Metrics for a Specific Day
+      description: Retrieves download links for daily user-level Copilot usage metrics reports at the organization level.
+      tags:
+      - Copilot Usage Reports
+      parameters:
+      - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/Day'
+      responses:
+        '200':
+          description: Daily user-level usage report download links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageReportDaily'
+              examples:
+                Getorganizationuserscopilotusagedaily200Example:
+                  summary: Default getOrganizationUsersCopilotUsageDaily 200 response
+                  x-microcks-default: true
+                  value:
+                    download_links:
+                    - https://www.example.com
+                    report_day: '2026-01-15'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /orgs/{org}/copilot/metrics/reports/users-28-day/latest:
+    get:
+      operationId: getOrganizationUsersCopilotUsage28Day
+      summary: Github Copilot Get Latest 28-day Organization User-level Copilot Usage Metrics
+      description: Retrieves download links for the latest 28-day user-level Copilot usage metrics report at the organization level.
+      tags:
+      - Copilot Usage Reports
+      parameters:
+      - $ref: '#/components/parameters/Org'
+      responses:
+        '200':
+          description: 28-day user-level usage report download links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageReport28Day'
+              examples:
+                Getorganizationuserscopilotusage28day200Example:
+                  summary: Default getOrganizationUsersCopilotUsage28Day 200 response
+                  x-microcks-default: true
+                  value:
+                    download_links:
+                    - https://www.example.com
+                    report_start_day: '2026-01-15'
+                    report_end_day: '2026-01-15'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  responses:
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Requires authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    Enterprise:
+      name: enterprise
+      in: path
+      required: true
+      description: The slug version of the enterprise name.
+      schema:
+        type: string
+      example: octo-enterprise
+    Org:
+      name: org
+      in: path
+      required: true
+      description: The organization name. Case-insensitive.
+      schema:
+        type: string
+      example: octo-org
+    Day:
+      name: day
+      in: query
+      required: true
+      description: The date for the report in YYYY-MM-DD format.
+      schema:
+        type: string
+        format: date
+  schemas:
+    UsageReport28Day:
+      type: object
+      description: Download links for a 28-day Copilot usage metrics report.
+      properties:
+        download_links:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Signed URLs to download the report files.
+          example: []
+        report_start_day:
+          type: string
+          format: date
+          description: Start date of the 28-day reporting period.
+          example: '2026-01-15'
+        report_end_day:
+          type: string
+          format: date
+          description: End date of the 28-day reporting period.
+          example: '2026-01-15'
+      required:
+      - download_links
+      - report_start_day
+      - report_end_day
+    UsageReportDaily:
+      type: object
+      description: Download links for a daily Copilot usage metrics report.
+      properties:
+        download_links:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Signed URLs to download the report files.
+          example: []
+        report_day:
+          type: string
+          format: date
+          description: The date the report covers.
+          example: '2026-01-15'
+      required:
+      - download_links
+      - report_day
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: example_value
+        documentation_url:
+          type: string
+          format: uri
+          description: Link to relevant API documentation
+          example: https://www.example.com
+      required:
+      - message
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+      description: Personal access token (classic) with manage_billing:copilot, read:org, or read:enterprise scopes; or fine-grained token with GitHub Copilot Business (read) or Administration (read) permissions.
+    OAuthToken:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://github.com/login/oauth/authorize
+          tokenUrl: https://github.com/login/oauth/access_token
+          scopes:
+            manage_billing:copilot: Manage Copilot billing settings
+            read:org: Read organization membership and settings
+            read:enterprise: Read enterprise data
+            copilot: Manage Copilot content exclusion settings
+externalDocs:
+  description: GitHub Copilot REST API Documentation
+  url: https://docs.github.com/en/rest/copilot
