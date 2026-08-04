@@ -1,0 +1,24 @@
+{
+  "provider": "github-copilot",
+  "sources": [
+    "github-copilot-copilot-billing-api-openapi.yml",
+    "github-copilot-copilot-content-exclusion-api-openapi.yml",
+    "github-copilot-copilot-metrics-api-openapi.yml",
+    "github-copilot-copilot-seats-api-openapi.yml",
+    "github-copilot-copilot-usage-reports-api-openapi.yml",
+    "github-copilot-copilot-user-management-api-openapi.yml"
+  ],
+  "outputs": [
+    "github-copilot-copilot-billing-api-openapi.yml",
+    "github-copilot-copilot-content-exclusion-api-openapi.yml",
+    "github-copilot-copilot-metrics-api-openapi.yml",
+    "github-copilot-copilot-seats-api-openapi.yml",
+    "github-copilot-copilot-usage-reports-api-openapi.yml",
+    "github-copilot-copilot-user-management-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
