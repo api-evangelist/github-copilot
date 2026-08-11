@@ -388,6 +388,19 @@ tags:
   - Model Context Protocol
   - Productivity
 common:
+  - type: IssueTracker
+    url: https://github.com/github/github-mcp-server/issues
+  - type: Releases
+    url: https://github.com/github/github-mcp-server/releases
+  - type: SecurityPolicy
+    url: https://github.com/github/github-mcp-server/blob/main/SECURITY.md
+  - type: CodeOfConduct
+    url: https://github.com/github/github-mcp-server/blob/main/CODE_OF_CONDUCT.md
+  - type: ContributionGuide
+    url: https://github.com/github/github-mcp-server/blob/main/CONTRIBUTING.md
+  - type: License
+    name: MIT
+    url: https://github.com/github/github-mcp-server/blob/main/LICENSE
   - type: AgenticAccess
     url: agentic-access/github-copilot-agentic-access.yml
   - type: Authentication
