@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "GitHub Copilot REST Copilot Billing API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Copilot Billing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Github Copilot Get Copilot Billing Information for an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/orgs/:org/copilot/billing",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              }
+            ]
+          },
+          "docs": "Retrieves subscription details including seat breakdown and feature policies for an organization's Copilot subscription. Only organization owners can access this endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

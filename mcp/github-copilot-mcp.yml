@@ -1,11 +1,9 @@
 generated: '2026-06-20'
 method: searched
 status: published
-source: >-
-  https://github.com/github/github-mcp-server and
-  https://docs.github.com/en/copilot/concepts/context/mcp — GitHub ships an
-  official, first-party Model Context Protocol server. It is offered both as a
-  hosted remote server and as a locally-run binary/Docker image.
+source: https://github.com/github/github-mcp-server and https://docs.github.com/en/copilot/concepts/context/mcp
+  — GitHub ships an official, first-party Model Context Protocol server. It is offered both as a hosted
+  remote server and as a locally-run binary/Docker image.
 server:
   name: github
   vendor: GitHub
@@ -18,30 +16,57 @@ server:
     docker: docker run -i --rm -e GITHUB_PERSONAL_ACCESS_TOKEN ghcr.io/github/github-mcp-server
     toolsets_env: GITHUB_TOOLSETS
     toolsets_flag: --toolsets
-description: >-
-  The GitHub MCP server exposes GitHub itself (repositories, issues, pull
-  requests, Actions, code security, etc.) to MCP-capable agents including GitHub
-  Copilot. Tools are organized into configurable toolsets rather than a flat
-  list; the toolset groups below are captured from the official server docs.
+description: The GitHub MCP server exposes GitHub itself (repositories, issues, pull requests, Actions,
+  code security, etc.) to MCP-capable agents including GitHub Copilot. Tools are organized into configurable
+  toolsets rather than a flat list; the toolset groups below are captured from the official server docs.
 toolsets:
-  - {name: context, description: Context about the current authenticated user (recommended, always on).}
-  - {name: repos, description: Repository operations, file contents, and code search.}
-  - {name: issues, description: Issue creation, updates, and tracking.}
-  - {name: pull_requests, description: Pull request operations, reviews, and merges.}
-  - {name: actions, description: GitHub Actions workflows, runs, and CI/CD.}
-  - {name: code_security, description: Code scanning and security findings.}
-  - {name: secret_protection, description: Secret scanning alerts.}
-  - {name: dependabot, description: Dependency vulnerability alerts.}
-  - {name: discussions, description: GitHub Discussions management.}
-  - {name: projects, description: GitHub Projects board operations.}
-  - {name: notifications, description: Notification handling.}
-  - {name: users, description: User profile information.}
-  - {name: orgs, description: Organization information.}
-  - {name: gists, description: Gist create/read/update.}
-  - {name: labels, description: Label management.}
-notes: >-
-  Toolsets can be enabled/disabled via the --toolsets flag or GITHUB_TOOLSETS
-  env var; a dynamic-toolset discovery mode is also supported. This server
-  covers the broad GitHub platform; the Copilot-specific REST surface in
-  openapi/github-copilot-openapi.yml (seats, billing, metrics, content
-  exclusion) is not itself exposed as MCP tools by this server.
+- name: context
+  description: Context about the current authenticated user (recommended
+  always on).: null
+- name: repos
+  description: Repository operations
+  file contents: null
+  and code search.: null
+- name: issues
+  description: Issue creation
+  updates: null
+  and tracking.: null
+- name: pull_requests
+  description: Pull request operations
+  reviews: null
+  and merges.: null
+- name: actions
+  description: GitHub Actions workflows
+  runs: null
+  and CI/CD.: null
+- name: code_security
+  description: Code scanning and security findings.
+- name: secret_protection
+  description: Secret scanning alerts.
+- name: dependabot
+  description: Dependency vulnerability alerts.
+- name: discussions
+  description: GitHub Discussions management.
+- name: projects
+  description: GitHub Projects board operations.
+- name: notifications
+  description: Notification handling.
+- name: users
+  description: User profile information.
+- name: orgs
+  description: Organization information.
+- name: gists
+  description: Gist create/read/update.
+- name: labels
+  description: Label management.
+notes: Toolsets can be enabled/disabled via the --toolsets flag or GITHUB_TOOLSETS env var; a dynamic-toolset
+  discovery mode is also supported. This server covers the broad GitHub platform; the Copilot-specific
+  REST surface in openapi/github-copilot-openapi.yml (seats, billing, metrics, content exclusion) is not
+  itself exposed as MCP tools by this server.
+deployment:
+  mode: remote
+  endpoint: https://api.githubcopilot.com/mcp/
+  verified: probed
+  probe: gated
+  checked: '2026-08-12'
+  source: catalog MCP census

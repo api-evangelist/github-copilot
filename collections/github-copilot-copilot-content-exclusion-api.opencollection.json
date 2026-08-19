@@ -1,0 +1,66 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "GitHub Copilot REST Copilot Billing Copilot Content Exclusion API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Copilot Content Exclusion",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Github Copilot Get Copilot Content Exclusion Rules for an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/orgs/:org/copilot/content_exclusion",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              }
+            ]
+          },
+          "docs": "Gets information about an organization's Copilot content exclusion path rules. These rules define which files and directories Copilot is prevented from accessing."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Set Copilot Content Exclusion Rules for an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.github.com/orgs/:org/copilot/content_exclusion",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets Copilot content exclusion path rules for an organization. Replaces existing rules with the provided set."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

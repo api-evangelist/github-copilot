@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "GitHub Copilot REST Copilot Billing Copilot Seats API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Copilot Seats",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Github Copilot List All Copilot Seat Assignments for an Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/orgs/:org/copilot/billing/seats",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number of results to fetch."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results per page (max 100)."
+              }
+            ]
+          },
+          "docs": "Enumerates all active Copilot seats for which an organization is currently billed, including user activity metrics such as last activity date, editor, and authentication timestamp."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Get Copilot Seat Assignment Details for a User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/orgs/:org/members/:username/copilot",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              },
+              {
+                "name": "username",
+                "value": "octocat",
+                "type": "path",
+                "description": "The handle for the GitHub user account."
+              }
+            ]
+          },
+          "docs": "Retrieves comprehensive seat assignment information for a specific organization member, including usage patterns, last activity, and assignment origin."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

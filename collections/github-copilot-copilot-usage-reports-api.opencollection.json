@@ -1,0 +1,200 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "GitHub Copilot REST Copilot Billing Copilot Usage Reports API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Copilot Usage Reports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Github Copilot Get Enterprise Copilot Usage Metrics for a Specific Day",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/enterprises/:enterprise/copilot/metrics/reports/enterprise-1-day",
+            "params": [
+              {
+                "name": "enterprise",
+                "value": "octo-enterprise",
+                "type": "path",
+                "description": "The slug version of the enterprise name."
+              },
+              {
+                "name": "day",
+                "value": "",
+                "type": "query",
+                "description": "The date for the report in YYYY-MM-DD format."
+              }
+            ]
+          },
+          "docs": "Retrieves download links for daily enterprise-level Copilot usage metrics reports. Reports are generated daily and data is available from October 10, 2025, extending back up to one year historically."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Get Latest 28-day Enterprise Copilot Usage Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/enterprises/:enterprise/copilot/metrics/reports/enterprise-28-day/latest",
+            "params": [
+              {
+                "name": "enterprise",
+                "value": "octo-enterprise",
+                "type": "path",
+                "description": "The slug version of the enterprise name."
+              }
+            ]
+          },
+          "docs": "Retrieves download links for the latest 28-day enterprise-level Copilot usage metrics report."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Get Enterprise User-level Copilot Usage Metrics for a Specific Day",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/enterprises/:enterprise/copilot/metrics/reports/users-1-day",
+            "params": [
+              {
+                "name": "enterprise",
+                "value": "octo-enterprise",
+                "type": "path",
+                "description": "The slug version of the enterprise name."
+              },
+              {
+                "name": "day",
+                "value": "",
+                "type": "query",
+                "description": "The date for the report in YYYY-MM-DD format."
+              }
+            ]
+          },
+          "docs": "Retrieves download links for daily user-level Copilot usage metrics reports at the enterprise level, providing individual user engagement statistics, feature usage patterns, and adoption metrics."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Get Latest 28-day Enterprise User-level Copilot Usage Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/enterprises/:enterprise/copilot/metrics/reports/users-28-day/latest",
+            "params": [
+              {
+                "name": "enterprise",
+                "value": "octo-enterprise",
+                "type": "path",
+                "description": "The slug version of the enterprise name."
+              }
+            ]
+          },
+          "docs": "Retrieves download links for the latest 28-day user-level Copilot usage metrics report at the enterprise level."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Get Organization Copilot Usage Metrics for a Specific Day",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/orgs/:org/copilot/metrics/reports/organization-1-day",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              },
+              {
+                "name": "day",
+                "value": "",
+                "type": "query",
+                "description": "The date for the report in YYYY-MM-DD format."
+              }
+            ]
+          },
+          "docs": "Retrieves download links for daily organization-level Copilot usage metrics reports."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Get Latest 28-day Organization Copilot Usage Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/orgs/:org/copilot/metrics/reports/organization-28-day/latest",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              }
+            ]
+          },
+          "docs": "Retrieves download links for the latest 28-day organization-level Copilot usage metrics report."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Get Organization User-level Copilot Usage Metrics for a Specific Day",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/orgs/:org/copilot/metrics/reports/users-1-day",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              },
+              {
+                "name": "day",
+                "value": "",
+                "type": "query",
+                "description": "The date for the report in YYYY-MM-DD format."
+              }
+            ]
+          },
+          "docs": "Retrieves download links for daily user-level Copilot usage metrics reports at the organization level."
+        },
+        {
+          "info": {
+            "name": "Github Copilot Get Latest 28-day Organization User-level Copilot Usage Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.github.com/orgs/:org/copilot/metrics/reports/users-28-day/latest",
+            "params": [
+              {
+                "name": "org",
+                "value": "octo-org",
+                "type": "path",
+                "description": "The organization name. Case-insensitive."
+              }
+            ]
+          },
+          "docs": "Retrieves download links for the latest 28-day user-level Copilot usage metrics report at the organization level."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
