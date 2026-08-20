@@ -45,6 +45,11 @@ apis:
   tags:
   - Agents
   - Extensions
+  - Integration
+  - Skillsets
+  tags_raw:
+  - Agents
+  - Extensions
   - Integrations
   - Skillsets
   properties:
@@ -106,6 +111,11 @@ apis:
   tags:
   - Agents
   - Context
+  - Integration
+  - MCP
+  tags_raw:
+  - Agents
+  - Context
   - Integrations
   - MCP
   - Model Context Protocol
@@ -128,6 +138,11 @@ apis:
   humanURL: https://docs.github.com/en/copilot/how-tos/configure-custom-instructions
   baseURL: https://api.github.com
   tags:
+  - Configuration
+  - Customization
+  - Instructions
+  - Organization
+  tags_raw:
   - Configuration
   - Customization
   - Instructions
@@ -372,6 +387,20 @@ maintainers:
     email: kin@apievangelist.com
     url: http://apievangelist.com
 tags:
+  - Agents
+  - Artificial Intelligence
+  - Code Generation
+  - Code Review
+  - Coding Agents
+  - Custom Instructions
+  - Developer Tools
+  - Extensions
+  - IDE
+  - Machine-Learning
+  - MCP
+  - Metrics
+  - Productivity
+tags_raw:
   - Agents
   - AI
   - Artificial Intelligence
