@@ -1,0 +1,36 @@
+slug: github-copilot
+provider: GitHub Copilot
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Banking & Capital Markets
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Copilot Metrics
+  spec_file: github-copilot-copilot-metrics-api-openapi.yml
+  capability_id: BC-4280.30
+  capability_id_l1: BC-4280
+  capability_name: Product Usage Analytics
+  confidence: 0.7
+  evidence: '"Get Copilot Metrics for an Organization"; schemas CopilotIdeCodeCompletions, CopilotIdeChat,
+    CodeCompletionsLanguageMetrics, CopilotMetricsDay'
+  reason: Exposes aggregated product engagement telemetry (completions, chat, per-language/editor engagement)
+    — product usage analytics rather than billing.
+- tag: Copilot User Management
+  spec_file: github-copilot-copilot-user-management-api-openapi.yml
+  capability_id: BC-4240.40
+  capability_id_l1: BC-4240
+  capability_name: Subscription Modification
+  confidence: 0.7
+  evidence: '"Add Users to Copilot Subscription", "Remove Teams From Copilot Subscription"; schemas SeatsCreatedResponse,
+    SeatsCancelledResponse'
+  reason: Adding/removing users and teams from an active subscription is in-life seat adjustment; split
+    with subscription provisioning keeps confidence moderate.

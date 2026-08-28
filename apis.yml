@@ -1,5 +1,19 @@
 name: GitHub Copilot
 description: APIs and resources for GitHub Copilot, an AI pair programmer that helps you write code faster.
+deliveryModel:
+  model: open-core
+  license: MIT
+  open_source: true
+  commercial: true
+  callable_host: true
+  label: Open core · an OSS project plus a commercial hosted product
+  confidence: high
+  source:
+  - license
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
@@ -417,6 +431,9 @@ tags_raw:
   - Model Context Protocol
   - Productivity
 common:
+  - type: CapabilityMap
+    url: capabilities/github-copilot-capability-edges.yml
+    name: GitHub Copilot Business Capability Map
   - type: IssueTracker
     url: https://github.com/github/github-mcp-server/issues
   - type: Releases
