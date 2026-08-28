@@ -11,8 +11,8 @@ info:
     OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: githubCopilotApi
-  url: ../openapi/github-copilot-openapi.yml
+- name: copilotSeatsApi
+  url: ../openapi/github-copilot-copilot-seats-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: audit-seats

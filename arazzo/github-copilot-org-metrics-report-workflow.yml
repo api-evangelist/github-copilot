@@ -11,8 +11,11 @@ info:
     read and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: githubCopilotApi
-  url: ../openapi/github-copilot-openapi.yml
+- name: copilotMetricsApi
+  url: ../openapi/github-copilot-copilot-metrics-api-openapi.yml
+  type: openapi
+- name: copilotUsageReportsApi
+  url: ../openapi/github-copilot-copilot-usage-reports-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: org-metrics-report

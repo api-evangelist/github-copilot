@@ -11,8 +11,11 @@ info:
     read and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: githubCopilotApi
-  url: ../openapi/github-copilot-openapi.yml
+- name: copilotBillingApi
+  url: ../openapi/github-copilot-copilot-billing-api-openapi.yml
+  type: openapi
+- name: copilotUserManagementApi
+  url: ../openapi/github-copilot-copilot-user-management-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: provision-teams

@@ -12,8 +12,8 @@ info:
     description.
   version: 1.0.0
 sourceDescriptions:
-- name: githubCopilotApi
-  url: ../openapi/github-copilot-openapi.yml
+- name: copilotUsageReportsApi
+  url: ../openapi/github-copilot-copilot-usage-reports-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: enterprise-metrics-report

@@ -12,8 +12,8 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: githubCopilotApi
-  url: ../openapi/github-copilot-openapi.yml
+- name: copilotMetricsApi
+  url: ../openapi/github-copilot-copilot-metrics-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: team-metrics-report
