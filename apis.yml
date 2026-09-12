@@ -1,4 +1,5 @@
 name: GitHub Copilot
+x-parent: github
 description: APIs and resources for GitHub Copilot, an AI pair programmer that helps you write code faster.
 deliveryModel:
   model: open-core
