@@ -1,12 +1,7 @@
 {
   "provider": "github-copilot",
   "sources": [
-    "github-copilot-copilot-billing-api-openapi.yml",
-    "github-copilot-copilot-content-exclusion-api-openapi.yml",
-    "github-copilot-copilot-metrics-api-openapi.yml",
-    "github-copilot-copilot-seats-api-openapi.yml",
-    "github-copilot-copilot-usage-reports-api-openapi.yml",
-    "github-copilot-copilot-user-management-api-openapi.yml"
+    "_original/github-copilot-openapi.yml"
   ],
   "outputs": [
     "github-copilot-copilot-billing-api-openapi.yml",
@@ -19,6 +14,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "github-copilot-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "github-copilot-copilot-billing-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "github-copilot-copilot-content-exclusion-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "github-copilot-copilot-metrics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "github-copilot-copilot-seats-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "github-copilot-copilot-usage-reports-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "github-copilot-copilot-user-management-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: GitHub Copilot REST Copilot Billing Copilot User Management API
+  title: GitHub Copilot REST Copilot User Management API
   description: REST API for managing GitHub Copilot seat assignments, billing, usage metrics, content exclusion rules, and organizational settings. Covers user management, aggregated metrics, usage reports, and content governance across organizations and enterprises.
   version: 1.0.0
   contact:
@@ -214,14 +214,14 @@ paths:
         dispatcher: FALLBACK
 components:
   responses:
-    Forbidden:
-      description: Forbidden - insufficient permissions
+    InternalError:
+      description: Internal server error
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalError:
-      description: Internal server error
+    Unauthorized:
+      description: Requires authentication
       content:
         application/json:
           schema:
@@ -232,8 +232,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Requires authentication
+    Forbidden:
+      description: Forbidden - insufficient permissions
       content:
         application/json:
           schema:
@@ -271,6 +271,26 @@ components:
           example: []
       required:
       - selected_usernames
+    SeatsCancelledResponse:
+      type: object
+      description: Response after removing users or teams from the Copilot subscription.
+      properties:
+        seats_cancelled:
+          type: integer
+          description: The number of Copilot seats set to pending cancellation.
+          example: 10
+      required:
+      - seats_cancelled
+    SeatsCreatedResponse:
+      type: object
+      description: Response after adding users or teams to the Copilot subscription.
+      properties:
+        seats_created:
+          type: integer
+          description: The number of new Copilot seats created.
+          example: 10
+      required:
+      - seats_created
     Error:
       type: object
       properties:
@@ -285,26 +305,6 @@ components:
           example: https://www.example.com
       required:
       - message
-    SeatsCreatedResponse:
-      type: object
-      description: Response after adding users or teams to the Copilot subscription.
-      properties:
-        seats_created:
-          type: integer
-          description: The number of new Copilot seats created.
-          example: 10
-      required:
-      - seats_created
-    SeatsCancelledResponse:
-      type: object
-      description: Response after removing users or teams from the Copilot subscription.
-      properties:
-        seats_cancelled:
-          type: integer
-          description: The number of Copilot seats set to pending cancellation.
-          example: 10
-      required:
-      - seats_cancelled
   parameters:
     Org:
       name: org

@@ -20,7 +20,7 @@ actions:
   - target: $.servers[0]
     update:
       x-apievangelist-domain-security: security/github-copilot-domain-security.yml
-notes: >-
+x-notes: >-
   Non-mutating overlay recording API Evangelist enrichment cross-links onto the
   harvested OpenAPI. Apply with the apply_overlay tooling; never edit
   openapi/github-copilot-openapi.yml directly.

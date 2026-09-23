@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: GitHub Copilot REST Copilot Billing API
   description: REST API for managing GitHub Copilot seat assignments, billing, usage metrics, content exclusion rules, and organizational settings. Covers user management, aggregated metrics, usage reports, and content governance across organizations and enterprises.
@@ -69,14 +69,8 @@ paths:
         dispatcher: FALLBACK
 components:
   responses:
-    Forbidden:
-      description: Forbidden - insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
+    InternalError:
+      description: Internal server error
       content:
         application/json:
           schema:
@@ -87,55 +81,19 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalError:
-      description: Internal server error
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden - insufficient permissions
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Human-readable error message
-          example: example_value
-        documentation_url:
-          type: string
-          format: uri
-          description: Link to relevant API documentation
-          example: https://www.example.com
-      required:
-      - message
-    SeatBreakdown:
-      type: object
-      description: Breakdown of Copilot seat counts by status.
-      properties:
-        total:
-          type: integer
-          description: Total number of Copilot seats.
-          example: 10
-        added_this_cycle:
-          type: integer
-          description: Seats added in the current billing cycle.
-          example: 10
-        pending_invitation:
-          type: integer
-          description: Seats with pending invitations.
-          example: 10
-        pending_cancellation:
-          type: integer
-          description: Seats pending cancellation at end of cycle.
-          example: 10
-        active_this_cycle:
-          type: integer
-          description: Seats active in the current billing cycle.
-          example: 10
-        inactive_this_cycle:
-          type: integer
-          description: Seats inactive in the current billing cycle.
-          example: 10
     CopilotBillingInfo:
       type: object
       description: Copilot billing and subscription information for an organization, including seat breakdown and feature policy settings.
@@ -194,6 +152,48 @@ components:
       - seat_breakdown
       - seat_management_setting
       - plan_type
+    SeatBreakdown:
+      type: object
+      description: Breakdown of Copilot seat counts by status.
+      properties:
+        total:
+          type: integer
+          description: Total number of Copilot seats.
+          example: 10
+        added_this_cycle:
+          type: integer
+          description: Seats added in the current billing cycle.
+          example: 10
+        pending_invitation:
+          type: integer
+          description: Seats with pending invitations.
+          example: 10
+        pending_cancellation:
+          type: integer
+          description: Seats pending cancellation at end of cycle.
+          example: 10
+        active_this_cycle:
+          type: integer
+          description: Seats active in the current billing cycle.
+          example: 10
+        inactive_this_cycle:
+          type: integer
+          description: Seats inactive in the current billing cycle.
+          example: 10
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: example_value
+        documentation_url:
+          type: string
+          format: uri
+          description: Link to relevant API documentation
+          example: https://www.example.com
+      required:
+      - message
   parameters:
     Org:
       name: org

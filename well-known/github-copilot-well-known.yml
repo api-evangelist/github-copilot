@@ -1,30 +1,67 @@
-generated: '2026-06-20'
+generated: '2026-09-19'
 method: searched
 source: Live probes of the /.well-known/ surface on the GitHub API and web hosts.
 hosts:
-  - host: https://api.github.com
-    documents:
-      - {path: /.well-known/security.txt, status: 404}
-      - {path: /.well-known/openid-configuration, status: 404}
-      - {path: /.well-known/oauth-authorization-server, status: 404}
-      - {path: /.well-known/api-catalog, status: 404}
-      - {path: /.well-known/ai-plugin.json, status: 404}
+- host: https://api.github.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://github.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: github-copilot-security.txt
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/oauth-authorization-server/login/oauth
+    status: 200
+    file: github-copilot-github-oauth-authorization-server.json
+    bytes: 653
+  path_echo_control: passed
+- host: https://docs.github.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+- host: https://api.githubcopilot.com
+  documents:
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: github-copilot-api-oauth-protected-resource.json
+    bytes: 328
+  path_echo_control: passed
+notes: Only the org-wide RFC 9116 security.txt at github.com resolves. GitHub does not expose OIDC/OAuth
+  authorization-server discovery documents at these hosts; OAuth endpoints are documented at https://github.com/login/oauth
+  (see authentication/github-copilot-authentication.yml). GitHub Actions OIDC uses a separate token host
+  (token.actions.githubusercontent.com) not probed here.
+x-mcp-probe:
+  probed: '2026-09-19'
+  issue: roadmap#321, roadmap#337
+  documents:
+  - host: https://api.githubcopilot.com
+    path: /.well-known/oauth-protected-resource
+    file: github-copilot-api-oauth-protected-resource.json
   - host: https://github.com
-    documents:
-      - path: /.well-known/security.txt          # RFC 9116
-        status: 200
-        file: github-copilot-security.txt
-      - {path: /.well-known/openid-configuration, status: 404}
-      - {path: /.well-known/oauth-authorization-server, status: 404}
-      - {path: /.well-known/api-catalog, status: 404}
-      - {path: /.well-known/ai-plugin.json, status: 404}
-  - host: https://docs.github.com
-    documents:
-      - {path: /.well-known/security.txt, status: 404}
-      - {path: /.well-known/openid-configuration, status: 404}
-notes: >-
-  Only the org-wide RFC 9116 security.txt at github.com resolves. GitHub does
-  not expose OIDC/OAuth authorization-server discovery documents at these hosts;
-  OAuth endpoints are documented at https://github.com/login/oauth (see
-  authentication/github-copilot-authentication.yml). GitHub Actions OIDC uses a
-  separate token host (token.actions.githubusercontent.com) not probed here.
+    path: /.well-known/oauth-authorization-server/login/oauth
+    file: github-copilot-github-oauth-authorization-server.json
+  validated_on: resource (RFC 9728) / issuer (RFC 8414, OIDC)
+  negative_control: one per host; a 2xx JSON object at an impossible path discards the host
+note: 'MCP-host OAuth discovery added 2026-09-19 (roadmap#321/#337): the harvest visits a provider''s
+  primary hosts, and RFC 9728 protected-resource metadata lives on the MCP host, so these documents existed
+  and were invisible to the scorer. Fetched live and validated on `resource`/`issuer`; one negative control
+  per host.'

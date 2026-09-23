@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: GitHub Copilot REST Copilot Billing Copilot Usage Reports API
+  title: GitHub Copilot REST Copilot Usage Reports API
   description: REST API for managing GitHub Copilot seat assignments, billing, usage metrics, content exclusion rules, and organizational settings. Covers user management, aggregated metrics, usage reports, and content governance across organizations and enterprises.
   version: 1.0.0
   contact:
@@ -97,7 +97,7 @@ paths:
   /enterprises/{enterprise}/copilot/metrics/reports/users-1-day:
     get:
       operationId: getEnterpriseUsersCopilotUsageDaily
-      summary: Github Copilot Get Enterprise User-level Copilot Usage Metrics for a Specific Day
+      summary: Github Copilot Get Enterprise User-level Copilot Usage Metrics for a Specific…
       description: Retrieves download links for daily user-level Copilot usage metrics reports at the enterprise level, providing individual user engagement statistics, feature usage patterns, and adoption metrics.
       tags:
       - Copilot Usage Reports
@@ -241,7 +241,7 @@ paths:
   /orgs/{org}/copilot/metrics/reports/users-1-day:
     get:
       operationId: getOrganizationUsersCopilotUsageDaily
-      summary: Github Copilot Get Organization User-level Copilot Usage Metrics for a Specific Day
+      summary: Github Copilot Get Organization User-level Copilot Usage Metrics for a Specific…
       description: Retrieves download links for daily user-level Copilot usage metrics reports at the organization level.
       tags:
       - Copilot Usage Reports
@@ -312,14 +312,8 @@ paths:
         dispatcher: FALLBACK
 components:
   responses:
-    Forbidden:
-      description: Forbidden - insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
+    InternalError:
+      description: Internal server error
       content:
         application/json:
           schema:
@@ -330,8 +324,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalError:
-      description: Internal server error
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden - insufficient permissions
       content:
         application/json:
           schema:
@@ -345,14 +345,6 @@ components:
       schema:
         type: string
       example: octo-enterprise
-    Org:
-      name: org
-      in: path
-      required: true
-      description: The organization name. Case-insensitive.
-      schema:
-        type: string
-      example: octo-org
     Day:
       name: day
       in: query
@@ -361,7 +353,34 @@ components:
       schema:
         type: string
         format: date
+    Org:
+      name: org
+      in: path
+      required: true
+      description: The organization name. Case-insensitive.
+      schema:
+        type: string
+      example: octo-org
   schemas:
+    UsageReportDaily:
+      type: object
+      description: Download links for a daily Copilot usage metrics report.
+      properties:
+        download_links:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Signed URLs to download the report files.
+          example: []
+        report_day:
+          type: string
+          format: date
+          description: The date the report covers.
+          example: '2026-01-15'
+      required:
+      - download_links
+      - report_day
     UsageReport28Day:
       type: object
       description: Download links for a 28-day Copilot usage metrics report.
@@ -387,25 +406,6 @@ components:
       - download_links
       - report_start_day
       - report_end_day
-    UsageReportDaily:
-      type: object
-      description: Download links for a daily Copilot usage metrics report.
-      properties:
-        download_links:
-          type: array
-          items:
-            type: string
-            format: uri
-          description: Signed URLs to download the report files.
-          example: []
-        report_day:
-          type: string
-          format: date
-          description: The date the report covers.
-          example: '2026-01-15'
-      required:
-      - download_links
-      - report_day
     Error:
       type: object
       properties:

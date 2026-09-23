@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: GitHub Copilot REST Copilot Billing Copilot Seats API
+  title: GitHub Copilot REST Copilot Seats API
   description: REST API for managing GitHub Copilot seat assignments, billing, usage metrics, content exclusion rules, and organizational settings. Covers user management, aggregated metrics, usage reports, and content governance across organizations and enterprises.
   version: 1.0.0
   contact:
@@ -115,54 +115,7 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    Forbidden:
-      description: Forbidden - insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Requires authentication
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationFailed:
-      description: Validation failed or endpoint has been spammed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    CopilotSeatsResponse:
-      type: object
-      description: Paginated list of Copilot seat assignments.
-      properties:
-        total_seats:
-          type: integer
-          description: Total number of Copilot seats for the organization.
-          example: 10
-        seats:
-          type: array
-          items:
-            $ref: '#/components/schemas/CopilotSeatDetail'
-          example: []
-      required:
-      - total_seats
-      - seats
     CopilotSeatDetail:
       type: object
       description: Details of a Copilot seat assignment for a user, including activity information and plan type.
@@ -228,80 +181,6 @@ components:
       required:
       - created_at
       - plan_type
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Human-readable error message
-          example: example_value
-        documentation_url:
-          type: string
-          format: uri
-          description: Link to relevant API documentation
-          example: https://www.example.com
-      required:
-      - message
-    Team:
-      type: object
-      description: A GitHub team.
-      properties:
-        id:
-          type: integer
-          description: Unique identifier of the team.
-          example: abc123
-        node_id:
-          type: string
-          example: '500123'
-        name:
-          type: string
-          description: Name of the team.
-          example: Example Title
-        slug:
-          type: string
-          description: URL-friendly slug of the team name.
-          example: example_value
-        description:
-          type:
-          - string
-          - 'null'
-          description: Description of the team.
-          example: A sample description.
-        privacy:
-          type: string
-          enum:
-          - closed
-          - secret
-          example: closed
-        notification_setting:
-          type: string
-          enum:
-          - notifications_enabled
-          - notifications_disabled
-          example: notifications_enabled
-        permission:
-          type: string
-          description: The default permission level for the team.
-          example: example_value
-        url:
-          type: string
-          format: uri
-          example: https://www.example.com
-        html_url:
-          type: string
-          format: uri
-          example: https://www.example.com
-        members_url:
-          type: string
-          example: https://www.example.com
-        repositories_url:
-          type: string
-          format: uri
-          example: https://www.example.com
-      required:
-      - id
-      - name
-      - slug
     SimpleUser:
       type: object
       description: A GitHub user account.
@@ -387,6 +266,127 @@ components:
       - html_url
       - type
       - site_admin
+    CopilotSeatsResponse:
+      type: object
+      description: Paginated list of Copilot seat assignments.
+      properties:
+        total_seats:
+          type: integer
+          description: Total number of Copilot seats for the organization.
+          example: 10
+        seats:
+          type: array
+          items:
+            $ref: '#/components/schemas/CopilotSeatDetail'
+          example: []
+      required:
+      - total_seats
+      - seats
+    Team:
+      type: object
+      description: A GitHub team.
+      properties:
+        id:
+          type: integer
+          description: Unique identifier of the team.
+          example: abc123
+        node_id:
+          type: string
+          example: '500123'
+        name:
+          type: string
+          description: Name of the team.
+          example: Example Title
+        slug:
+          type: string
+          description: URL-friendly slug of the team name.
+          example: example_value
+        description:
+          type:
+          - string
+          - 'null'
+          description: Description of the team.
+          example: A sample description.
+        privacy:
+          type: string
+          enum:
+          - closed
+          - secret
+          example: closed
+        notification_setting:
+          type: string
+          enum:
+          - notifications_enabled
+          - notifications_disabled
+          example: notifications_enabled
+        permission:
+          type: string
+          description: The default permission level for the team.
+          example: example_value
+        url:
+          type: string
+          format: uri
+          example: https://www.example.com
+        html_url:
+          type: string
+          format: uri
+          example: https://www.example.com
+        members_url:
+          type: string
+          example: https://www.example.com
+        repositories_url:
+          type: string
+          format: uri
+          example: https://www.example.com
+      required:
+      - id
+      - name
+      - slug
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: example_value
+        documentation_url:
+          type: string
+          format: uri
+          description: Link to relevant API documentation
+          example: https://www.example.com
+      required:
+      - message
+  responses:
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Requires authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationFailed:
+      description: Validation failed or endpoint has been spammed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     PerPage:
       name: per_page
@@ -398,14 +398,6 @@ components:
         minimum: 1
         maximum: 100
         default: 50
-    Org:
-      name: org
-      in: path
-      required: true
-      description: The organization name. Case-insensitive.
-      schema:
-        type: string
-      example: octo-org
     Page:
       name: page
       in: query
@@ -415,6 +407,14 @@ components:
         type: integer
         minimum: 1
         default: 1
+    Org:
+      name: org
+      in: path
+      required: true
+      description: The organization name. Case-insensitive.
+      schema:
+        type: string
+      example: octo-org
     Username:
       name: username
       in: path

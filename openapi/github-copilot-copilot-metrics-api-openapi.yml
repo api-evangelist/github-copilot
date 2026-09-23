@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: GitHub Copilot REST Copilot Billing Copilot Metrics API
+  title: GitHub Copilot REST Copilot Metrics API
   description: REST API for managing GitHub Copilot seat assignments, billing, usage metrics, content exclusion rules, and organizational settings. Covers user management, aggregated metrics, usage reports, and content governance across organizations and enterprises.
   version: 1.0.0
   contact:
@@ -114,10 +114,116 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  parameters:
+    PerPageMetrics:
+      name: per_page
+      in: query
+      required: false
+      description: Number of days of metrics per page (max 100).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+    TeamSlug:
+      name: team_slug
+      in: path
+      required: true
+      description: The slug of the team name.
+      schema:
+        type: string
+      example: engineering
+    Since:
+      name: since
+      in: query
+      required: false
+      description: Show usage metrics since this date (ISO 8601 format YYYY-MM-DD). Maximum 100 days in the past.
+      schema:
+        type: string
+        format: date
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number of results to fetch.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    Until:
+      name: until
+      in: query
+      required: false
+      description: Show usage metrics until this date (ISO 8601 format YYYY-MM-DD).
+      schema:
+        type: string
+        format: date
+    Org:
+      name: org
+      in: path
+      required: true
+      description: The organization name. Case-insensitive.
+      schema:
+        type: string
+      example: octo-org
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationFailed:
+      description: Validation failed or endpoint has been spammed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    DotcomChatModel:
+    CopilotIdeChat:
       type: object
-      description: Dotcom Chat metrics for a specific AI model.
+      description: Metrics for Copilot Chat in IDEs.
+      properties:
+        total_engaged_users:
+          type: integer
+          description: Users who prompted Copilot Chat in an IDE.
+          example: 10
+        editors:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdeChatEditor'
+          example: []
+    PullRequestRepository:
+      type: object
+      description: Pull request summary metrics for a specific repository.
+      properties:
+        name:
+          type: string
+          description: Repository name.
+          example: Example Title
+        total_engaged_users:
+          type: integer
+          example: 10
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/PullRequestModel'
+          example: []
+    IdeChatModel:
+      type: object
+      description: IDE Chat metrics for a specific AI model.
       properties:
         name:
           type: string
@@ -134,6 +240,50 @@ components:
           type: integer
           example: 10
         total_chats:
+          type: integer
+          description: Total number of chat conversations.
+          example: 10
+        total_chat_insertion_events:
+          type: integer
+          description: Number of times chat suggestions were inserted into code.
+          example: 10
+        total_chat_copy_events:
+          type: integer
+          description: Number of times chat responses were copied.
+          example: 10
+    CopilotDotcomPullRequests:
+      type: object
+      description: Metrics for Copilot pull request summaries on github.com.
+      properties:
+        total_engaged_users:
+          type: integer
+          description: Users who generated pull request summaries.
+          example: 10
+        repositories:
+          type: array
+          items:
+            $ref: '#/components/schemas/PullRequestRepository'
+          example: []
+    PullRequestModel:
+      type: object
+      description: Pull request summary metrics for a specific AI model.
+      properties:
+        name:
+          type: string
+          example: Example Title
+        is_custom_model:
+          type: boolean
+          example: true
+        custom_model_training_date:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        total_pr_summaries_created:
+          type: integer
+          description: Total number of pull request summaries generated.
+          example: 10
+        total_engaged_users:
           type: integer
           example: 10
     CopilotIdeCodeCompletions:
@@ -154,34 +304,17 @@ components:
           items:
             $ref: '#/components/schemas/CodeCompletionsEditor'
           example: []
-    IdeChatEditor:
+    CopilotDotcomChat:
       type: object
-      description: IDE Chat metrics for a specific editor.
+      description: Metrics for Copilot Chat on github.com.
       properties:
-        name:
-          type: string
-          description: Name of the editor.
-          example: Example Title
         total_engaged_users:
           type: integer
           example: 10
         models:
           type: array
           items:
-            $ref: '#/components/schemas/IdeChatModel'
-          example: []
-    CopilotDotcomPullRequests:
-      type: object
-      description: Metrics for Copilot pull request summaries on github.com.
-      properties:
-        total_engaged_users:
-          type: integer
-          description: Users who generated pull request summaries.
-          example: 10
-        repositories:
-          type: array
-          items:
-            $ref: '#/components/schemas/PullRequestRepository'
+            $ref: '#/components/schemas/DotcomChatModel'
           example: []
     CodeCompletionsModel:
       type: object
@@ -209,93 +342,14 @@ components:
           items:
             $ref: '#/components/schemas/CodeCompletionsLanguageMetrics'
           example: []
-    CodeCompletionsLanguageMetrics:
+    MetricsLanguageSummary:
       type: object
-      description: Detailed code completion metrics for a specific language.
+      description: Summary of engagement for a programming language.
       properties:
         name:
           type: string
           description: Programming language name.
           example: Example Title
-        total_engaged_users:
-          type: integer
-          example: 10
-        total_code_suggestions:
-          type: integer
-          description: Total number of code suggestions shown.
-          example: 10
-        total_code_acceptances:
-          type: integer
-          description: Total number of code suggestions accepted.
-          example: 10
-        total_code_lines_suggested:
-          type: integer
-          description: Total lines of code suggested.
-          example: 10
-        total_code_lines_accepted:
-          type: integer
-          description: Total lines of code accepted.
-          example: 10
-    PullRequestRepository:
-      type: object
-      description: Pull request summary metrics for a specific repository.
-      properties:
-        name:
-          type: string
-          description: Repository name.
-          example: Example Title
-        total_engaged_users:
-          type: integer
-          example: 10
-        models:
-          type: array
-          items:
-            $ref: '#/components/schemas/PullRequestModel'
-          example: []
-    CopilotIdeChat:
-      type: object
-      description: Metrics for Copilot Chat in IDEs.
-      properties:
-        total_engaged_users:
-          type: integer
-          description: Users who prompted Copilot Chat in an IDE.
-          example: 10
-        editors:
-          type: array
-          items:
-            $ref: '#/components/schemas/IdeChatEditor'
-          example: []
-    CopilotDotcomChat:
-      type: object
-      description: Metrics for Copilot Chat on github.com.
-      properties:
-        total_engaged_users:
-          type: integer
-          example: 10
-        models:
-          type: array
-          items:
-            $ref: '#/components/schemas/DotcomChatModel'
-          example: []
-    PullRequestModel:
-      type: object
-      description: Pull request summary metrics for a specific AI model.
-      properties:
-        name:
-          type: string
-          example: Example Title
-        is_custom_model:
-          type: boolean
-          example: true
-        custom_model_training_date:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        total_pr_summaries_created:
-          type: integer
-          description: Total number of pull request summaries generated.
-          example: 10
         total_engaged_users:
           type: integer
           example: 10
@@ -352,9 +406,36 @@ components:
           example: https://www.example.com
       required:
       - message
-    IdeChatModel:
+    CodeCompletionsLanguageMetrics:
       type: object
-      description: IDE Chat metrics for a specific AI model.
+      description: Detailed code completion metrics for a specific language.
+      properties:
+        name:
+          type: string
+          description: Programming language name.
+          example: Example Title
+        total_engaged_users:
+          type: integer
+          example: 10
+        total_code_suggestions:
+          type: integer
+          description: Total number of code suggestions shown.
+          example: 10
+        total_code_acceptances:
+          type: integer
+          description: Total number of code suggestions accepted.
+          example: 10
+        total_code_lines_suggested:
+          type: integer
+          description: Total lines of code suggested.
+          example: 10
+        total_code_lines_accepted:
+          type: integer
+          description: Total lines of code accepted.
+          example: 10
+    DotcomChatModel:
+      type: object
+      description: Dotcom Chat metrics for a specific AI model.
       properties:
         name:
           type: string
@@ -371,26 +452,6 @@ components:
           type: integer
           example: 10
         total_chats:
-          type: integer
-          description: Total number of chat conversations.
-          example: 10
-        total_chat_insertion_events:
-          type: integer
-          description: Number of times chat suggestions were inserted into code.
-          example: 10
-        total_chat_copy_events:
-          type: integer
-          description: Number of times chat responses were copied.
-          example: 10
-    MetricsLanguageSummary:
-      type: object
-      description: Summary of engagement for a programming language.
-      properties:
-        name:
-          type: string
-          description: Programming language name.
-          example: Example Title
-        total_engaged_users:
           type: integer
           example: 10
     CodeCompletionsEditor:
@@ -409,83 +470,22 @@ components:
           items:
             $ref: '#/components/schemas/CodeCompletionsModel'
           example: []
-  responses:
-    ValidationFailed:
-      description: Validation failed or endpoint has been spammed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden - insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    Page:
-      name: page
-      in: query
-      required: false
-      description: The page number of results to fetch.
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-    Since:
-      name: since
-      in: query
-      required: false
-      description: Show usage metrics since this date (ISO 8601 format YYYY-MM-DD). Maximum 100 days in the past.
-      schema:
-        type: string
-        format: date
-    Until:
-      name: until
-      in: query
-      required: false
-      description: Show usage metrics until this date (ISO 8601 format YYYY-MM-DD).
-      schema:
-        type: string
-        format: date
-    PerPageMetrics:
-      name: per_page
-      in: query
-      required: false
-      description: Number of days of metrics per page (max 100).
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 100
-    TeamSlug:
-      name: team_slug
-      in: path
-      required: true
-      description: The slug of the team name.
-      schema:
-        type: string
-      example: engineering
-    Org:
-      name: org
-      in: path
-      required: true
-      description: The organization name. Case-insensitive.
-      schema:
-        type: string
-      example: octo-org
+    IdeChatEditor:
+      type: object
+      description: IDE Chat metrics for a specific editor.
+      properties:
+        name:
+          type: string
+          description: Name of the editor.
+          example: Example Title
+        total_engaged_users:
+          type: integer
+          example: 10
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdeChatModel'
+          example: []
   securitySchemes:
     BearerToken:
       type: http
