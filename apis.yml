@@ -39,7 +39,6 @@ apis:
 - name: GitHub Copilot Chat API
   description: API for GitHub Copilot Chat interactions and conversations.
   humanURL: https://docs.github.com/en/copilot/github-copilot-chat
-  baseURL: https://api.github.com
   tags:
   - Chat
   - Conversational AI
@@ -55,7 +54,6 @@ apis:
   description: Platform for building Copilot Extensions that integrate third-party tools, services, and
     custom agents into GitHub Copilot Chat, using GitHub Apps with agent or skillset configurations.
   humanURL: https://docs.github.com/en/copilot/building-copilot-extensions
-  baseURL: https://api.github.com
   tags:
   - Agents
   - Extensions
@@ -82,7 +80,6 @@ apis:
     development environments powered by GitHub Actions to explore code, make changes, run tests, and open
     pull requests.
   humanURL: https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent
-  baseURL: https://api.github.com
   tags:
   - Agents
   - Automation
@@ -100,7 +97,6 @@ apis:
   description: AI-powered code review agent that analyzes pull requests for issues, suggests fixes, and
     provides feedback across any programming language with agentic context gathering capabilities.
   humanURL: https://docs.github.com/en/copilot/concepts/agents/code-review
-  baseURL: https://api.github.com
   tags:
   - Agents
   - Code Quality
@@ -117,7 +113,6 @@ apis:
   description: GitHub official Model Context Protocol server that enables AI tools to interact with GitHub
     repositories, issues, pull requests, and other resources through a standardized protocol.
   humanURL: https://docs.github.com/en/copilot/concepts/context/mcp
-  baseURL: https://api.github.com
   tags:
   - Agents
   - Context
@@ -144,7 +139,6 @@ apis:
   description: Configuration system for providing repository-level, path-specific, and organization-level
     custom instructions to guide Copilot behavior, code style, and response formatting.
   humanURL: https://docs.github.com/en/copilot/how-tos/configure-custom-instructions
-  baseURL: https://api.github.com
   tags:
   - Configuration
   - Customization
@@ -166,7 +160,6 @@ apis:
   name: GitHub Copilot Billing API
   description: Organization-level Copilot billing and subscription information
   humanURL: https://docs.github.com/en/copilot
-  baseURL: https://api.github.com
   tags:
   - Copilot Billing
   properties:
@@ -204,7 +197,6 @@ apis:
   name: GitHub Copilot Content Exclusion API
   description: Manage content exclusion path rules for organizations
   humanURL: https://docs.github.com/en/copilot
-  baseURL: https://api.github.com
   tags:
   - Copilot Content Exclusion
   properties:
@@ -242,7 +234,6 @@ apis:
   name: GitHub Copilot Metrics API
   description: Aggregated Copilot usage metrics by organization and team
   humanURL: https://docs.github.com/en/copilot
-  baseURL: https://api.github.com
   tags:
   - Copilot Metrics
   properties:
@@ -280,7 +271,6 @@ apis:
   name: GitHub Copilot Seats API
   description: Seat assignment management for organizations
   humanURL: https://docs.github.com/en/copilot
-  baseURL: https://api.github.com
   tags:
   - Copilot Seats
   properties:
@@ -318,7 +308,6 @@ apis:
   name: GitHub Copilot Usage Reports API
   description: Downloadable usage metrics reports for enterprises and organizations
   humanURL: https://docs.github.com/en/copilot
-  baseURL: https://api.github.com
   tags:
   - Copilot Usage Reports
   properties:
@@ -356,7 +345,6 @@ apis:
   name: GitHub Copilot User Management API
   description: Add and remove individual users and teams from Copilot subscriptions
   humanURL: https://docs.github.com/en/copilot
-  baseURL: https://api.github.com
   tags:
   - Copilot User Management
   properties:
@@ -404,7 +392,7 @@ tags:
 - Developer Tools
 - Extensions
 - IDE
-- Machine-Learning
+- Machine Learning
 - MCP
 - Metrics
 - Productivity
@@ -424,6 +412,7 @@ tags_raw:
 - Metrics
 - Model Context Protocol
 - Productivity
+- Machine-Learning
 common:
 - type: CapabilityMap
   url: capabilities/github-copilot-capability-edges.yml

@@ -213,64 +213,16 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    InternalError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Requires authentication
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden - insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationFailed:
-      description: Validation failed or endpoint has been spammed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+  parameters:
+    Org:
+      name: org
+      in: path
+      required: true
+      description: The organization name. Case-insensitive.
+      schema:
+        type: string
+      example: octo-org
   schemas:
-    SelectedTeamsRequest:
-      type: object
-      description: A list of team slugs to add or remove from the Copilot subscription.
-      properties:
-        selected_teams:
-          type: array
-          items:
-            type: string
-          description: List of team slugs within the organization.
-          minItems: 1
-          example: []
-      required:
-      - selected_teams
-    SelectedUsersRequest:
-      type: object
-      description: A list of usernames to add or remove from the Copilot subscription.
-      properties:
-        selected_usernames:
-          type: array
-          items:
-            type: string
-          description: List of GitHub usernames who are organization members.
-          minItems: 1
-          example: []
-      required:
-      - selected_usernames
     SeatsCancelledResponse:
       type: object
       description: Response after removing users or teams from the Copilot subscription.
@@ -305,15 +257,63 @@ components:
           example: https://www.example.com
       required:
       - message
-  parameters:
-    Org:
-      name: org
-      in: path
-      required: true
-      description: The organization name. Case-insensitive.
-      schema:
-        type: string
-      example: octo-org
+    SelectedTeamsRequest:
+      type: object
+      description: A list of team slugs to add or remove from the Copilot subscription.
+      properties:
+        selected_teams:
+          type: array
+          items:
+            type: string
+          description: List of team slugs within the organization.
+          minItems: 1
+          example: []
+      required:
+      - selected_teams
+    SelectedUsersRequest:
+      type: object
+      description: A list of usernames to add or remove from the Copilot subscription.
+      properties:
+        selected_usernames:
+          type: array
+          items:
+            type: string
+          description: List of GitHub usernames who are organization members.
+          minItems: 1
+          example: []
+      required:
+      - selected_usernames
+  responses:
+    Unauthorized:
+      description: Requires authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationFailed:
+      description: Validation failed or endpoint has been spammed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     BearerToken:
       type: http

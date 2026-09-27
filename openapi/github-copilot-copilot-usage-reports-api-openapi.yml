@@ -311,48 +311,7 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    InternalError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Requires authentication
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden - insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
-    Enterprise:
-      name: enterprise
-      in: path
-      required: true
-      description: The slug version of the enterprise name.
-      schema:
-        type: string
-      example: octo-enterprise
-    Day:
-      name: day
-      in: query
-      required: true
-      description: The date for the report in YYYY-MM-DD format.
-      schema:
-        type: string
-        format: date
     Org:
       name: org
       in: path
@@ -361,6 +320,22 @@ components:
       schema:
         type: string
       example: octo-org
+    Day:
+      name: day
+      in: query
+      required: true
+      description: The date for the report in YYYY-MM-DD format.
+      schema:
+        type: string
+        format: date
+    Enterprise:
+      name: enterprise
+      in: path
+      required: true
+      description: The slug version of the enterprise name.
+      schema:
+        type: string
+      example: octo-enterprise
   schemas:
     UsageReportDaily:
       type: object
@@ -381,6 +356,20 @@ components:
       required:
       - download_links
       - report_day
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: example_value
+        documentation_url:
+          type: string
+          format: uri
+          description: Link to relevant API documentation
+          example: https://www.example.com
+      required:
+      - message
     UsageReport28Day:
       type: object
       description: Download links for a 28-day Copilot usage metrics report.
@@ -406,20 +395,31 @@ components:
       - download_links
       - report_start_day
       - report_end_day
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Human-readable error message
-          example: example_value
-        documentation_url:
-          type: string
-          format: uri
-          description: Link to relevant API documentation
-          example: https://www.example.com
-      required:
-      - message
+  responses:
+    Unauthorized:
+      description: Requires authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     BearerToken:
       type: http
