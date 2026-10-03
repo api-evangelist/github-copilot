@@ -213,36 +213,7 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  parameters:
-    Org:
-      name: org
-      in: path
-      required: true
-      description: The organization name. Case-insensitive.
-      schema:
-        type: string
-      example: octo-org
   schemas:
-    SeatsCancelledResponse:
-      type: object
-      description: Response after removing users or teams from the Copilot subscription.
-      properties:
-        seats_cancelled:
-          type: integer
-          description: The number of Copilot seats set to pending cancellation.
-          example: 10
-      required:
-      - seats_cancelled
-    SeatsCreatedResponse:
-      type: object
-      description: Response after adding users or teams to the Copilot subscription.
-      properties:
-        seats_created:
-          type: integer
-          description: The number of new Copilot seats created.
-          example: 10
-      required:
-      - seats_created
     Error:
       type: object
       properties:
@@ -257,19 +228,6 @@ components:
           example: https://www.example.com
       required:
       - message
-    SelectedTeamsRequest:
-      type: object
-      description: A list of team slugs to add or remove from the Copilot subscription.
-      properties:
-        selected_teams:
-          type: array
-          items:
-            type: string
-          description: List of team slugs within the organization.
-          minItems: 1
-          example: []
-      required:
-      - selected_teams
     SelectedUsersRequest:
       type: object
       description: A list of usernames to add or remove from the Copilot subscription.
@@ -283,7 +241,58 @@ components:
           example: []
       required:
       - selected_usernames
+    SelectedTeamsRequest:
+      type: object
+      description: A list of team slugs to add or remove from the Copilot subscription.
+      properties:
+        selected_teams:
+          type: array
+          items:
+            type: string
+          description: List of team slugs within the organization.
+          minItems: 1
+          example: []
+      required:
+      - selected_teams
+    SeatsCreatedResponse:
+      type: object
+      description: Response after adding users or teams to the Copilot subscription.
+      properties:
+        seats_created:
+          type: integer
+          description: The number of new Copilot seats created.
+          example: 10
+      required:
+      - seats_created
+    SeatsCancelledResponse:
+      type: object
+      description: Response after removing users or teams from the Copilot subscription.
+      properties:
+        seats_cancelled:
+          type: integer
+          description: The number of Copilot seats set to pending cancellation.
+          example: 10
+      required:
+      - seats_cancelled
   responses:
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationFailed:
+      description: Validation failed or endpoint has been spammed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Requires authentication
       content:
@@ -296,24 +305,15 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden - insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationFailed:
-      description: Validation failed or endpoint has been spammed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+  parameters:
+    Org:
+      name: org
+      in: path
+      required: true
+      description: The organization name. Case-insensitive.
+      schema:
+        type: string
+      example: octo-org
   securitySchemes:
     BearerToken:
       type: http

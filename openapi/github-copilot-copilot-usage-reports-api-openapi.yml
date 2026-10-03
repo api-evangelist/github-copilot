@@ -311,51 +311,7 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  parameters:
-    Org:
-      name: org
-      in: path
-      required: true
-      description: The organization name. Case-insensitive.
-      schema:
-        type: string
-      example: octo-org
-    Day:
-      name: day
-      in: query
-      required: true
-      description: The date for the report in YYYY-MM-DD format.
-      schema:
-        type: string
-        format: date
-    Enterprise:
-      name: enterprise
-      in: path
-      required: true
-      description: The slug version of the enterprise name.
-      schema:
-        type: string
-      example: octo-enterprise
   schemas:
-    UsageReportDaily:
-      type: object
-      description: Download links for a daily Copilot usage metrics report.
-      properties:
-        download_links:
-          type: array
-          items:
-            type: string
-            format: uri
-          description: Signed URLs to download the report files.
-          example: []
-        report_day:
-          type: string
-          format: date
-          description: The date the report covers.
-          example: '2026-01-15'
-      required:
-      - download_links
-      - report_day
     Error:
       type: object
       properties:
@@ -395,15 +351,53 @@ components:
       - download_links
       - report_start_day
       - report_end_day
+    UsageReportDaily:
+      type: object
+      description: Download links for a daily Copilot usage metrics report.
+      properties:
+        download_links:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Signed URLs to download the report files.
+          example: []
+        report_day:
+          type: string
+          format: date
+          description: The date the report covers.
+          example: '2026-01-15'
+      required:
+      - download_links
+      - report_day
+  parameters:
+    Org:
+      name: org
+      in: path
+      required: true
+      description: The organization name. Case-insensitive.
+      schema:
+        type: string
+      example: octo-org
+    Day:
+      name: day
+      in: query
+      required: true
+      description: The date for the report in YYYY-MM-DD format.
+      schema:
+        type: string
+        format: date
+    Enterprise:
+      name: enterprise
+      in: path
+      required: true
+      description: The slug version of the enterprise name.
+      schema:
+        type: string
+      example: octo-enterprise
   responses:
-    Unauthorized:
-      description: Requires authentication
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalError:
-      description: Internal server error
+    Forbidden:
+      description: Forbidden - insufficient permissions
       content:
         application/json:
           schema:
@@ -414,8 +408,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden - insufficient permissions
+    Unauthorized:
+      description: Requires authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: Internal server error
       content:
         application/json:
           schema:

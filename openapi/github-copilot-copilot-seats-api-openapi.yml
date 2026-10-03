@@ -115,103 +115,23 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  parameters:
-    Org:
-      name: org
-      in: path
-      required: true
-      description: The organization name. Case-insensitive.
-      schema:
-        type: string
-      example: octo-org
-    Username:
-      name: username
-      in: path
-      required: true
-      description: The handle for the GitHub user account.
-      schema:
-        type: string
-      example: octocat
-    Page:
-      name: page
-      in: query
-      required: false
-      description: The page number of results to fetch.
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-    PerPage:
-      name: per_page
-      in: query
-      required: false
-      description: The number of results per page (max 100).
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 50
   schemas:
-    Team:
+    CopilotSeatsResponse:
       type: object
-      description: A GitHub team.
+      description: Paginated list of Copilot seat assignments.
       properties:
-        id:
+        total_seats:
           type: integer
-          description: Unique identifier of the team.
-          example: abc123
-        node_id:
-          type: string
-          example: '500123'
-        name:
-          type: string
-          description: Name of the team.
-          example: Example Title
-        slug:
-          type: string
-          description: URL-friendly slug of the team name.
-          example: example_value
-        description:
-          type:
-          - string
-          - 'null'
-          description: Description of the team.
-          example: A sample description.
-        privacy:
-          type: string
-          enum:
-          - closed
-          - secret
-          example: closed
-        notification_setting:
-          type: string
-          enum:
-          - notifications_enabled
-          - notifications_disabled
-          example: notifications_enabled
-        permission:
-          type: string
-          description: The default permission level for the team.
-          example: example_value
-        url:
-          type: string
-          format: uri
-          example: https://www.example.com
-        html_url:
-          type: string
-          format: uri
-          example: https://www.example.com
-        members_url:
-          type: string
-          example: https://www.example.com
-        repositories_url:
-          type: string
-          format: uri
-          example: https://www.example.com
+          description: Total number of Copilot seats for the organization.
+          example: 10
+        seats:
+          type: array
+          items:
+            $ref: '#/components/schemas/CopilotSeatDetail'
+          example: []
       required:
-      - id
-      - name
-      - slug
+      - total_seats
+      - seats
     CopilotSeatDetail:
       type: object
       description: Details of a Copilot seat assignment for a user, including activity information and plan type.
@@ -291,22 +211,6 @@ components:
           example: https://www.example.com
       required:
       - message
-    CopilotSeatsResponse:
-      type: object
-      description: Paginated list of Copilot seat assignments.
-      properties:
-        total_seats:
-          type: integer
-          description: Total number of Copilot seats for the organization.
-          example: 10
-        seats:
-          type: array
-          items:
-            $ref: '#/components/schemas/CopilotSeatDetail'
-          example: []
-      required:
-      - total_seats
-      - seats
     SimpleUser:
       type: object
       description: A GitHub user account.
@@ -392,7 +296,127 @@ components:
       - html_url
       - type
       - site_admin
+    Team:
+      type: object
+      description: A GitHub team.
+      properties:
+        id:
+          type: integer
+          description: Unique identifier of the team.
+          example: abc123
+        node_id:
+          type: string
+          example: '500123'
+        name:
+          type: string
+          description: Name of the team.
+          example: Example Title
+        slug:
+          type: string
+          description: URL-friendly slug of the team name.
+          example: example_value
+        description:
+          type:
+          - string
+          - 'null'
+          description: Description of the team.
+          example: A sample description.
+        privacy:
+          type: string
+          enum:
+          - closed
+          - secret
+          example: closed
+        notification_setting:
+          type: string
+          enum:
+          - notifications_enabled
+          - notifications_disabled
+          example: notifications_enabled
+        permission:
+          type: string
+          description: The default permission level for the team.
+          example: example_value
+        url:
+          type: string
+          format: uri
+          example: https://www.example.com
+        html_url:
+          type: string
+          format: uri
+          example: https://www.example.com
+        members_url:
+          type: string
+          example: https://www.example.com
+        repositories_url:
+          type: string
+          format: uri
+          example: https://www.example.com
+      required:
+      - id
+      - name
+      - slug
+  parameters:
+    PerPage:
+      name: per_page
+      in: query
+      required: false
+      description: The number of results per page (max 100).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 50
+    Org:
+      name: org
+      in: path
+      required: true
+      description: The organization name. Case-insensitive.
+      schema:
+        type: string
+      example: octo-org
+    Username:
+      name: username
+      in: path
+      required: true
+      description: The handle for the GitHub user account.
+      schema:
+        type: string
+      example: octocat
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number of results to fetch.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+  headers:
+    LinkPagination:
+      description: Pagination links in RFC 5988 format.
+      schema:
+        type: string
+      example: <https://api.github.com/orgs/octo-org/copilot/billing/seats?page=2>; rel="next"
   responses:
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationFailed:
+      description: Validation failed or endpoint has been spammed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Requires authentication
       content:
@@ -405,30 +429,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden - insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationFailed:
-      description: Validation failed or endpoint has been spammed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  headers:
-    LinkPagination:
-      description: Pagination links in RFC 5988 format.
-      schema:
-        type: string
-      example: <https://api.github.com/orgs/octo-org/copilot/billing/seats?page=2>; rel="next"
   securitySchemes:
     BearerToken:
       type: http
