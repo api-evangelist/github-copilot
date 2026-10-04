@@ -312,6 +312,25 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    UsageReportDaily:
+      type: object
+      description: Download links for a daily Copilot usage metrics report.
+      properties:
+        download_links:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Signed URLs to download the report files.
+          example: []
+        report_day:
+          type: string
+          format: date
+          description: The date the report covers.
+          example: '2026-01-15'
+      required:
+      - download_links
+      - report_day
     Error:
       type: object
       properties:
@@ -351,65 +370,9 @@ components:
       - download_links
       - report_start_day
       - report_end_day
-    UsageReportDaily:
-      type: object
-      description: Download links for a daily Copilot usage metrics report.
-      properties:
-        download_links:
-          type: array
-          items:
-            type: string
-            format: uri
-          description: Signed URLs to download the report files.
-          example: []
-        report_day:
-          type: string
-          format: date
-          description: The date the report covers.
-          example: '2026-01-15'
-      required:
-      - download_links
-      - report_day
-  parameters:
-    Org:
-      name: org
-      in: path
-      required: true
-      description: The organization name. Case-insensitive.
-      schema:
-        type: string
-      example: octo-org
-    Day:
-      name: day
-      in: query
-      required: true
-      description: The date for the report in YYYY-MM-DD format.
-      schema:
-        type: string
-        format: date
-    Enterprise:
-      name: enterprise
-      in: path
-      required: true
-      description: The slug version of the enterprise name.
-      schema:
-        type: string
-      example: octo-enterprise
   responses:
-    Forbidden:
-      description: Forbidden - insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Requires authentication
       content:
         application/json:
           schema:
@@ -420,6 +383,43 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Requires authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    Enterprise:
+      name: enterprise
+      in: path
+      required: true
+      description: The slug version of the enterprise name.
+      schema:
+        type: string
+      example: octo-enterprise
+    Day:
+      name: day
+      in: query
+      required: true
+      description: The date for the report in YYYY-MM-DD format.
+      schema:
+        type: string
+        format: date
+    Org:
+      name: org
+      in: path
+      required: true
+      description: The organization name. Case-insensitive.
+      schema:
+        type: string
+      example: octo-org
   securitySchemes:
     BearerToken:
       type: http

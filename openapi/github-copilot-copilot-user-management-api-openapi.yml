@@ -213,6 +213,37 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  responses:
+    ValidationFailed:
+      description: Validation failed or endpoint has been spammed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Requires authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     Error:
       type: object
@@ -228,19 +259,16 @@ components:
           example: https://www.example.com
       required:
       - message
-    SelectedUsersRequest:
+    SeatsCreatedResponse:
       type: object
-      description: A list of usernames to add or remove from the Copilot subscription.
+      description: Response after adding users or teams to the Copilot subscription.
       properties:
-        selected_usernames:
-          type: array
-          items:
-            type: string
-          description: List of GitHub usernames who are organization members.
-          minItems: 1
-          example: []
+        seats_created:
+          type: integer
+          description: The number of new Copilot seats created.
+          example: 10
       required:
-      - selected_usernames
+      - seats_created
     SelectedTeamsRequest:
       type: object
       description: A list of team slugs to add or remove from the Copilot subscription.
@@ -254,16 +282,6 @@ components:
           example: []
       required:
       - selected_teams
-    SeatsCreatedResponse:
-      type: object
-      description: Response after adding users or teams to the Copilot subscription.
-      properties:
-        seats_created:
-          type: integer
-          description: The number of new Copilot seats created.
-          example: 10
-      required:
-      - seats_created
     SeatsCancelledResponse:
       type: object
       description: Response after removing users or teams from the Copilot subscription.
@@ -274,37 +292,19 @@ components:
           example: 10
       required:
       - seats_cancelled
-  responses:
-    Forbidden:
-      description: Forbidden - insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationFailed:
-      description: Validation failed or endpoint has been spammed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Requires authentication
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    SelectedUsersRequest:
+      type: object
+      description: A list of usernames to add or remove from the Copilot subscription.
+      properties:
+        selected_usernames:
+          type: array
+          items:
+            type: string
+          description: List of GitHub usernames who are organization members.
+          minItems: 1
+          example: []
+      required:
+      - selected_usernames
   parameters:
     Org:
       name: org

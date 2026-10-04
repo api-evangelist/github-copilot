@@ -117,19 +117,38 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  responses:
+    ValidationFailed:
+      description: Validation failed or endpoint has been spammed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Requires authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    ContentExclusionRules:
-      type: object
-      description: Content exclusion rules mapping repository names to arrays of file path patterns that Copilot is prevented from accessing.
-      additionalProperties:
-        type: array
-        items:
-          type: string
-        description: List of file path patterns to exclude for this repository.
-      example:
-        octo-repo:
-        - /src/some-dir/kernel.rs
-        - /secrets/**
     Error:
       type: object
       properties:
@@ -144,37 +163,18 @@ components:
           example: https://www.example.com
       required:
       - message
-  responses:
-    Forbidden:
-      description: Forbidden - insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationFailed:
-      description: Validation failed or endpoint has been spammed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Requires authentication
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    ContentExclusionRules:
+      type: object
+      description: Content exclusion rules mapping repository names to arrays of file path patterns that Copilot is prevented from accessing.
+      additionalProperties:
+        type: array
+        items:
+          type: string
+        description: List of file path patterns to exclude for this repository.
+      example:
+        octo-repo:
+        - /src/some-dir/kernel.rs
+        - /secrets/**
   parameters:
     Org:
       name: org
