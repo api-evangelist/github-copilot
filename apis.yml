@@ -414,6 +414,8 @@ tags_raw:
 - Productivity
 - Machine-Learning
 common:
+- type: Plans
+  url: plans/github-copilot-plans-pricing.yml
 - type: CapabilityMap
   url: capabilities/github-copilot-capability-edges.yml
   name: GitHub Copilot Business Capability Map
