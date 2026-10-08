@@ -414,6 +414,8 @@ tags_raw:
 - Productivity
 - Machine-Learning
 common:
+- type: FinOps
+  url: finops/github-copilot-finops.yml
 - type: Plans
   url: plans/github-copilot-plans-pricing.yml
 - type: CapabilityMap
