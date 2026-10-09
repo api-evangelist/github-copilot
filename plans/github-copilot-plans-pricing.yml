@@ -1,230 +1,98 @@
-specification: API Commons Plans
-specificationVersion: '0.1'
-schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
-provider: GitHub Copilot
-providerId: github-copilot
-created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-05'
-reconciled: true
-tags:
-  - AI
-  - Code Generation
-  - Developer Tools
-  - Coding Agent
-  - IDE
-description: GitHub Copilot is priced per seat across individual and organization plans, with included
-  monthly premium request quotas and a metered overage rate. Free tier is gated by completion and premium
-  request caps; Pro and Pro+ include unlimited completions plus per-tier premium request budgets. Business
-  and Enterprise are seat-based at $19/seat/month and $39/seat/month respectively. Additional premium
-  requests bill at $0.04 per request across all paid plans.
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-07'
+method: searched
+source: https://github.com/features/copilot#pricing
 sources:
-  - https://github.com/features/copilot/plans
-  - https://docs.github.com/en/billing/concepts/product-billing/github-copilot
+- https://github.com/features/copilot#pricing
+provenance:
+  tool: all/0-working/economics/harvest_pricing.py
+  run: 20261007T104522
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-07'
+  managed_tier: Pro
+published: true
+note: Individual plans shown; business tab not captured in text.
+plan_count: 4
+currency: USD
 plans:
-  - id: github-copilot-free
-    name: Copilot Free
-    type: freemium
-    description: Free individual tier with 50 premium requests per month and 2,000 inline completions.
-    entries:
-      - label: Monthly subscription
-        name: free_monthly
-        type: subscription
-        metric: month
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '0.00'
-        userMultiplied: true
-      - label: Premium requests
-        name: premium_requests
-        type: quota
-        metric: request
-        limit: 50
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Inline completions
-        name: completions
-        type: quota
-        metric: completion
-        limit: 2000
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Agent mode requests
-        name: agent_mode
-        type: quota
-        metric: request
-        limit: 50
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-    elements:
-      - name: Access to Haiku 4.5, GPT-5 mini, and select models
-      - name: Limited completions
-      - name: GitHub Copilot Chat
-  - id: github-copilot-pro
-    name: Copilot Pro
-    type: subscription
-    description: Individual paid tier — 300 premium requests/month, unlimited completions, unlimited agent
-      mode.
-    entries:
-      - label: Per-user monthly subscription
-        name: pro_monthly
-        type: subscription
-        metric: seat
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '10.00'
-        userMultiplied: true
-      - label: Premium requests
-        name: premium_requests
-        type: quota
-        metric: request
-        limit: 300
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Premium request overage
-        name: premium_overage
-        type: metered
-        metric: request
-        limit: -1
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: '0.04'
-        userMultiplied: false
-    elements:
-      - name: Unlimited inline completions
-      - name: Unlimited agent mode
-      - name: Code review
-      - name: Cloud agent capabilities
-      - name: GitHub Copilot Chat
-      - name: GitHub MCP Server access
-  - id: github-copilot-pro-plus
-    name: Copilot Pro+
-    type: subscription
-    description: Top individual tier — 1,500 premium requests/month plus access to all premium models
-      including Claude Opus.
-    entries:
-      - label: Per-user monthly subscription
-        name: pro_plus_monthly
-        type: subscription
-        metric: seat
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '39.00'
-        userMultiplied: true
-      - label: Premium requests
-        name: premium_requests
-        type: quota
-        metric: request
-        limit: 1500
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Premium request overage
-        name: premium_overage
-        type: metered
-        metric: request
-        limit: -1
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: '0.04'
-        userMultiplied: false
-    elements:
-      - name: Access to all premium models including Claude Opus 4.7
-      - name: Unlimited completions
-      - name: Unlimited agent mode
-      - name: Code review and cloud agent
-      - name: Priority access during high load
-  - id: github-copilot-business
-    name: Copilot Business
-    type: subscription
-    description: Organization tier — $19 per seat per month with license management, policy controls,
-      and IP indemnity.
-    entries:
-      - label: Per-seat monthly subscription
-        name: business_monthly
-        type: subscription
-        metric: seat
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '19.00'
-        userMultiplied: true
-      - label: Premium request overage
-        name: premium_overage
-        type: metered
-        metric: request
-        limit: -1
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: '0.04'
-        userMultiplied: false
-    elements:
-      - name: Org-wide license management
-      - name: Policy controls and content exclusion
-      - name: IP indemnity
-      - name: Audit logs
-      - name: GitHub Copilot for Business API
-      - name: Usage metrics API
-  - id: github-copilot-enterprise
-    name: Copilot Enterprise
-    type: subscription
-    description: Top organization tier — $39 per seat per month, includes Business features plus knowledge
-      bases, custom models, and code-base aware chat.
-    entries:
-      - label: Per-seat monthly subscription
-        name: enterprise_monthly
-        type: subscription
-        metric: seat
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '39.00'
-        userMultiplied: true
-      - label: Premium request overage
-        name: premium_overage
-        type: metered
-        metric: request
-        limit: -1
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: '0.04'
-        userMultiplied: false
-    elements:
-      - name: Knowledge bases
-      - name: Code-base aware chat
-      - name: Pull request summaries
-      - name: Fine-tuned models (where available)
-      - name: Enterprise audit and security controls
-      - name: GitHub Copilot Enterprise APIs
-maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
-    url: http://apievangelist.com
+- name: Free
+  price_text: $ 0 USD per user / month
+  price: 0
+  currency: USD
+  period: month
+  unit: per user
+  included_quota: 2,000 completions per month; Access to Haiku 4.5, GPT-5 mini, and more; Copilot CLI;
+    Community Support
+- name: Pro
+  price_text: $ 10 USD per user / month
+  price: 10
+  currency: USD
+  period: month
+  unit: per user
+  included_quota: 'Everything in Free and: Access to Cloud agent and code review; Unlimited code completion
+    and next edit suggestions; Access to 3rd party agents (Claude Code and Codex); Model selection; $15
+    monthly total credits for Pro'
+- name: Pro+
+  price_text: $ 39 USD per user / month
+  price: 39
+  currency: USD
+  period: month
+  unit: per user
+  included_quota: 'Everything in Pro and: Access to premium models, including Opus; Audit logs; 4x+ included
+    usage than Pro; $70 monthly total credits for Pro+'
+- name: Max
+  price_text: $ 100 USD per user / month
+  price: 100
+  currency: USD
+  period: month
+  unit: per user
+  included_quota: 'Everything in Pro+ and: Priority access to new models and features; 2.9x+ included
+    usage than Pro+; $200 monthly total credits for Max'
+rate_limit_statements:
+- Requests may be subject to rate limiting.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - seat
+  units:
+  - seat
+  plans:
+  - name: Free
+    access: other
+    model: free
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Pro
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Pro+
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Max
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
