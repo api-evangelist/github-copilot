@@ -11,11 +11,11 @@ edges:
   - provider
   router_signals:
     provider:
-      models: 43
+      models: 44
       router_ids:
       - github_copilot
       tools_share: 1.0
-      structured_output_share: 0.5
+      structured_output_share: 0.48
   matched_by: verified-token-table
   detected_by: sweep-model-routing.py
   first_seen: '2026-10-13'
