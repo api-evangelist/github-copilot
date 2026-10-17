@@ -213,6 +213,67 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: example_value
+        documentation_url:
+          type: string
+          format: uri
+          description: Link to relevant API documentation
+          example: https://www.example.com
+      required:
+      - message
+    SelectedUsersRequest:
+      type: object
+      description: A list of usernames to add or remove from the Copilot subscription.
+      properties:
+        selected_usernames:
+          type: array
+          items:
+            type: string
+          description: List of GitHub usernames who are organization members.
+          minItems: 1
+          example: []
+      required:
+      - selected_usernames
+    SelectedTeamsRequest:
+      type: object
+      description: A list of team slugs to add or remove from the Copilot subscription.
+      properties:
+        selected_teams:
+          type: array
+          items:
+            type: string
+          description: List of team slugs within the organization.
+          minItems: 1
+          example: []
+      required:
+      - selected_teams
+    SeatsCreatedResponse:
+      type: object
+      description: Response after adding users or teams to the Copilot subscription.
+      properties:
+        seats_created:
+          type: integer
+          description: The number of new Copilot seats created.
+          example: 10
+      required:
+      - seats_created
+    SeatsCancelledResponse:
+      type: object
+      description: Response after removing users or teams from the Copilot subscription.
+      properties:
+        seats_cancelled:
+          type: integer
+          description: The number of Copilot seats set to pending cancellation.
+          example: 10
+      required:
+      - seats_cancelled
   responses:
     ValidationFailed:
       description: Validation failed or endpoint has been spammed
@@ -222,6 +283,12 @@ components:
             $ref: '#/components/schemas/Error'
     NotFound:
       description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Requires authentication
       content:
         application/json:
           schema:
@@ -238,73 +305,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Requires authentication
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  schemas:
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Human-readable error message
-          example: example_value
-        documentation_url:
-          type: string
-          format: uri
-          description: Link to relevant API documentation
-          example: https://www.example.com
-      required:
-      - message
-    SeatsCreatedResponse:
-      type: object
-      description: Response after adding users or teams to the Copilot subscription.
-      properties:
-        seats_created:
-          type: integer
-          description: The number of new Copilot seats created.
-          example: 10
-      required:
-      - seats_created
-    SelectedTeamsRequest:
-      type: object
-      description: A list of team slugs to add or remove from the Copilot subscription.
-      properties:
-        selected_teams:
-          type: array
-          items:
-            type: string
-          description: List of team slugs within the organization.
-          minItems: 1
-          example: []
-      required:
-      - selected_teams
-    SeatsCancelledResponse:
-      type: object
-      description: Response after removing users or teams from the Copilot subscription.
-      properties:
-        seats_cancelled:
-          type: integer
-          description: The number of Copilot seats set to pending cancellation.
-          example: 10
-      required:
-      - seats_cancelled
-    SelectedUsersRequest:
-      type: object
-      description: A list of usernames to add or remove from the Copilot subscription.
-      properties:
-        selected_usernames:
-          type: array
-          items:
-            type: string
-          description: List of GitHub usernames who are organization members.
-          minItems: 1
-          example: []
-      required:
-      - selected_usernames
   parameters:
     Org:
       name: org

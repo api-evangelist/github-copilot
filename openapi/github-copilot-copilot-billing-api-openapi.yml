@@ -69,6 +69,20 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: example_value
+        documentation_url:
+          type: string
+          format: uri
+          description: Link to relevant API documentation
+          example: https://www.example.com
+      required:
+      - message
     SeatBreakdown:
       type: object
       description: Breakdown of Copilot seat counts by status.
@@ -97,20 +111,6 @@ components:
           type: integer
           description: Seats inactive in the current billing cycle.
           example: 10
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Human-readable error message
-          example: example_value
-        documentation_url:
-          type: string
-          format: uri
-          description: Link to relevant API documentation
-          example: https://www.example.com
-      required:
-      - message
     CopilotBillingInfo:
       type: object
       description: Copilot billing and subscription information for an organization, including seat breakdown and feature policy settings.
@@ -169,9 +169,24 @@ components:
       - seat_breakdown
       - seat_management_setting
       - plan_type
+  parameters:
+    Org:
+      name: org
+      in: path
+      required: true
+      description: The organization name. Case-insensitive.
+      schema:
+        type: string
+      example: octo-org
   responses:
     NotFound:
       description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Requires authentication
       content:
         application/json:
           schema:
@@ -188,21 +203,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Requires authentication
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    Org:
-      name: org
-      in: path
-      required: true
-      description: The organization name. Case-insensitive.
-      schema:
-        type: string
-      example: octo-org
   securitySchemes:
     BearerToken:
       type: http
