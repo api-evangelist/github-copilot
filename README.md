@@ -1,4 +1,4 @@
-# GitHub Copilot (github-copilot)
+# GitHub Copilot
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,345 +66,248 @@
 
 APIs and resources for GitHub Copilot, an AI pair programmer that helps you write code faster.
 
-**APIs.json:** [https://api.github.com/apis.yaml](https://api.github.com/apis.yaml)
+**Areas:** Agents · Artificial Intelligence · Code Generation · Code Review · Coding Agents · Custom Instructions · Developer Tools · Extensions · IDE · Machine Learning · MCP · Metrics
+
+## GitHub Copilot on APIs.io
+
+Everything profiled for GitHub Copilot is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/github-copilot/](https://apis.io/providers/github-copilot/)** — or go straight to one of the APIs or properties below.
+
+### APIs (12)
+
+- [GitHub Copilot Chat API](https://apis.io/apis/github-copilot/github-copilot-chat-api/) — API for GitHub Copilot Chat interactions and conversations.
+- [GitHub Copilot Extensions API](https://apis.io/apis/github-copilot/github-copilot-extensions-api/) — Platform for building Copilot Extensions that integrate third-party tools, services, and custom agents into GitHub Copilot Chat, using GitHub Apps with…
+- [GitHub Copilot Coding Agent](https://apis.io/apis/github-copilot/github-copilot-coding-agent/) — Autonomous coding agent that works in the background to complete tasks, spinning up secure development environments powered by GitHub Actions to explore…
+- [GitHub Copilot Code Review](https://apis.io/apis/github-copilot/github-copilot-code-review/) — AI-powered code review agent that analyzes pull requests for issues, suggests fixes, and provides feedback across any programming language with agentic…
+- [GitHub MCP Server](https://apis.io/apis/github-copilot/github-mcp-server/) — GitHub official Model Context Protocol server that enables AI tools to interact with GitHub repositories, issues, pull requests, and other resources through…
+- [GitHub Copilot Custom Instructions](https://apis.io/apis/github-copilot/github-copilot-custom-instructions/) — Configuration system for providing repository-level, path-specific, and organization-level custom instructions to guide Copilot behavior, code style, and…
+- [GitHub Copilot Billing API](https://apis.io/apis/github-copilot/github-copilot-copilot-billing-api/) — Organization-level Copilot billing and subscription information
+- [GitHub Copilot Content Exclusion API](https://apis.io/apis/github-copilot/github-copilot-copilot-content-exclusion-api/) — Manage content exclusion path rules for organizations
+- [GitHub Copilot Metrics API](https://apis.io/apis/github-copilot/github-copilot-copilot-metrics-api/) — Aggregated Copilot usage metrics by organization and team
+- [GitHub Copilot Seats API](https://apis.io/apis/github-copilot/github-copilot-copilot-seats-api/) — Seat assignment management for organizations
+- [GitHub Copilot Usage Reports API](https://apis.io/apis/github-copilot/github-copilot-copilot-usage-reports-api/) — Downloadable usage metrics reports for enterprises and organizations
+- [GitHub Copilot User Management API](https://apis.io/apis/github-copilot/github-copilot-copilot-user-management-api/) — Add and remove individual users and teams from Copilot subscriptions
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Arazzo workflows (7)
+
+Multi-step workflows that chain operations into a business task.
+
+- [GitHub Copilot Audit Seat Assignments](https://apis.io/arazzos/github-copilot/github-copilot-audit-seats-workflow/)
+- [GitHub Copilot Deprovision Seats for Users](https://apis.io/arazzos/github-copilot/github-copilot-deprovision-users-workflow/)
+- [GitHub Copilot Enterprise Metrics Report](https://apis.io/arazzos/github-copilot/github-copilot-enterprise-metrics-report-workflow/)
+- [GitHub Copilot Organization Metrics Report](https://apis.io/arazzos/github-copilot/github-copilot-org-metrics-report-workflow/)
+- [GitHub Copilot Provision Seats for Teams](https://apis.io/arazzos/github-copilot/github-copilot-provision-teams-workflow/)
+- [GitHub Copilot Provision Seats for Users](https://apis.io/arazzos/github-copilot/github-copilot-provision-users-workflow/)
+- [GitHub Copilot Team Metrics Report](https://apis.io/arazzos/github-copilot/github-copilot-team-metrics-report-workflow/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [github](https://apis.io/servers/github-copilot/github/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Github Copilot Agentic Access](https://apis.io/agentic-access/github-copilot/github-copilot-agentic-access/)
+
+#### JSON Schema (56)
+
+The data models the API reads and writes.
+
+- [CodeCompletionsEditor](https://apis.io/schemas/github-copilot/github-copilot-code-completions-editor/)
+- [CodeCompletionsLanguageMetrics](https://apis.io/schemas/github-copilot/github-copilot-code-completions-language-metrics/)
+- [CodeCompletionsModel](https://apis.io/schemas/github-copilot/github-copilot-code-completions-model/)
+- [CodeCompletionsEditor](https://apis.io/schemas/github-copilot/github-copilot-codecompletionseditor/)
+- [CodeCompletionsLanguageMetrics](https://apis.io/schemas/github-copilot/github-copilot-codecompletionslanguagemetrics/)
+- [CodeCompletionsModel](https://apis.io/schemas/github-copilot/github-copilot-codecompletionsmodel/)
+- [ContentExclusionRules](https://apis.io/schemas/github-copilot/github-copilot-content-exclusion-rules/)
+- [ContentExclusionRules](https://apis.io/schemas/github-copilot/github-copilot-contentexclusionrules/)
+- [CopilotBillingInfo](https://apis.io/schemas/github-copilot/github-copilot-copilot-billing-info/)
+- [CopilotDotcomChat](https://apis.io/schemas/github-copilot/github-copilot-copilot-dotcom-chat/)
+- [CopilotDotcomPullRequests](https://apis.io/schemas/github-copilot/github-copilot-copilot-dotcom-pull-requests/)
+- [CopilotIdeChat](https://apis.io/schemas/github-copilot/github-copilot-copilot-ide-chat/)
+- [CopilotIdeCodeCompletions](https://apis.io/schemas/github-copilot/github-copilot-copilot-ide-code-completions/)
+- [CopilotMetricsDay](https://apis.io/schemas/github-copilot/github-copilot-copilot-metrics-day/)
+- [CopilotSeatDetail](https://apis.io/schemas/github-copilot/github-copilot-copilot-seat-detail/)
+- [CopilotSeatsResponse](https://apis.io/schemas/github-copilot/github-copilot-copilot-seats-response/)
+- [CopilotBillingInfo](https://apis.io/schemas/github-copilot/github-copilot-copilotbillinginfo/)
+- [CopilotDotcomChat](https://apis.io/schemas/github-copilot/github-copilot-copilotdotcomchat/)
+- [CopilotDotcomPullRequests](https://apis.io/schemas/github-copilot/github-copilot-copilotdotcompullrequests/)
+- [CopilotIdeChat](https://apis.io/schemas/github-copilot/github-copilot-copilotidechat/)
+- [CopilotIdeCodeCompletions](https://apis.io/schemas/github-copilot/github-copilot-copilotidecodecompletions/)
+- [CopilotMetricsDay](https://apis.io/schemas/github-copilot/github-copilot-copilotmetricsday/)
+- [CopilotSeatDetail](https://apis.io/schemas/github-copilot/github-copilot-copilotseatdetail/)
+- [CopilotSeatsResponse](https://apis.io/schemas/github-copilot/github-copilot-copilotseatsresponse/)
+- [DotcomChatModel](https://apis.io/schemas/github-copilot/github-copilot-dotcom-chat-model/)
+- …and 31 more published on APIs.io
+
+#### JSON Structure (29)
+
+Data models expressed in JSON Structure.
+
+- [Github Copilot Code Completions Editor Structure](https://apis.io/json-structure/github-copilot/github-copilot-code-completions-editor-structure/)
+- [Github Copilot Code Completions Language Metrics Structure](https://apis.io/json-structure/github-copilot/github-copilot-code-completions-language-metrics-structure/)
+- [Github Copilot Code Completions Model Structure](https://apis.io/json-structure/github-copilot/github-copilot-code-completions-model-structure/)
+- [Github Copilot Content Exclusion Rules Structure](https://apis.io/json-structure/github-copilot/github-copilot-content-exclusion-rules-structure/)
+- [Github Copilot Copilot Billing Info Structure](https://apis.io/json-structure/github-copilot/github-copilot-copilot-billing-info-structure/)
+- [Github Copilot Copilot Dotcom Chat Structure](https://apis.io/json-structure/github-copilot/github-copilot-copilot-dotcom-chat-structure/)
+- [Github Copilot Copilot Dotcom Pull Requests Structure](https://apis.io/json-structure/github-copilot/github-copilot-copilot-dotcom-pull-requests-structure/)
+- [Github Copilot Copilot Ide Chat Structure](https://apis.io/json-structure/github-copilot/github-copilot-copilot-ide-chat-structure/)
+- [Github Copilot Copilot Ide Code Completions Structure](https://apis.io/json-structure/github-copilot/github-copilot-copilot-ide-code-completions-structure/)
+- [Github Copilot Copilot Metrics Day Structure](https://apis.io/json-structure/github-copilot/github-copilot-copilot-metrics-day-structure/)
+- [Github Copilot Copilot Seat Detail Structure](https://apis.io/json-structure/github-copilot/github-copilot-copilot-seat-detail-structure/)
+- [Github Copilot Copilot Seats Response Structure](https://apis.io/json-structure/github-copilot/github-copilot-copilot-seats-response-structure/)
+- [Github Copilot Dotcom Chat Model Structure](https://apis.io/json-structure/github-copilot/github-copilot-dotcom-chat-model-structure/)
+- [Github Copilot Error Structure](https://apis.io/json-structure/github-copilot/github-copilot-error-structure/)
+- [Github Copilot Ide Chat Editor Structure](https://apis.io/json-structure/github-copilot/github-copilot-ide-chat-editor-structure/)
+- [Github Copilot Ide Chat Model Structure](https://apis.io/json-structure/github-copilot/github-copilot-ide-chat-model-structure/)
+- [Github Copilot Metrics Language Summary Structure](https://apis.io/json-structure/github-copilot/github-copilot-metrics-language-summary-structure/)
+- [Github Copilot Pull Request Model Structure](https://apis.io/json-structure/github-copilot/github-copilot-pull-request-model-structure/)
+- [Github Copilot Pull Request Repository Structure](https://apis.io/json-structure/github-copilot/github-copilot-pull-request-repository-structure/)
+- [Github Copilot Seat Breakdown Structure](https://apis.io/json-structure/github-copilot/github-copilot-seat-breakdown-structure/)
+- [Github Copilot Seats Cancelled Response Structure](https://apis.io/json-structure/github-copilot/github-copilot-seats-cancelled-response-structure/)
+- [Github Copilot Seats Created Response Structure](https://apis.io/json-structure/github-copilot/github-copilot-seats-created-response-structure/)
+- [Github Copilot Selected Teams Request Structure](https://apis.io/json-structure/github-copilot/github-copilot-selected-teams-request-structure/)
+- [Github Copilot Selected Users Request Structure](https://apis.io/json-structure/github-copilot/github-copilot-selected-users-request-structure/)
+- [Github Copilot Simple User Structure](https://apis.io/json-structure/github-copilot/github-copilot-simple-user-structure/)
+- …and 4 more published on APIs.io
 
-## Scope
+#### JSON-LD (1)
 
-- **Access:** 3rd-Party
+Linked-data contexts for the provider's vocabulary.
 
-## Tags
+- [Github Copilot Context](https://apis.io/jsonld/github-copilot/github-copilot-context/)
 
-- Agents
-- AI
-- Artificial Intelligence
-- Code Generation
-- Code Review
-- Coding Agent
-- Custom Instructions
-- Developer Tools
-- Extensions
-- IDE
-- Machine Learning
-- MCP
-- Metrics
-- Model Context Protocol
-- Productivity
+#### Vocabulary (1)
 
-## Timestamps
+The provider's domain terms, defined.
 
-- **Created:** 2024
-- **Modified:** 2026-05-19
+- [GitHub Copilot Domain Vocabulary](https://apis.io/vocabularies/github-copilot/github-copilot-vocabulary/)
 
-## APIs
+#### Examples (47)
 
-### GitHub Copilot API
+Example requests and responses.
 
-REST API for managing GitHub Copilot seats, usage, and organization settings.
+- [Github Copilot Addteamstocopilotsubscription Example](https://apis.io/examples/github-copilot/github-copilot-addteamstocopilotsubscription-example/)
+- [Github Copilot Adduserstocopilotsubscription Example](https://apis.io/examples/github-copilot/github-copilot-adduserstocopilotsubscription-example/)
+- [Github Copilot Code Completions Editor Example](https://apis.io/examples/github-copilot/github-copilot-code-completions-editor-example/)
+- [Github Copilot Code Completions Language Metrics Example](https://apis.io/examples/github-copilot/github-copilot-code-completions-language-metrics-example/)
+- [Github Copilot Code Completions Model Example](https://apis.io/examples/github-copilot/github-copilot-code-completions-model-example/)
+- [Github Copilot Content Exclusion Rules Example](https://apis.io/examples/github-copilot/github-copilot-content-exclusion-rules-example/)
+- [Github Copilot Copilot Billing Info Example](https://apis.io/examples/github-copilot/github-copilot-copilot-billing-info-example/)
+- [Github Copilot Copilot Dotcom Chat Example](https://apis.io/examples/github-copilot/github-copilot-copilot-dotcom-chat-example/)
+- [Github Copilot Copilot Dotcom Pull Requests Example](https://apis.io/examples/github-copilot/github-copilot-copilot-dotcom-pull-requests-example/)
+- [Github Copilot Copilot Ide Chat Example](https://apis.io/examples/github-copilot/github-copilot-copilot-ide-chat-example/)
+- [Github Copilot Copilot Ide Code Completions Example](https://apis.io/examples/github-copilot/github-copilot-copilot-ide-code-completions-example/)
+- [Github Copilot Copilot Metrics Day Example](https://apis.io/examples/github-copilot/github-copilot-copilot-metrics-day-example/)
+- [Github Copilot Copilot Seat Detail Example](https://apis.io/examples/github-copilot/github-copilot-copilot-seat-detail-example/)
+- [Github Copilot Copilot Seats Response Example](https://apis.io/examples/github-copilot/github-copilot-copilot-seats-response-example/)
+- [Github Copilot Dotcom Chat Model Example](https://apis.io/examples/github-copilot/github-copilot-dotcom-chat-model-example/)
+- [Github Copilot Error Example](https://apis.io/examples/github-copilot/github-copilot-error-example/)
+- [Github Copilot Getcopilotbillingfororganization Example](https://apis.io/examples/github-copilot/github-copilot-getcopilotbillingfororganization-example/)
+- [Github Copilot Getcopilotcontentexclusionrules Example](https://apis.io/examples/github-copilot/github-copilot-getcopilotcontentexclusionrules-example/)
+- [Github Copilot Getcopilotmetricsfororganization Example](https://apis.io/examples/github-copilot/github-copilot-getcopilotmetricsfororganization-example/)
+- [Github Copilot Getcopilotmetricsforteam Example](https://apis.io/examples/github-copilot/github-copilot-getcopilotmetricsforteam-example/)
+- [Github Copilot Getcopilotseatforuser Example](https://apis.io/examples/github-copilot/github-copilot-getcopilotseatforuser-example/)
+- [Github Copilot Getenterprisecopilotusage28Day Example](https://apis.io/examples/github-copilot/github-copilot-getenterprisecopilotusage28day-example/)
+- [Github Copilot Getenterprisecopilotusagedaily Example](https://apis.io/examples/github-copilot/github-copilot-getenterprisecopilotusagedaily-example/)
+- [Github Copilot Getenterpriseuserscopilotusage28Day Example](https://apis.io/examples/github-copilot/github-copilot-getenterpriseuserscopilotusage28day-example/)
+- [Github Copilot Getenterpriseuserscopilotusagedaily Example](https://apis.io/examples/github-copilot/github-copilot-getenterpriseuserscopilotusagedaily-example/)
+- …and 22 more published on APIs.io
 
-- **Human URL:** [https://docs.github.com/en/copilot](https://docs.github.com/en/copilot)
-- **Base URL:** `https://api.github.com`
+#### Collections (8)
 
-#### Tags
+Postman and Open Collection request collections.
 
-- AI
-- Code Completion
-- Developer Tools
-- Machine Learning
+- [GitHub Copilot REST API](https://apis.io/collections/github-copilot/open-github-copilot/)
+- [GitHub Copilot REST Copilot Billing API](https://apis.io/collections/github-copilot/open-github-copilot-copilot-billing-api/)
+- [GitHub Copilot REST Copilot Billing Copilot Content Exclusion API](https://apis.io/collections/github-copilot/open-github-copilot-copilot-content-exclusion-api/)
+- [GitHub Copilot REST Copilot Billing Copilot Metrics API](https://apis.io/collections/github-copilot/open-github-copilot-copilot-metrics-api/)
+- [GitHub Copilot REST Copilot Billing Copilot Seats API](https://apis.io/collections/github-copilot/open-github-copilot-copilot-seats-api/)
+- [GitHub Copilot REST Copilot Billing Copilot Usage Reports API](https://apis.io/collections/github-copilot/open-github-copilot-copilot-usage-reports-api/)
+- [GitHub Copilot REST Copilot Billing Copilot User Management API](https://apis.io/collections/github-copilot/open-github-copilot-copilot-user-management-api/)
+- [GitHub Copilot REST API](https://apis.io/collections/github-copilot/postman-github-copilot/)
 
-#### Properties
+#### Overlays (1)
 
-- [Documentation](https://docs.github.com/en/rest/copilot)
-- [OpenAPI](https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Authentication](https://docs.github.com/en/rest/authentication)
-- [Getting Started](https://docs.github.com/en/copilot/quickstart)
-- [Features](https://docs.github.com/en/copilot/get-started/features)
-- [Plans](https://docs.github.com/en/copilot/get-started/plans)
-- [OpenAPI](openapi/github-copilot-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/github-copilot.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/github-copilot.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/github-copilot-seat-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/github-copilot-metrics-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/github-copilot-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
+OpenAPI overlays, including conversational phrasing for each operation.
 
-### GitHub Copilot for Business API
+- [Github Copilot Openapi Overlay](https://apis.io/overlays/github-copilot/github-copilot-openapi-overlay/)
 
-Manage Copilot for Business subscriptions, seat assignments, and usage metrics.
+#### Governance rules (2)
 
-- **Human URL:** [https://docs.github.com/en/copilot/managing-copilot-for-business](https://docs.github.com/en/copilot/managing-copilot-for-business)
-- **Base URL:** `https://api.github.com`
+Spectral rulesets for the provider's contracts.
 
-#### Tags
+- [GitHub Copilot — jsonschema rules](https://apis.io/rules/github-copilot/github-copilot-jsonschema-spectral-rules/)
+- [GitHub Copilot API Rules](https://apis.io/rules/github-copilot/github-copilot-spectral-rules/)
 
-- Enterprise
-- Seat Management
-- Usage Analytics
+#### Security (4)
 
-#### Properties
+Authentication, trust centre, and vulnerability disclosure.
 
-- [Documentation](https://docs.github.com/en/rest/copilot/copilot-for-business)
-- [Pricing](https://github.com/features/copilot#pricing)
-- [Authentication](https://docs.github.com/en/rest/authentication)
-- [OpenAPI](https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [OpenAPI](openapi/github-copilot-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/github-copilot.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/github-copilot.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/github-copilot-seat-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [Github Copilot Authentication](https://apis.io/security/github-copilot/github-copilot-authentication/)
+- [Github Copilot Domain Security](https://apis.io/security/github-copilot/github-copilot-domain-security/)
+- [Github Copilot Trust Center](https://apis.io/security/github-copilot/github-copilot-trust-center/)
+- [Github Copilot Vulnerability Disclosure](https://apis.io/security/github-copilot/github-copilot-vulnerability-disclosure/)
 
-### GitHub Copilot Chat API
+#### OAuth scopes (1)
 
-API for GitHub Copilot Chat interactions and conversations.
+The permissions the API asks for.
 
-- **Human URL:** [https://docs.github.com/en/copilot/github-copilot-chat](https://docs.github.com/en/copilot/github-copilot-chat)
-- **Base URL:** `https://api.github.com`
+- [Github Copilot Scopes](https://apis.io/scopes/github-copilot/github-copilot-scopes/)
 
-#### Tags
+#### Plans and pricing (1)
 
-- Chat
-- Conversational AI
-- IDE Integration
+Published plans, tiers and prices.
 
-#### Properties
+- [Github Copilot Plans Pricing](https://apis.io/plans/github-copilot/github-copilot-plans-pricing/)
 
-- [Documentation](https://docs.github.com/en/copilot/github-copilot-chat)
-- [Getting Started](https://docs.github.com/en/copilot/quickstart)
-- [Authentication](https://docs.github.com/en/rest/authentication)
-- [Postman Collection](collections/github-copilot.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/github-copilot.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Rate limits (1)
 
-### GitHub Copilot User Management API
+Published request limits.
 
-REST API for managing GitHub Copilot seat assignments, billing information, and subscription details for organizations including adding and removing users and teams.
+- [Github Copilot Rate Limits](https://apis.io/rate-limits/github-copilot/github-copilot-rate-limits/)
 
-- **Human URL:** [https://docs.github.com/en/rest/copilot/copilot-user-management](https://docs.github.com/en/rest/copilot/copilot-user-management)
-- **Base URL:** `https://api.github.com`
+#### FinOps (1)
 
-#### Tags
+What the API costs to run, by operation.
 
-- Billing
-- Organizations
-- Seat Management
-- User Management
+- [Github Copilot Finops](https://apis.io/finops/github-copilot/github-copilot-finops/)
 
-#### Properties
+## Where to find this API
 
-- [Documentation](https://docs.github.com/en/rest/copilot/copilot-user-management)
-- [OpenAPI](https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Authentication](https://docs.github.com/en/rest/authentication)
-- [OpenAPI](openapi/github-copilot-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/github-copilot.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/github-copilot.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/github-copilot-seat-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/github-copilot-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-### GitHub Copilot Metrics API
-
-REST API for retrieving aggregated Copilot usage metrics at the organization and team level, including data on active users, engaged users, and breakdowns by language and editor.
-
-- **Human URL:** [https://docs.github.com/en/rest/copilot/copilot-metrics](https://docs.github.com/en/rest/copilot/copilot-metrics)
-- **Base URL:** `https://api.github.com`
-
-#### Tags
-
-- Analytics
-- Metrics
-- Organizations
-- Usage
-
-#### Properties
-
-- [Documentation](https://docs.github.com/en/rest/copilot/copilot-metrics)
-- [OpenAPI](https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Authentication](https://docs.github.com/en/rest/authentication)
-- [OpenAPI](openapi/github-copilot-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/github-copilot.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/github-copilot.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/github-copilot-metrics-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/github-copilot-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-
-### GitHub Copilot Usage Metrics API
-
-REST API for retrieving detailed Copilot usage metrics reports at the enterprise and organization level, including daily and 28-day aggregated reports for both entity-level and user-level data.
-
-- **Human URL:** [https://docs.github.com/en/rest/copilot/copilot-usage-metrics](https://docs.github.com/en/rest/copilot/copilot-usage-metrics)
-- **Base URL:** `https://api.github.com`
-
-#### Tags
-
-- Analytics
-- Enterprise
-- Reporting
-- Usage Metrics
-
-#### Properties
-
-- [Documentation](https://docs.github.com/en/rest/copilot/copilot-usage-metrics)
-- [OpenAPI](https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Authentication](https://docs.github.com/en/rest/authentication)
-- [OpenAPI](openapi/github-copilot-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/github-copilot.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/github-copilot.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/github-copilot-metrics-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/github-copilot-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-
-### GitHub Copilot Content Exclusion API
-
-REST API for programmatically managing Copilot content exclusion path rules at both the organization and enterprise level, enabling automation and governance of which content Copilot can access.
-
-- **Human URL:** [https://docs.github.com/en/rest/copilot/copilot-content-exclusion-management](https://docs.github.com/en/rest/copilot/copilot-content-exclusion-management)
-- **Base URL:** `https://api.github.com`
-
-#### Tags
-
-- Content Exclusion
-- Governance
-- Policy
-- Security
-
-#### Properties
-
-- [Documentation](https://docs.github.com/en/rest/copilot/copilot-content-exclusion-management)
-- [OpenAPI](https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Authentication](https://docs.github.com/en/rest/authentication)
-- [OpenAPI](openapi/github-copilot-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/github-copilot.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/github-copilot.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON-LD](json-ld/github-copilot-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-
-### GitHub Copilot Extensions API
-
-Platform for building Copilot Extensions that integrate third-party tools, services, and custom agents into GitHub Copilot Chat, using GitHub Apps with agent or skillset configurations.
-
-- **Human URL:** [https://docs.github.com/en/copilot/building-copilot-extensions](https://docs.github.com/en/copilot/building-copilot-extensions)
-- **Base URL:** `https://api.github.com`
-
-#### Tags
-
-- Agents
-- Extensions
-- Integrations
-- Skillsets
-
-#### Properties
-
-- [Documentation](https://docs.github.com/en/copilot/building-copilot-extensions/about-building-copilot-extensions)
-- [Getting Started](https://docs.github.com/en/copilot/building-copilot-extensions/creating-a-copilot-extension)
-- [SDK](https://github.com/github/copilot-sdk)
-- [GitHub Organization](https://github.com/copilot-extensions)
-- [Code Examples](https://github.com/copilot-extensions/skillset-example)
-- [Postman Collection](collections/github-copilot.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/github-copilot.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### GitHub Copilot Coding Agent
-
-Autonomous coding agent that works in the background to complete tasks, spinning up secure development environments powered by GitHub Actions to explore code, make changes, run tests, and open pull requests.
-
-- **Human URL:** [https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent)
-- **Base URL:** `https://api.github.com`
-
-#### Tags
-
-- Agents
-- Automation
-- Code Generation
-- GitHub Actions
-- Pull Requests
-
-#### Properties
-
-- [Documentation](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent)
-- [Postman Collection](collections/github-copilot.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/github-copilot.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### GitHub Copilot Code Review
-
-AI-powered code review agent that analyzes pull requests for issues, suggests fixes, and provides feedback across any programming language with agentic context gathering capabilities.
-
-- **Human URL:** [https://docs.github.com/en/copilot/concepts/agents/code-review](https://docs.github.com/en/copilot/concepts/agents/code-review)
-- **Base URL:** `https://api.github.com`
-
-#### Tags
-
-- Agents
-- Code Quality
-- Code Review
-- Pull Requests
-
-#### Properties
-
-- [Documentation](https://docs.github.com/en/copilot/concepts/agents/code-review)
-- [Postman Collection](collections/github-copilot.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/github-copilot.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### GitHub MCP Server
-
-GitHub official Model Context Protocol server that enables AI tools to interact with GitHub repositories, issues, pull requests, and other resources through a standardized protocol.
-
-- **Human URL:** [https://docs.github.com/en/copilot/concepts/context/mcp](https://docs.github.com/en/copilot/concepts/context/mcp)
-- **Base URL:** `https://api.github.com`
-
-#### Tags
-
-- Agents
-- Context
-- Integrations
-- MCP
-- Model Context Protocol
-
-#### Properties
-
-- [Documentation](https://docs.github.com/en/copilot/concepts/context/mcp)
-- [GitHub Repository](https://github.com/github/github-mcp-server)
-- [Getting Started](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp/set-up-the-github-mcp-server)
-- [Postman Collection](collections/github-copilot.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/github-copilot.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### GitHub Copilot Custom Instructions
-
-Configuration system for providing repository-level, path-specific, and organization-level custom instructions to guide Copilot behavior, code style, and response formatting.
-
-- **Human URL:** [https://docs.github.com/en/copilot/how-tos/configure-custom-instructions](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions)
-- **Base URL:** `https://api.github.com`
-
-#### Tags
-
-- Configuration
-- Customization
-- Instructions
-- Organizations
-
-#### Properties
-
-- [Documentation](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions)
-- [Postman Collection](collections/github-copilot.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/github-copilot.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [Arazzo Workflows](arazzo/) — [Arazzo Specification](https://spec.openapis.org/arazzo/latest.html)
-- [Portal](https://github.com/features/copilot)
-- [Status Page](https://www.githubstatus.com/)
-- [Terms of Service](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service)
-- [Privacy Policy](https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement)
-- [Getting Started](https://docs.github.com/en/copilot/quickstart)
-- [Blog](https://github.blog/tag/github-copilot/)
-- [Sign Up](https://github.com/github-copilot/signup)
-- [Pricing](https://github.com/features/copilot/plans)
-- [Changelog](https://github.blog/changelog/label/copilot/)
-- [Support](https://support.github.com)
-- [SDK](https://github.com/github/copilot-sdk)
-- [Trust Center](https://copilot.github.trust.page/)
-- [Rate Limits](https://docs.github.com/en/rest/overview/rate-limits-for-the-rest-api)
-- [Authentication](https://docs.github.com/en/rest/authentication)
-- [OpenAPI](https://github.com/github/rest-api-description) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
 - [Documentation](https://docs.github.com/en/copilot)
-- [Marketplace](https://github.com/marketplace?type=apps&copilot_app=true)
-- [Features](undefined)
-- [Use Cases](undefined)
-- [Integrations](undefined)
-- [L L Ms Txt](https://docs.github.com/llms.txt)
+- [Getting started](https://docs.github.com/en/copilot/quickstart)
+- [Pricing](https://github.com/features/copilot/plans)
+- [Support](https://support.github.com)
+- [Changelog](https://github.blog/changelog/label/copilot/)
+- [Blog](https://github.blog/tag/github-copilot/)
+- [Trust centre](https://copilot.github.trust.page/)
+- [Terms of service](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service)
+- [Privacy policy](https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement)
+- [Status](https://www.githubstatus.com/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
-**URL:** http://apievangelist.com
+**Unrated** — no public website could be reached for this company, so there was almost nothing to measure and nothing a reader could check.
+
+This is not a score of zero. No rating is published for this company. If that is wrong because something public exists that we missed, say so on this repository or email [info@apievangelist.com](mailto:info@apievangelist.com) and it will be re-run — free, and no justification needed.
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for GitHub Copilot: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/github-copilot/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
